@@ -44,9 +44,9 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 	const [leaderAddress, setLeaderAddress] = useState<string>();
 
 	// 你自己的推广链接
-	const shareUrl = `https://NeuraFi.top/?tab=team&slug=${userData.slug}`;
+	const shareUrl = `https://NeuraFi.org/?tab=team&slug=${userData.slug}`;
 	const shareTitle = tUser('share_title');
-	const shareText = `https://NeuraFi.top/?tab=team&slug=${userData.slug}`;
+	const shareText = `https://NeuraFi.org/?tab=team&slug=${userData.slug}`;
 
 	useEffect(() => {
 		if (slug) {
@@ -85,10 +85,11 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 	];
 
 	return (
-		<Card className='bg-linear-to-tr from-primary/60 to-primary-secondary/60 text-black min-h-45'>
+		//取消滚动条 不显示
+		<Card className='bg-linear-to-tr from-primary/60 to-primary text-black min-h-45 shadow-lg  overflow-hidden'>
 			{userData.team ? (
 				<>
-					<CardHeader className='flex items-center justify-between pb-2'>
+					<CardHeader className='flex items-center justify-between pb-2 overflow-hidden'>
 						<span className='text-sm/6 opacity-90 font-semibold'>{masked ? '••••' : obsTxt(address ?? '0x0000000000000000000000000000000000000000', 4, 4)}</span>
 						<div className='flex items-center gap-2'>
 							{buttonConfig.map(button => (
@@ -98,8 +99,8 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 							))}
 						</div>
 					</CardHeader>
-					<CardBody className='pt-0'>
-						<div className='flex items-center justify-between w-full'>
+					<CardBody className='pt-0  overflow-hidden'>
+						<div className='flex items-center justify-between w-full overflow-hidden'>
 							<div className='flex items-center gap-3 w-full'>
 								<div className='size-11 rounded-full bg-content3/40 flex items-center justify-center'>
 									<Icon icon='fxemoji:dizzyface' width={28} className='flex-shrink-0' />
@@ -140,7 +141,7 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 					</CardBody>
 				</>
 			) : (
-				<CardBody className='flex flex-col items-center justify-center py-8 space-y-4'>
+				<CardBody className='flex flex-col items-center justify-center py-8 space-y-4 overflow-hidden'>
 					<div className='flex flex-col items-center space-y-3'>
 						<div className='w-16 h-16 rounded-full bg-content3/40 flex items-center justify-center'>
 							<Icon icon='mdi:account-plus' className='w-8 h-8 text-primary' />
