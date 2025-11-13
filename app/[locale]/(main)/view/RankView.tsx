@@ -112,7 +112,7 @@ function RankingList({items}: {items: RankingItem[]}) {
 								{/* 信息 */}
 								<div className='flex-1 min-w-0'>
 									<div className='flex items-center gap-2 mb-1'>
-										<h4 className='font-semibold text-foreground truncate'>{item.name}</h4>
+										<h4 className='font-semibold text-primary-foreground truncate'>{item.name}</h4>
 										<Chip size='sm' color={getRarityColor(item.rarity)} variant='flat'>
 											{item.rarity}
 										</Chip>
@@ -121,7 +121,7 @@ function RankingList({items}: {items: RankingItem[]}) {
 								</div>
 								{/* 价格和变化 */}
 								<div className='text-right flex-shrink-0'>
-									<div className='font-bold text-foreground'>${item.price.toLocaleString()}</div>
+									<div className='font-bold text-primary-foreground'>${item.price.toLocaleString()}</div>
 									<div className={`text-sm flex items-center gap-1 ${item.change >= 0 ? 'text-success' : 'text-danger'}`}>
 										<Icon icon={item.change >= 0 ? 'mdi:trending-up' : 'mdi:trending-down'} className='w-4 h-4' />
 										{Math.abs(item.change)}%

@@ -28,8 +28,8 @@ export const Navbar = () => {
 				<Suspense
 					fallback={
 						<span className='flex gap-1 items-center justify-center cursor-pointer border border-primary-border/30 rounded-md px-4 py-1'>
-							<Icon icon={'akar-icons:language'} className='text-foreground/60 w-4 h-4' />
-							<p className='text-foreground/60 whitespace-nowrap'>Language</p>
+							<Icon icon={'akar-icons:language'} className='text-primary-foreground/60 w-4 h-4' />
+							<p className='text-primary-foreground/60 whitespace-nowrap'>Language</p>
 						</span>
 					}>
 					<SwitchLanguage />

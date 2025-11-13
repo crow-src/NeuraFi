@@ -41,7 +41,7 @@ export function PromotionView() {
 		<div className='h-full w-full flex flex-col p-6 overflow-y-auto'>
 			{/* 页面标题 */}
 			<div className='mb-6'>
-				<h1 className='text-3xl font-bold text-foreground mb-2'>推广中心</h1>
+				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>推广中心</h1>
 				<p className='text-primary-foreground'>通过推广获得丰厚奖励，分享平台和项目给更多用户</p>
 			</div>
 

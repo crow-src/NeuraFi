@@ -11,7 +11,7 @@ interface CellValueProps {
 	labelClassName?: string;
 	valueClassName?: string;
 }
-export const CellValue: React.FC<CellValueProps> = ({label, value, labelClassName = 'text-foreground', valueClassName = 'text-foreground'}) => (
+export const CellValue: React.FC<CellValueProps> = ({label, value, labelClassName = 'text-primary-foreground', valueClassName = 'text-primary-foreground'}) => (
 	<div className='flex items-center justify-between w-full'>
 		<span className={cn('text-sm', labelClassName)}>{label}</span>
 		<span className={cn('text-sm', valueClassName)}>{value}</span>
@@ -26,7 +26,7 @@ interface CopyCellValueProps {
 	valueClassName?: string;
 }
 //带复制的CellValue
-export const CopyCellValue: React.FC<CopyCellValueProps> = ({label, value, labelClassName = 'text-foreground', valueClassName = 'text-foreground'}) => (
+export const CopyCellValue: React.FC<CopyCellValueProps> = ({label, value, labelClassName = 'text-primary-foreground', valueClassName = 'text-primary-foreground'}) => (
 	<div className='flex items-center justify-between w-full'>
 		<span className={cn('text-sm', labelClassName)}>{label}</span>
 		<div className='flex items-center gap-1'>

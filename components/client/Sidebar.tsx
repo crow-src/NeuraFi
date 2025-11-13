@@ -87,7 +87,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(({isCompac
 				<Avatar src='/favicon.ico' className='w-5 h-5 bg-transparent' />
 				{!isCompact && (
 					<div className='flex items-center gap-2'>
-						<h2 className='text-lg font-bold text-foreground'>{MAIN_CONFIG.name}</h2>
+						<h2 className='text-lg font-bold text-primary-foreground'>{MAIN_CONFIG.name}</h2>
 						<Chip size='sm' className='text-xs text-primary-foreground'>
 							BETA
 						</Chip>

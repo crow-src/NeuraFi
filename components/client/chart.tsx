@@ -246,7 +246,7 @@ export const CircleChartCard = React.forwardRef<HTMLDivElement, Omit<CardProps, 
 			<div className='flex flex-col p-4 pb-0 gap-y-2'>
 				<div className='flex items-center justify-between gap-x-2'>
 					<dt>
-						<h3 className='font-medium text-small text-foreground'>{title}</h3>
+						<h3 className='font-medium text-small text-primary-foreground'>{title}</h3>
 					</dt>
 					<div className='flex items-center justify-end gap-x-2'>
 						<Dropdown
@@ -274,7 +274,7 @@ export const CircleChartCard = React.forwardRef<HTMLDivElement, Omit<CardProps, 
 			</div>
 			{/* <div className="flex flex-col flex-col-reverse flex-wrap h-full gap-3 sm:flex-row sm:flex-nowrap"> */}
 			<div className='flex h-full gap-3 sm:flex-row sm:flex-nowrap'>
-				<div className='flex flex-col justify-center pl-5 gap-y-2 text-tiny text-foreground/60 '>
+				<div className='flex flex-col justify-center pl-5 gap-y-2 text-tiny text-primary-foreground/60 '>
 					{/* lg:pb-0  justify-center */}
 
 					{categories.map((category, index) => {
@@ -283,7 +283,7 @@ export const CircleChartCard = React.forwardRef<HTMLDivElement, Omit<CardProps, 
 
 						return (
 							<div key={index} className='flex w-full gap-x-2'>
-								<span className='w-full font-medium text-small text-foreground whitespace-nowrap'>{category}</span>
+								<span className='w-full font-medium text-small text-primary-foreground whitespace-nowrap'>{category}</span>
 								<span className='font-semibold text-small text-primary-foreground'>{valueText}</span>
 							</div>
 						);
@@ -429,7 +429,7 @@ export const CircleChartCardB = React.forwardRef<HTMLDivElement, Omit<CardProps,
 						<Tooltip
 							content={({label, payload}) => (
 								<div className='flex h-8 min-w-[120px] items-center gap-x-2 rounded-medium bg-background px-1 text-tiny shadow-small'>
-									<span className='font-medium text-foreground'>{label}</span>
+									<span className='font-medium text-primary-foreground'>{label}</span>
 									{payload?.map((p, index) => {
 										const name = p.name;
 										const value = p.value;
@@ -481,7 +481,7 @@ export const CircleChartCardB = React.forwardRef<HTMLDivElement, Omit<CardProps,
 					</PieChart>
 				</ResponsiveContainer>
 
-				<div className='flex flex-col justify-center gap-4 p-4 text-tiny text-foreground/60'>
+				<div className='flex flex-col justify-center gap-4 p-4 text-tiny text-primary-foreground/60'>
 					{categories.map((category, index) => (
 						<div key={index} className='flex items-center gap-2'>
 							<span

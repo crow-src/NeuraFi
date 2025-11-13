@@ -257,7 +257,7 @@ export function PredictView() {
 					<div className='flex flex-col md:flex-row gap-4 items-center justify-between'>
 						{/* 标题区域 */}
 						<div className='flex-shrink-0 flex flex-col gap-1'>
-							<h1 className='text-xl font-bold text-foreground'>预测市场</h1>
+							<h1 className='text-xl font-bold text-primary-foreground'>预测市场</h1>
 							<p className='text-primary-foreground text-xs hidden md:block'>参与预测市场，交易未来事件</p>
 						</div>
 						{/* 筛选器 - 宽屏横向排列 */}
@@ -357,7 +357,7 @@ function MarketCard({market}: MarketCardProps) {
 		<Card className='hover:shadow-lg transition-all border border-default-200 bg-content1'>
 			<CardBody className='p-4 space-y-3'>
 				{/* 标题 */}
-				<h3 className='text-sm font-semibold text-foreground leading-tight line-clamp-2'>{market.title}</h3>
+				<h3 className='text-sm font-semibold text-primary-foreground leading-tight line-clamp-2'>{market.title}</h3>
 
 				{/* Binary 类型：简单 Yes/No */}
 				{market.type === 'binary' && market.yesProbability !== undefined && (
@@ -370,11 +370,11 @@ function MarketCard({market}: MarketCardProps) {
 									<circle cx='40' cy='40' r='36' stroke='currentColor' strokeWidth='6' fill='none' strokeDasharray={`${2 * Math.PI * 36}`} strokeDashoffset={`${2 * Math.PI * 36 * (1 - market.yesProbability)}`} className='text-success transition-all' strokeLinecap='round' />
 								</svg>
 								<div className='absolute inset-0 flex items-center justify-center'>
-									<span className='text-lg font-bold text-foreground'>{formatProbability(market.yesProbability)}</span>
+									<span className='text-lg font-bold text-primary-foreground'>{formatProbability(market.yesProbability)}</span>
 								</div>
 							</div>
 						</div>
-						<div className='text-center text-xs text-default-500 mb-2'>chance</div>
+						<div className='text-center text-xs text-primary-foreground mb-2'>chance</div>
 						{/* Yes/No 按钮 */}
 						<div className='flex gap-2'>
 							<Button size='sm' color='success' className='flex-1 font-semibold' variant='solid'>
@@ -398,7 +398,7 @@ function MarketCard({market}: MarketCardProps) {
 
 				{/* 底部：交易量和图标 */}
 				<div className='flex items-center justify-between pt-2 border-t border-default-200'>
-					<span className='text-xs text-default-500 font-medium'>{formatVolume(market.totalVolume)} Vol.</span>
+					<span className='text-xs text-primary-foreground font-medium'>{formatVolume(market.totalVolume)} Vol.</span>
 					<div className='flex items-center gap-2'>
 						{market.status === 'live' && (
 							<Chip size='sm' color='danger' variant='flat' className='h-5 text-xs'>
@@ -434,7 +434,7 @@ function OptionRow({option}: OptionRowProps) {
 
 	return (
 		<div className='flex items-center justify-between gap-2'>
-			<span className='text-xs font-medium text-foreground flex-1 truncate'>{option.label}</span>
+			<span className='text-xs font-medium text-primary-foreground flex-1 truncate'>{option.label}</span>
 			<div className='flex gap-1 flex-shrink-0'>
 				<Button size='sm' color='success' variant='flat' className='min-w-[60px] h-7 text-xs font-semibold px-2' style={{backgroundColor: 'rgba(34, 197, 94, 0.1)'}}>
 					Yes {formatProbability(option.yesProbability)}

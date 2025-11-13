@@ -176,7 +176,7 @@ export const HorizontalSteps = React.forwardRef<HTMLButtonElement, HorizontalSte
 								<div className='max-w-[100px] flex-1 px-2 text-center lg:max-w-[120px]'>
 									<div
 										className={cn('line-clamp-2 text-sm font-medium text-primary-foreground transition-[color,opacity] duration-300 group-active:opacity-80 lg:text-medium', {
-											'text-foreground': status === 'inactive'
+											'text-primary-foreground': status === 'inactive'
 										})}>
 										{step.title}
 									</div>

@@ -5,7 +5,7 @@ import {useState, useEffect} from 'react';
 
 import {useSearchParams, useRouter} from 'next/navigation';
 
-import {Button, cn} from '@heroui/react';
+import {Button, cn, ScrollShadow, Badge} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useTranslations} from 'next-intl';
 import {useWindowScroll} from 'react-use';
@@ -45,18 +45,20 @@ export const BottomNavbar = () => {
 
 	return (
 		<div className={`fixed bottom-0 left-0 w-full bg-background border-t border-primary-border hidden max-sm:block z-50 transition-opacity duration-200 ${isScrolling ? 'opacity-10' : 'opacity-100'}`}>
-			<div className='flex items-center justify-around h-16 max-w-screen mx-auto px-2'>
-				{MAIN_CONFIG.navItems
-					.filter(item => item.category === 'main')
-					.map((item, index) => (
-						<Button key={item.key} onPress={() => handleTabChange(item.key)} className='flex flex-col items-center justify-center gap-0.5 bg-transparent min-w-0 px-1'>
-							<div className='w-5 h-5 flex items-center justify-center'>
-								<Icon icon={item.icon} className={`w-5 h-5 ${tab === item.key ? 'text-primary-foreground' : 'text-foreground'}`} />
-							</div>
-							<span className={`text-sm ${tab === item.key ? 'text-primary-foreground' : 'text-foreground'}`}>{t(item.key)}</span>
-						</Button>
+			<ScrollShadow orientation='horizontal' className='w-full' hideScrollBar>
+				<div className='flex items-center h-16 px-2 gap-1 min-w-max'>
+					{MAIN_CONFIG.navItems.map((item, index) => (
+						<Badge key={item.key} content='' isDot color='success' placement='top-right' isInvisible={!item.new} showOutline={false}>
+							<Button onPress={() => handleTabChange(item.key)} className='flex flex-col items-center justify-center gap-0.5 bg-transparent min-w-[60px] flex-shrink-0 px-2'>
+								<div className='w-5 h-5 flex items-center justify-center'>
+									<Icon icon={item.icon} className={`w-5 h-5 ${tab === item.key ? 'text-primary' : 'text-primary-foreground'}`} />
+								</div>
+								<span className={`text-xs whitespace-nowrap ${tab === item.key ? 'text-primary' : 'text-primary-foreground'}`}>{t(item.key)}</span>
+							</Button>
+						</Badge>
 					))}
-			</div>
+				</div>
+			</ScrollShadow>
 		</div>
 	);
 };
@@ -87,21 +89,22 @@ export const SideNavigation = ({className}: {className?: string}) => {
 		<div className={cn(`flex flex-col h-full bg-background p-0`, className)}>
 			<div className='flex flex-col items-center justify-start h-full py-1 px-2 gap-2'>
 				{MAIN_CONFIG.navItems.map((item, index) => (
-					<Button
-						key={item.key}
-						size='sm'
-						onPress={() => handleTabChange(item.key)}
-						className={`
+					<Badge key={item.key} content='' isDot color='success' placement='top-right' isInvisible={!item.new} showOutline={false}>
+						<Button
+							size='sm'
+							onPress={() => handleTabChange(item.key)}
+							className={`
 			  flex items-center justify-start gap-1 min-w-0 p-2 w-full
 			  border border-primary-border/30 
 			  data-[hover=true]:border-primary data-[focus=true]:border-primary data-[focus-visible=true]:border-primary data-[selected=true]:border-primary
-			  ${tab === item.key ? 'bg-primary text-black' : 'bg-linear-to-br from-primary/20 to-primary-secondary/10 text-foreground'}
+			  ${tab === item.key ? 'bg-primary text-black' : 'bg-linear-to-br from-primary/20 to-primary-secondary/10 text-primary-foreground'}
 			`}>
-						<div className='w-4 h-4 flex items-center justify-center'>
-							<Icon icon={item.icon} className={`w-4 h-4 ${tab === item.key ? 'text-black' : 'text-primary'}`} />
-						</div>
-						<span className={`text-xs ${tab === item.key ? 'text-black' : 'text-foreground'}`}>{t(item.key)}</span>
-					</Button>
+							<div className='w-4 h-4 flex items-center justify-center'>
+								<Icon icon={item.icon} className={`w-4 h-4 ${tab === item.key ? 'text-black' : 'text-primary'}`} />
+							</div>
+							<span className={`text-xs ${tab === item.key ? 'text-black' : 'text-primary-foreground'}`}>{t(item.key)}</span>
+						</Button>
+					</Badge>
 				))}
 			</div>
 		</div>

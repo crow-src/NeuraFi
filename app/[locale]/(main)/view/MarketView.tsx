@@ -156,7 +156,7 @@ export function MarketView() {
 					<div className='flex flex-col lg:flex-row gap-4 items-center justify-between'>
 						{/* 标题区域 */}
 						<div className='w-full flex flex-col gap-1'>
-							<h1 className='text-xl font-bold text-foreground'>NFT盲盒市场</h1>
+							<h1 className='text-xl font-bold text-primary-foreground'>NFT盲盒市场</h1>
 							<p className='text-primary-foreground text-xs'>交易您的NFT盲盒，发现稀有收藏品</p>
 						</div>
 						{/* 筛选器 */}

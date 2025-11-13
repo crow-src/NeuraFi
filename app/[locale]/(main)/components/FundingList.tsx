@@ -40,39 +40,39 @@ export const FundingProviderCard = ({fund, isSelected, onToggle}: {fund: Funding
 							<p className='font-semibold'>{fund.provider}</p>
 							<div className='flex items-center'>
 								{[...Array(5)].map((_, i) => (
-									<span key={i} className={`text-xs ${i < fund.reputation ? 'text-yellow-500' : 'text-foreground/20'}`}>
+									<span key={i} className={`text-xs ${i < fund.reputation ? 'text-yellow-500' : 'text-primary-foreground/20'}`}>
 										★
 									</span>
 								))}
 							</div>
 						</div>
-						<p className='text-sm text-foreground/60'>
+						<p className='text-sm text-primary-foreground/60'>
 							{fund.amount} {fund.token} {t('available')}
 						</p>
 					</div>
 				</div>
 				<div className='text-right'>
 					<p className='text-lg font-semibold text-primary'>{fund.apy}</p>
-					<p className='text-xs text-foreground/60'>{fund.duration}</p>
+					<p className='text-xs text-primary-foreground/60'>{fund.duration}</p>
 				</div>
 			</div>
 
 			<div className='mt-3 grid grid-cols-2 gap-4 text-xs w-full'>
 				<div>
-					<p className='text-foreground/50'>{t('amount_range')}</p>
+					<p className='text-primary-foreground/50'>{t('amount_range')}</p>
 					<p className='font-medium'>
 						{fund.minAmount} - {fund.maxAmount} {fund.token}
 					</p>
 				</div>
 				<div>
-					<p className='text-foreground/50'>{t('fee')}</p>
+					<p className='text-primary-foreground/50'>{t('fee')}</p>
 					<p className='font-medium text-primary'>{fund.fee}</p>
 				</div>
 			</div>
 
 			<div className='mt-2 grid grid-cols-1 gap-2 text-xs w-full'>
 				<div>
-					<p className='text-foreground/50'>{t('usage_period')}</p>
+					<p className='text-primary-foreground/50'>{t('usage_period')}</p>
 					<p className='font-medium'>
 						{fund.minUsageDays} - {fund.maxUsageDays} {t('days')}
 					</p>
@@ -205,7 +205,7 @@ export const FundingList = ({selectedFunds, onSelection}: {selectedFunds: Set<st
 							</DropdownMenu>
 						</Dropdown>
 
-						<div className='text-sm text-foreground/60'>
+						<div className='text-sm text-primary-foreground/60'>
 							{t('selected_count')}: {selectedFunds.size} {t('funding_sources')}
 						</div>
 					</div>
@@ -217,7 +217,7 @@ export const FundingList = ({selectedFunds, onSelection}: {selectedFunds: Set<st
 				<Card className='p-3 border-primary/20 bg-primary/5 w-full'>
 					<div className='flex justify-between items-center w-full'>
 						<div>
-							<p className='text-sm text-foreground/70'>{t('total_available_funding')}</p>
+							<p className='text-sm text-primary-foreground/70'>{t('total_available_funding')}</p>
 							<p className='text-lg font-semibold text-primary'>
 								{MOCK_FUNDING_PROVIDERS.filter(fund => selectedFunds.has(fund.id))
 									.reduce((total, fund) => {
@@ -229,7 +229,7 @@ export const FundingList = ({selectedFunds, onSelection}: {selectedFunds: Set<st
 							</p>
 						</div>
 						<div className='text-right'>
-							<p className='text-sm text-foreground/70'>{t('average_rate')}</p>
+							<p className='text-sm text-primary-foreground/70'>{t('average_rate')}</p>
 							<p className='text-lg font-semibold text-primary-secondary'>{(MOCK_FUNDING_PROVIDERS.filter(fund => selectedFunds.has(fund.id)).reduce((sum, fund) => sum + parseFloat(fund.apy.replace('%', '')), 0) / selectedFunds.size || 0).toFixed(1)}%</p>
 						</div>
 					</div>
@@ -241,7 +241,7 @@ export const FundingList = ({selectedFunds, onSelection}: {selectedFunds: Set<st
 				{filteredAndSortedProviders.length > 0 ? (
 					filteredAndSortedProviders.map(fund => <FundingProviderCard key={fund.id} fund={fund} isSelected={selectedFunds.has(fund.id)} onToggle={() => onSelection(fund.id, !selectedFunds.has(fund.id))} />)
 				) : (
-					<div className='col-span-full text-center py-8 text-foreground/60'>
+					<div className='col-span-full text-center py-8 text-primary-foreground/60'>
 						<p>{t('no_funding_found')}</p>
 					</div>
 				)}

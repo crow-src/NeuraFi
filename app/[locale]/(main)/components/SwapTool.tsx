@@ -69,8 +69,8 @@ const TokenInput = ({label, tokenSymbol, tokenOptions, onTokenChange, amount, ba
 	return (
 		<div className='flex flex-col p-4 gap-2 border rounded-lg border-primary/20 bg-primary-background w-full'>
 			<div className='flex justify-between gap-2 mb-2'>
-				<p className='text-left text-foreground/70'>{label}</p>
-				<p className='text-sm text-foreground/60'>{`${tSwap('balance')}: ${balance}`}</p>
+				<p className='text-left text-primary-foreground/70'>{label}</p>
+				<p className='text-sm text-primary-foreground/60'>{`${tSwap('balance')}: ${balance}`}</p>
 			</div>
 			<div className='flex w-full gap-2 mb-2'>
 				<TokenSelect value={tokenSymbol} options={tokenOptions} onChange={onTokenChange} />
@@ -194,7 +194,7 @@ export const SwapTool = ({selectedPair}: {selectedPair?: SwapPair | null}) => {
 							{tradingPairInfo.changePct >= 0 ? '+' : ''}
 							{(tradingPairInfo.changePct * 100).toFixed(2)}%
 						</span>
-						<span className='text-xs text-foreground/60'>Vol {tradingPairInfo.volume}</span>
+						<span className='text-xs text-primary-foreground/60'>Vol {tradingPairInfo.volume}</span>
 					</div>
 				</div>
 			</div>
@@ -215,11 +215,11 @@ export const SwapTool = ({selectedPair}: {selectedPair?: SwapPair | null}) => {
 				{isFunding && (
 					<div className='flex gap-2 w-full'>
 						<Card className='flex-1 p-3 border-primary/20'>
-							<p className='text-xs text-foreground/60 text-left'>{tSwap('funding_amount')}</p>
+							<p className='text-xs text-primary-foreground/60 text-left'>{tSwap('funding_amount')}</p>
 							<p className='text-lg font-semibold text-primary'>1000.00 $</p>
 						</Card>
 						<Card className='flex-1 p-3 border-primary/20'>
-							<p className='text-xs text-foreground/60 text-left'>{tSwap('interest_rate')}</p>
+							<p className='text-xs text-primary-foreground/60 text-left'>{tSwap('interest_rate')}</p>
 							<p className='text-lg font-semibold text-primary-secondary'>6.25%</p>
 						</Card>
 					</div>

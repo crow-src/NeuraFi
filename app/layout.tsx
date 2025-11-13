@@ -22,7 +22,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head />
-			<body className={cn('min-h-screen bg-background font-sans font-extralight antialiased custom-scrollbar', fontSans.variable)}>
+			<body className={cn('min-h-screen bg-background font-sans font-extralight antialiased custom-scrollbar px-2', fontSans.variable)}>
 				<Providers themeProps={{attribute: 'class', defaultTheme: 'dark'}}>
 					<main className=' grow p-0 mx-auto w-full'>{children}</main>
 				</Providers>

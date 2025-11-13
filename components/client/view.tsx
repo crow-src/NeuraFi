@@ -71,7 +71,7 @@ export const CommonModal = () => {
 			scrollBehavior='inside'
 			classNames={{
 				wrapper: 'w-full max-w-screen-sm mx-auto',
-				base: 'w-full max-w-full primary-ground text-foreground border border-primary-border/30',
+				base: 'w-full max-w-full primary-ground text-primary-foreground border border-primary-border/30',
 				body: 'w-full',
 				header: 'w-full',
 				footer: 'w-full'

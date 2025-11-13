@@ -48,7 +48,7 @@ export const TableClass = {
 	thead: 'bg-transparent', //
 	// table: 'min-h-full h-full',
 	base: 'flex flex-col h-full w-full', // 最外部的的div bg-red-400
-	// sortIcon: 'text-foreground/60 ', //排序图标样式
+	// sortIcon: 'text-primary-foreground/60 ', //排序图标样式
 	// wrapper: 'flex flex-col justify-center items-center bg-transparent shadow-none min-h-full h-full p-0 m-0 w-full', //这个是包裹内部组件的div
 	table: 'w-full h-full', // bg-green-400
 	emptyWrapper: 'w-full h-full', // 空表样式
@@ -60,12 +60,12 @@ export const SelectClass = {
 	base: 'w-full border border-primary-border/30 rounded-md bg-background/50 px-2', // 改不了字体颜色
 	mainWrapper: 'h-full bg-background/50 rounded-md flex items-center justify-center ', //
 	trigger: 'bg-transparent', // 这是下拉箭头
-	listboxWrapper: 'text-sm text-foreground border border-primary-border/30 rounded-md bg-background/50 ', //
+	listboxWrapper: 'text-sm text-primary-foreground border border-primary-border/30 rounded-md bg-background/50 ', //
 	label: 'text-xs text-primary-foreground/60', // 标题背景可以改，文本颜色不行
-	description: 'text-xs text-foreground/40' // 必须在primary 下才能改颜色
-	// value: 'text-foreground', // 必须在primary 下才能改颜色
+	description: 'text-xs text-primary-foreground/40' // 必须在primary 下才能改颜色
+	// value: 'text-primary-foreground', // 必须在primary 下才能改颜色
 
-	// popoverContent: 'text-xs text-foreground/40' //
+	// popoverContent: 'text-xs text-primary-foreground/40' //
 	// innerWrapper: 'text-primary-foreground', //改不了字体颜色 标题和文本的背景
 	// listbox: 'text-xs text-primary-foreground' //这里能改列表字体颜色
 };
@@ -78,11 +78,11 @@ export const SelectClassB = {
 
 export const AutocompleteClass = {
 	base: 'w-full border border-primary-border/30 rounded-md bg-background/50 text-sm', // bg-background/50
-	listboxWrapper: 'rounded-md text-sm text-foreground' // bg-primary
+	listboxWrapper: 'rounded-md text-sm text-primary-foreground' // bg-primary
 };
 
 export const ListboxPropsClass = {
-	base: ['rounded-medium', 'text-foreground', 'transition-opacity', 'data-[hover=true]:text-foreground', 'dark:data-[hover=true]:bg-default-50', 'data-[pressed=true]:opacity-70', 'data-[hover=true]:bg-default-200', 'data-[selectable=true]:focus:bg-default-100', 'data-[focus-visible=true]:ring-default-500']
+	base: ['rounded-medium', 'text-primary-foreground', 'transition-opacity', 'data-[hover=true]:text-primary-foreground', 'dark:data-[hover=true]:bg-default-50', 'data-[pressed=true]:opacity-70', 'data-[hover=true]:bg-default-200', 'data-[selectable=true]:focus:bg-default-100', 'data-[focus-visible=true]:ring-default-500']
 };
 
 export const ProgressClass = {
@@ -90,7 +90,7 @@ export const ProgressClass = {
 	track: 'drop-shadow-md border border-default ',
 	indicator: 'bg-linear-to-r from-primary to-primary-secondary ',
 	label: 'tracking-wider font-medium text-primary-foreground',
-	value: 'text-foreground/60 text-sm'
+	value: 'text-primary-foreground/60 text-sm'
 };
 
 // export const InputClass = {
@@ -130,29 +130,29 @@ export const InputClassB = {
 };
 
 export const TextareaClass = {
-	input: 'text-sm text-foreground',
+	input: 'text-sm text-primary-foreground',
 	inputWrapper: 'w-full border border-primary-border/30 bg-primary-background rounded-md',
 	base: 'w-full'
 };
 
 export const DateRangePickerClass = {
 	inputWrapper: 'bg-background rounded-md border border-primary-border/30',
-	input: 'text-sm text-foreground'
+	input: 'text-sm text-primary-foreground'
 };
 
 // 翻页器
 export const PaginationClass = {
 	// base: 'w-full items-center justify-center bg-primary/10',
 	cursor: 'text-black rounded-none',
-	item: 'text-foreground border border-primary-border/30 ',
+	item: 'text-primary-foreground border border-primary-border/30 ',
 	// wrapper: 'items-center justify-center',
 
-	prev: 'text-foreground border border-primary-border/30 rounded-md', // 这是上一页
-	next: 'text-foreground border border-primary-border/30 rounded-md', // 这是下一页
-	forwardIcon: 'text-foreground ', // 这是向前箭头
-	ellipsis: 'text-foreground border border-primary-border/30 rounded-md' // 这是省略号
+	prev: 'text-primary-foreground border border-primary-border/30 rounded-md', // 这是上一页
+	next: 'text-primary-foreground border border-primary-border/30 rounded-md', // 这是下一页
+	forwardIcon: 'text-primary-foreground ', // 这是向前箭头
+	ellipsis: 'text-primary-foreground border border-primary-border/30 rounded-md' // 这是省略号
 
-	// chevronNext: 'text-foreground border border-primary-border/30 rounded-md'
+	// chevronNext: 'text-primary-foreground border border-primary-border/30 rounded-md'
 	// Partial<Record<'base' | 'wrapper' | 'prev' | 'next' | 'item' | 'cursor' | 'forwardIcon' | 'ellipsis' | 'chevronNext', string>>
 };
 
@@ -163,7 +163,7 @@ export const AvatarClass = {
 
 export const UserClass = {
 	name: 'text-primary-foreground text-sm',
-	description: 'text-foreground/60 text-xs'
+	description: 'text-primary-foreground/60 text-xs'
 };
 
 export const ToastClass = {
@@ -174,7 +174,7 @@ export const ToastClass = {
 
 export const CheckboxClass = {
 	base: 'border-1 border-primary-border/30 bg-primary-background hover:bg-primary-group rounded-md ',
-	label: 'text-foreground text-sm ',
+	label: 'text-primary-foreground text-sm ',
 	icon: 'text-black ',
 	wrapper: 'rounded-xs ' // 选择框
 };
@@ -182,19 +182,19 @@ export const CheckboxClass = {
 export const CheckboxClassA = {
 	// base: 'border-1 border-primary-border/30  hover:border-primary-border rounded-md  ',
 	// wrapper: 'border-1 border-primary-border/30 rounded-md ',
-	label: 'text-foreground text-sm',
+	label: 'text-primary-foreground text-sm',
 	icon: 'text-black'
 };
 // Partial<Record<"base"｜ "wrapper"｜ "icon"｜ "label", string>>
 export const CheckboxGroupClass = {
 	wrapper: 'w-max flex flex-nowrap gap-6 p-2',
-	label: 'text-foreground text-sm'
+	label: 'text-primary-foreground text-sm'
 };
 
 // Partial<Record<"base"｜ "wrapper"｜ "thumb"｜ "label" ｜ "startContent" ｜ "endContent" ｜ "thumbIcon" , string>>
 export const SwitchClass = {
 	base: 'p-0',
-	label: 'text-foreground text-sm whitespace-nowrap',
+	label: 'text-primary-foreground text-sm whitespace-nowrap',
 	wrapper: 'rounded-md bg-primary/30 data-[selected=true]:bg-primary', // 开关背景  未选中时为白色，选中时为绿色
 	thumb: 'bg-primary-background rounded-xs', // 按钮
 	thumbIcon: 'text-green-400 text-xs' // 按钮图标
@@ -203,9 +203,9 @@ export const SwitchClass = {
 export const SliderClass = {
 	base: 'p-0 w-full',
 	// base: 'p-0',
-	label: 'text-foreground text-sm text-foreground',
+	label: 'text-primary-foreground text-sm text-primary-foreground',
 	// labelWrapper: 'p-0',
-	value: 'text-foreground text-sm'
+	value: 'text-primary-foreground text-sm'
 	// track: "border-s-secondary-100",
 	// filler: "bg-linear-to-r from-secondary-100 to-secondary-500",
 };

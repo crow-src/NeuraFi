@@ -76,7 +76,7 @@ export function VideoPlayer({videoSrc, posterSrc, className = '', title, descrip
 							{/* 加载状态 */}
 							{isLoading && (
 								<div className='absolute inset-0 flex items-center justify-center bg-background/80 z-10'>
-									<Icon icon='mdi:loading' className='w-8 h-8 text-foreground animate-spin' />
+									<Icon icon='mdi:loading' className='w-8 h-8 text-primary animate-spin' />
 								</div>
 							)}
 						</div>
@@ -84,8 +84,8 @@ export function VideoPlayer({videoSrc, posterSrc, className = '', title, descrip
 						{/* 标题区域 - 小屏幕在视频下方 */}
 						{(title ?? description) && (
 							<div className='p-4 bg-background rounded-b-lg mt-2'>
-								{title && <h3 className='text-xl font-bold text-foreground mb-2'>{title}</h3>}
-								{description && <p className='text-sm text-foreground/70 leading-relaxed'>{description}</p>}
+								{title && <h3 className='text-xl font-bold text-primary mb-2'>{title}</h3>}
+								{description && <p className='text-sm text-primary-foreground/70 leading-relaxed'>{description}</p>}
 							</div>
 						)}
 					</div>
@@ -110,14 +110,14 @@ export function VideoPlayer({videoSrc, posterSrc, className = '', title, descrip
 							{/* 加载状态 */}
 							{isLoading && (
 								<div className='absolute inset-0 flex items-center justify-center bg-black/30 z-20'>
-									<Icon icon='mdi:loading' className='w-8 h-8 text-white animate-spin' />
+									<Icon icon='mdi:loading' className='w-8 h-8 text-primary animate-spin' />
 								</div>
 							)}
 
 							{(title ?? description) && (
 								<div className='absolute inset-y-0 left-0 flex flex-col justify-center px-8 md:px-12 lg:px-16 max-w-xl z-30'>
-									{title && <h2 className='text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-2xl'>{title}</h2>}
-									{description && <p className='text-base md:text-lg lg:text-xl text-white/90 leading-relaxed drop-shadow-lg'>{description}</p>}
+									{title && <h2 className='text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 leading-tight drop-shadow-2xl'>{title}</h2>}
+									{description && <p className='text-base md:text-lg lg:text-xl text-primary-foreground leading-relaxed drop-shadow-lg'>{description}</p>}
 								</div>
 							)}
 						</div>

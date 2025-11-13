@@ -171,7 +171,7 @@ export const Search = ({data}: SearchProps) => {
 			classNames={{
 				base: 'w-full rounded-md p-0 m-0 text-primary-foreground border-none',
 				listboxWrapper: 'max-h-[600px]',
-				selectorButton: 'text-foreground/50'
+				selectorButton: 'text-primary-foreground/50'
 			}}
 			inputProps={{
 				classNames: {
@@ -182,7 +182,7 @@ export const Search = ({data}: SearchProps) => {
 			listboxProps={{
 				hideSelectedIcon: true,
 				itemClasses: {
-					base: ['rounded-small', 'text-foreground/50', 'transition-opacity', 'data-[hover=true]:text-foreground', 'dark:data-[hover=true]:bg-default-50', 'data-[pressed=true]:opacity-70', 'data-[hover=true]:bg-default-200', 'data-[selectable=true]:focus:bg-default-100', 'data-[focus-visible=true]:ring-default-500']
+					base: ['rounded-small', 'text-primary-foreground/50', 'transition-opacity', 'data-[hover=true]:text-primary-foreground', 'dark:data-[hover=true]:bg-default-50', 'data-[pressed=true]:opacity-70', 'data-[hover=true]:bg-default-200', 'data-[selectable=true]:focus:bg-default-100', 'data-[focus-visible=true]:ring-default-500']
 				}
 			}}
 			popoverProps={{
@@ -202,7 +202,7 @@ export const Search = ({data}: SearchProps) => {
 							<Avatar alt={item.name} className='shrink-0' size='sm' src={item.icon} />
 							<div className='flex flex-col'>
 								<span className='text-small'>{item.name}</span>
-								<span className='text-tiny text-foreground/50'>{item.symbol}</span>
+								<span className='text-tiny text-primary-foreground/50'>{item.symbol}</span>
 							</div>
 						</div>
 						<Button className='border-small mr-0.5 font-medium shadow-small' radius='full' size='sm' variant='bordered'>

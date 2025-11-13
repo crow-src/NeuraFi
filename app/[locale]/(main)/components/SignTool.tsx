@@ -119,7 +119,7 @@
 // 	};
 
 // 	return (
-// 		<div className='flex flex-col w-full gap-2 text-sm text-foreground md:min-w-xl'>
+// 		<div className='flex flex-col w-full gap-2 text-sm text-primary-foreground md:min-w-xl'>
 // 			{getCurrentPageContent() ? (
 // 				getCurrentPageContent()
 // 			) : (
@@ -129,21 +129,21 @@
 // 						{/* 交易信息小列表 */}
 // 						<div className='w-full mt-2 space-y-1'>
 // 							<div className='flex justify-between items-center text-sm'>
-// 								<span className='text-foreground/70'>{t('input')}:</span>
+// 								<span className='text-primary-foreground/70'>{t('input')}:</span>
 // 								<span className='text-green-400 font-medium'>{`${(totalInput / 1e8).toFixed(8)} ${wallet.chain.currency}`}</span>
 // 							</div>
 // 							<div className='flex justify-between items-center text-sm'>
-// 								<span className='text-foreground/70'>{t('output')}:</span>
+// 								<span className='text-primary-foreground/70'>{t('output')}:</span>
 // 								<span className='text-blue-400 font-medium'>{`${(totalOutput / 1e8).toFixed(8)} ${wallet.chain.currency}`}</span>
 // 							</div>
 // 							{token !== 'Sat' && (
 // 								<div className='flex justify-between items-center text-sm'>
-// 									<span className='text-foreground/70'>{t('output')}:</span>
+// 									<span className='text-primary-foreground/70'>{t('output')}:</span>
 // 									<span className='text-purple-400 font-medium'>{`${tokenTotalOutput.toLocaleString()} ${token}`}</span>
 // 								</div>
 // 							)}
 // 							<div className='flex justify-between items-center text-sm border-t border-primary-border/30 pt-2'>
-// 								<span className='text-foreground/70'>{t('fee')}:</span>
+// 								<span className='text-primary-foreground/70'>{t('fee')}:</span>
 // 								<span className='text-orange-400 font-medium'>{`≈ ${fee.toFixed(8)} ${wallet.chain.currency}`}</span>
 // 							</div>
 // 						</div>
@@ -154,7 +154,7 @@
 // 								{params?.inputs?.map((item: IUTXO, index: number) => (
 // 									<ListboxItem key={index} startContent={'UTXO:'} textValue={`UTXO ${obsTxt(item?.txid, 6, 6)} ${item?.satoshi} Sat`}>
 // 										<div className='flex w-full gap-1'>
-// 											<p className='w-full text-foreground/60'>{obsTxt(item?.txid, 6, 6)}</p>
+// 											<p className='w-full text-primary-foreground/60'>{obsTxt(item?.txid, 6, 6)}</p>
 // 											<p className='text-green-400'>{item?.satoshi}</p>
 // 											<p className='text-primary-foreground'>{'Sat'}</p>
 // 										</div>
@@ -167,7 +167,7 @@
 // 								{outputs.map((item: Output, index: number) => (
 // 									<ListboxItem key={index} textValue={`Address ${obsTxt(item?.address, 6, 6)} ${item?.value} ${token !== 'Sat' ? token : 'Sat'}`}>
 // 										<div className='flex w-full gap-1'>
-// 											<p className='w-full text-foreground/60'>{obsTxt(item?.address, 6, 6)}</p>
+// 											<p className='w-full text-primary-foreground/60'>{obsTxt(item?.address, 6, 6)}</p>
 // 											<p className='text-green-400'>{item?.value}</p>
 // 											<p className='text-primary-foreground'>{'Sat'}</p>
 // 											{token !== 'Sat' && <p className='text-primary-foreground'>{token}</p>}

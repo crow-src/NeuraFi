@@ -60,13 +60,13 @@ export const Broadcast = ({messages: externalMessages, interval = 3000, classNam
 				{/* 消息容器 */}
 				<div className='flex-1 overflow-hidden h-6 flex items-center relative'>
 					<div className={cn('absolute inset-0 flex items-center transition-opacity duration-300 ease-in-out', isVisible ? 'opacity-100' : 'opacity-0')}>
-						<div className='text-sm text-foreground whitespace-nowrap overflow-hidden text-ellipsis w-full'>{currentMessage}</div>
+						<div className='text-sm text-primary-foreground whitespace-nowrap overflow-hidden text-ellipsis w-full'>{currentMessage}</div>
 					</div>
 				</div>
 
 				{/* 消息计数器 */}
 				{messages.length > 1 && (
-					<div className='text-sm text-foreground/50 shrink-0 flex items-center'>
+					<div className='text-sm text-primary-foreground/50 shrink-0 flex items-center'>
 						{currentIndex + 1}/{messages.length}
 					</div>
 				)}

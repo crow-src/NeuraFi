@@ -91,7 +91,7 @@ export function LaunchView() {
 		<div className='h-full w-full flex flex-col p-6'>
 			{/* 页面标题 */}
 			<div className='mb-6 max-w-4xl mx-auto w-full flex-shrink-0'>
-				<h1 className='text-3xl font-bold text-foreground mb-2'>发布新项目</h1>
+				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>发布新项目</h1>
 				<p className='text-primary-foreground'>创建您的代币项目并通过盲盒进行募资</p>
 			</div>
 
@@ -103,7 +103,7 @@ export function LaunchView() {
 							<div key={step.id} className='flex items-center'>
 								<div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${currentStep >= step.id ? 'bg-primary border-primary text-primary-foreground' : 'border-default-300 text-default-400'}`}>{currentStep > step.id ? <Icon icon='mdi:check' className='w-5 h-5' /> : <span className='text-sm font-semibold'>{step.id}</span>}</div>
 								<div className='ml-3'>
-									<p className={`text-sm font-medium ${currentStep >= step.id ? 'text-foreground' : 'text-default-400'}`}>{step.title}</p>
+									<p className={`text-sm font-medium ${currentStep >= step.id ? 'text-primary-foreground' : 'text-default-400'}`}>{step.title}</p>
 									<p className='text-xs text-primary-foreground'>{step.description}</p>
 								</div>
 								{index < steps.length - 1 && <div className={`w-16 h-0.5 mx-4 ${currentStep > step.id ? 'bg-primary' : 'bg-default-300'}`} />}
@@ -235,7 +235,7 @@ function BasicInfoStep({data, onChange}: {data: BasicInfo; onChange: (field: str
 				</div>
 
 				<div>
-					<label className='block text-sm font-medium text-foreground mb-2'>项目 Logo</label>
+					<label className='block text-sm font-medium text-primary-foreground mb-2'>项目 Logo</label>
 					<div className='border-2 border-dashed border-default-300 rounded-lg p-6 text-center hover:border-primary transition-colors'>
 						<Icon icon='mdi:image-plus' className='w-12 h-12 text-default-400 mx-auto mb-2' />
 						<p className='text-sm text-primary-foreground'>点击上传项目 Logo</p>
@@ -364,7 +364,7 @@ function BlindBoxStep({data, onChange}: {data: BlindBoxInfo; onChange: (field: s
 
 									{/* 奖励图片上传 */}
 									<div className='mt-4'>
-										<label className='block text-sm font-medium text-foreground mb-2'>奖励图片</label>
+										<label className='block text-sm font-medium text-primary-foreground mb-2'>奖励图片</label>
 										<div className='border-2 border-dashed border-default-300 rounded-lg p-4 text-center hover:border-primary transition-colors'>
 											{reward.image ? (
 												<div className='relative'>
@@ -435,7 +435,7 @@ function FundingStep({data, onChange}: {data: FundingInfo; onChange: (field: str
 				</div>
 
 				<div>
-					<label className='block text-sm font-medium text-foreground mb-2'>代币解锁周期 (月)</label>
+					<label className='block text-sm font-medium text-primary-foreground mb-2'>代币解锁周期 (月)</label>
 					<Slider
 						value={data.vestingPeriod}
 						onChange={value => onChange('vestingPeriod', value)}

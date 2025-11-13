@@ -70,7 +70,7 @@ export function CollectionView() {
 		<div className='h-full w-full flex flex-col p-6 overflow-y-auto'>
 			{/* 页面标题 */}
 			<div className='mb-6'>
-				<h1 className='text-3xl font-bold text-foreground mb-2'>我的收藏</h1>
+				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>我的收藏</h1>
 				<p className='text-primary-foreground'>管理您收藏的项目和投资组合</p>
 			</div>
 
@@ -217,7 +217,7 @@ function CollectionCard({item}: {item: CollectionItem}) {
 					<div className='flex items-center gap-3'>
 						<Avatar src={item.logo} className='w-12 h-12' fallback={<Icon icon='mdi:folder' className='w-6 h-6' />} />
 						<div>
-							<h4 className='font-semibold text-foreground'>{item.name}</h4>
+							<h4 className='font-semibold text-primary-foreground'>{item.name}</h4>
 							<Chip size='sm' color={getStatusColor(item.status)} variant='flat'>
 								{getStatusText(item.status)}
 							</Chip>

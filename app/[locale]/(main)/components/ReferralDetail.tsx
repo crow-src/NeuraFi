@@ -54,17 +54,17 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 						<div className='text-center flex flex-col justify-between min-h-[2.5rem]'>
 							{/* 团队名称 不能被压缩 */}
 							<div className='text-sm font-bold text-success truncate'>{teamData?.name === '' ? 'Null' : teamData?.name}</div>
-							<div className='text-xs text-foreground/60'>{t('team_name')}</div>
+							<div className='text-xs text-primary-foreground/60'>{t('team_name')}</div>
 						</div>
 						{/* //直接推荐 */}
 						<div className='text-center flex flex-col justify-between min-h-[2.5rem]'>
 							<div className='text-lg font-bold text-secondary'>{teamData?.referrals?.length ?? 0}</div>
-							<div className='text-xs text-foreground/60'>{t('direct_referrals')}</div>
+							<div className='text-xs text-primary-foreground/60'>{t('direct_referrals')}</div>
 						</div>
 						{/* 业绩 */}
 						<div className='text-center flex flex-col justify-between min-h-[2.5rem]'>
 							<div className='text-lg font-bold text-warning'>{teamData?.level ?? 0}</div>
-							<div className='text-xs text-foreground/60'>{t('my_level')}</div>
+							<div className='text-xs text-primary-foreground/60'>{t('my_level')}</div>
 						</div>
 					</div>
 				</CardBody>
@@ -83,7 +83,7 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 					</Button>
 					<div>
 						<h2 className='text-xl font-semibold'>{t('team_promotion_details')}</h2>
-						<p className='text-sm text-foreground/60'>{t('view_promotion_data')}</p>
+						<p className='text-sm text-primary-foreground/60'>{t('view_promotion_data')}</p>
 					</div>
 				</div>
 			)}
@@ -93,7 +93,7 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 				<Card className='p-4 text-center items-center'>
 					<span className='whitespace-nowrap text-lg font-bold text-warning'>{teamData?.name === '' ? 'Null' : teamData?.name}</span>
 					<div className='flex items-center gap-1'>
-						<span className='text-sm text-foreground/60'>{t('team_name')}</span>
+						<span className='text-sm text-primary-foreground/60'>{t('team_name')}</span>
 						{teamData?.address === teamData?.leader && (
 							<Button size='sm' isIconOnly variant='light' className=' min-w-0' onPress={handleSetName}>
 								<Icon icon='jam:write' className='w-4 h-4 flex-shrink-0 text-primary' />
@@ -104,12 +104,12 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 
 				<Card className='p-4 text-center'>
 					<span className='text-2xl font-bold text-primary'>{teamData?.teamSize ?? 0}</span>
-					<span className='text-sm text-foreground/60'>{t('team_members')}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('team_members')}</span>
 				</Card>
 				<Card className='p-4 text-center'>
 					<span className='text-2xl font-bold text-success'>{fixDec(teamData?.levelBonus ?? 0, 2)}</span>
-					<span className='text-sm text-foreground/60'>{t('team_reward')}</span>
-					<span className='text-sm text-foreground/60'>{t('earned') + ': ' + fixDec(teamData?.levelBonusClaimed ?? 0, 4)}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('team_reward')}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('earned') + ': ' + fixDec(teamData?.levelBonusClaimed ?? 0, 4)}</span>
 					{Number(teamData?.levelBonus) > 0 && (
 						<Button className={button()} isLoading={isLoading} onPress={() => claimLevelBonus()}>
 							{t('claim')}
@@ -118,8 +118,8 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 				</Card>
 				<Card className='p-4 text-center'>
 					<span className='text-2xl font-bold text-secondary'>{fixDec(teamData?.referralBonus ?? 0, 4)}</span>
-					<span className='text-sm text-foreground/60'>{t('team_reward_desc')}</span>
-					<span className='text-sm text-foreground/60'>{t('earned') + ': ' + fixDec(teamData?.referralBonusClaimed ?? 0, 4)}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('team_reward_desc')}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('earned') + ': ' + fixDec(teamData?.referralBonusClaimed ?? 0, 4)}</span>
 					{Number(teamData?.referralBonus) > 0 && (
 						<Button className={button()} isLoading={isLoading} onPress={() => claimReferralBonus()}>
 							{t('claim')}
@@ -128,12 +128,12 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 				</Card>
 				<Card className='p-4 text-center'>
 					<span className='text-2xl font-bold text-primary'>{teamData?.level ?? 0}</span>
-					<span className='text-sm text-foreground/60'>{t('my_level')}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('my_level')}</span>
 				</Card>
 
 				<Card className='p-4 text-center'>
 					<span className='text-2xl font-bold text-primary'>{fixDec(teamData?.performance ?? 0, 4)}</span>
-					<span className='text-sm text-foreground/60'>{t('team_performance')}</span>
+					<span className='text-sm text-primary-foreground/60'>{t('team_performance')}</span>
 				</Card>
 			</div>
 
@@ -145,7 +145,7 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 							<span className='text-sm font-semibold'>{t('team_contract')}</span>
 						</div>
 						<div className='flex items-center gap-2'>
-							<span className='text-xs text-foreground/60'>{obsTxt(teamData?.address, 6, 6)}</span>
+							<span className='text-xs text-primary-foreground/60'>{obsTxt(teamData?.address, 6, 6)}</span>
 							<CopyButton text={teamData?.address ?? ''} iconClass='text-primary' />
 						</div>
 					</div>
@@ -160,7 +160,7 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 							</div>
 							<div className='flex items-center gap-2'>
 								{/* <span className='font-semibold'>{teamData?.leader ?? 'User'}</span> */}
-								<span className='text-xs text-foreground/60'>{obsTxt(teamData?.leader, 6, 6)}</span>
+								<span className='text-xs text-primary-foreground/60'>{obsTxt(teamData?.leader, 6, 6)}</span>
 							</div>
 						</div>
 					</Card>

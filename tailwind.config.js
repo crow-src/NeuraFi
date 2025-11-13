@@ -84,7 +84,7 @@ export default {
 						background: '#171717', // 深灰色背景
 						foreground: '#ffffff', // 白色文字
 						primary: {
-							DEFAULT: '#13dbe1', // 深灰
+							DEFAULT: '#016a82', // 深灰
 							background: '#1e1e1e', // 比背景色浅一点的灰色
 							ground: '#53adb0', // 深灰地面
 							foreground: '#c4fdff', // 浅灰色前景文字

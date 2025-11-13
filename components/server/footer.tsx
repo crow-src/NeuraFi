@@ -37,12 +37,12 @@ export function Footer() {
 							{/* <LogoGrey size={32} /> */}
 							<span className='font-medium text-medium'>{MAIN_CONFIG.name}</span>
 						</div>
-						<p className='text-small text-foreground/60'>{MAIN_CONFIG.title}</p>
+						<p className='text-small text-primary-foreground/60'>{MAIN_CONFIG.title}</p>
 						<div className='flex space-x-6'>
 							{footerNavigation.social.map(item => (
-								<Link key={item.name} isExternal className='text-foreground/60' href={item.href}>
+								<Link key={item.name} isExternal className='text-primary-foreground/60' href={item.href}>
 									<span className='sr-only'>{item.name}</span>
-									{<item.icon className='text-foreground/60' />}
+									{<item.icon className='text-primary-foreground/60' />}
 								</Link>
 							))}
 						</div>
@@ -60,7 +60,7 @@ export function Footer() {
 				</div>
 
 				<div className='flex flex-wrap justify-between gap-2 pt-4 mb-24 md:mb-0'>
-					<p className='text-small text-foreground/60'>&copy; 2024 ClaimYour.X Inc. All rights reserved.</p>
+					<p className='text-small text-primary-foreground/60'>&copy; 2024 ClaimYour.X Inc. All rights reserved.</p>
 				</div>
 			</div>
 		</footer>

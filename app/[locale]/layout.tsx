@@ -16,7 +16,7 @@ export default async function LocaleLayout({children, params}: {children: React.
 	return (
 		<NextIntlClientProvider locale={locale}>
 			<CommonModal />
-			<div className='relative flex flex-col max-w-screen text-foreground w-full mx-auto'>
+			<div className='relative flex flex-col max-w-screen text-primary-foreground w-full mx-auto'>
 				<Navbar />
 				<HotScroll className='sm:hidden' />
 				<div className='flex w-full gap-1'>

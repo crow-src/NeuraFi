@@ -112,19 +112,19 @@ export function CommonTable({data, ariaLabel, onRowAction, tabColumns, tabStatus
 						classNames={{base: 'w-full', inputWrapper: 'border border-primary-border/30'}}
 						placeholder={display?.search ?? 'Search by name...'} // 搜索框提示
 						size='sm'
-						startContent={<Icon icon='solar:rounded-magnifer-linear' className='text-foreground/30' />} // 搜索图标 左侧图标
+						startContent={<Icon icon='solar:rounded-magnifer-linear' className='text-primary-foreground/30' />} // 搜索图标 左侧图标
 						value={filterValue} // 搜索框值
 						variant='bordered' // 变体:边框
 						onClear={() => setFilterValue('')} // 清除搜索框值
 						onValueChange={onSearchChange} // 搜索框值改变
-						className='text-foreground/30 border-foreground/30'
+						className='text-primary-foreground/30 border-foreground/30'
 					/>
 
 					<div className='flex gap-3'>
 						{/* 状态筛选下拉菜单 */}
 						<Dropdown>
 							<DropdownTrigger className='hidden sm:flex'>
-								<Button endContent={<Icon icon='solar:double-alt-arrow-down-bold-duotone' />} size='sm' variant='flat' className='text-foreground bg-primary-background'>
+								<Button endContent={<Icon icon='solar:double-alt-arrow-down-bold-duotone' />} size='sm' variant='flat' className='text-primary-foreground bg-primary-background'>
 									{display?.status ?? 'Status'}
 								</Button>
 							</DropdownTrigger>
@@ -140,7 +140,7 @@ export function CommonTable({data, ariaLabel, onRowAction, tabColumns, tabStatus
 						{/* 字段筛选 下拉菜单 */}
 						<Dropdown>
 							<DropdownTrigger className='hidden sm:flex'>
-								<Button endContent={<Icon icon='solar:double-alt-arrow-down-bold-duotone' />} size='sm' variant='flat' className='text-foreground bg-primary-background'>
+								<Button endContent={<Icon icon='solar:double-alt-arrow-down-bold-duotone' />} size='sm' variant='flat' className='text-primary-foreground bg-primary-background'>
 									{display?.columns ?? 'Columns'}
 								</Button>
 							</DropdownTrigger>
@@ -156,8 +156,8 @@ export function CommonTable({data, ariaLabel, onRowAction, tabColumns, tabStatus
 				</div>
 
 				<div className='flex items-center justify-between'>
-					<span className='text-foreground/50 text-small'>Total {data.length} items</span>
-					<label className='flex items-center text-foreground/50 text-small'>
+					<span className='text-primary-foreground/50 text-small'>Total {data.length} items</span>
+					<label className='flex items-center text-primary-foreground/50 text-small'>
 						Rows per page:
 						{/* 选择每页显示的行数 组合框*/}
 						<select className='bg-transparent outline-hidden foreground/50 text-small' onChange={onRowsPerPageChange}>
@@ -177,7 +177,7 @@ export function CommonTable({data, ariaLabel, onRowAction, tabColumns, tabStatus
 			// 分页按钮
 			<div className='flex items-center justify-between px-2 py-2'>
 				<Pagination showControls classNames={{cursor: 'bg-primary text-[#000000]'}} isDisabled={hasSearchFilter} page={page} total={pages} variant='light' onChange={setPage} />
-				<span className='text-small text-foreground/50'>{`${selectedKeys.size} of ${items.length} selected`}</span>
+				<span className='text-small text-primary-foreground/50'>{`${selectedKeys.size} of ${items.length} selected`}</span>
 			</div>
 		);
 	}, [selectedKeys, items.length, page, pages, hasSearchFilter]);
@@ -187,7 +187,7 @@ export function CommonTable({data, ariaLabel, onRowAction, tabColumns, tabStatus
 		() => ({
 			base: ['w-full', 'h-full', 'max-w-full'],
 			wrapper: ['w-full', 'h-full', 'bg-primary-ground', 'border', 'border-primary-border/30', 'overflow-hidden'],
-			th: ['bg-transparent', 'text-foreground/50', 'border-none'],
+			th: ['bg-transparent', 'text-primary-foreground/50', 'border-none'],
 			td: ['border-none'],
 			tr: ['border-none'],
 			thead: ['shrink-0', 'border-none'], // 表头不收缩
@@ -409,7 +409,7 @@ export function renderCell(data: any, columnKey: any) {
 			return numeral(data?.max).format('0.[00]a').toUpperCase();
 
 		case 'timestamp':
-			return <p className='text-xs text-foreground/50'>{dayjs.unix(data.deployBlocktime ?? cellValue ?? 0).format('YY/MM/DD HH:mm')}</p>;
+			return <p className='text-xs text-primary-foreground/50'>{dayjs.unix(data.deployBlocktime ?? cellValue ?? 0).format('YY/MM/DD HH:mm')}</p>;
 
 		case 'price': // 价值
 			return <div className='flex flex-col items-end'>{numeral(cellValue).format('$0,0.00')}</div>;
@@ -429,7 +429,7 @@ export function renderCell(data: any, columnKey: any) {
 		case 'isBlacklist':
 		case 'status': // 状态 这里要设置状态的样子
 			return (
-				<Chip className='gap-1 capitalize border-none text-foreground/50' color={cellValue ? 'danger' : 'success'} size='sm' variant='dot'>
+				<Chip className='gap-1 capitalize border-none text-primary-foreground/50' color={cellValue ? 'danger' : 'success'} size='sm' variant='dot'>
 					{cellValue}
 				</Chip>
 			);

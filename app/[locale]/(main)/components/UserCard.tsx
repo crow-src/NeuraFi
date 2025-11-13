@@ -113,8 +113,8 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 										</Button>
 									</div>
 									<div className='flex items-center gap-2 w-full'>
-										<span className='text-xs text-foreground-500 whitespace-nowrap'>{tUser('user_contract')}:</span>
-										<span className='text-xs text-foreground-500 whitespace-nowrap hidden md:block'>{masked ? '••••' : obsTxt(userData.account, 6, 6)}</span>
+										<span className='text-xs text-primary-foreground-500 whitespace-nowrap'>{tUser('user_contract')}:</span>
+										<span className='text-xs text-primary-foreground-500 whitespace-nowrap hidden md:block'>{masked ? '••••' : obsTxt(userData.account, 6, 6)}</span>
 										<CopyButton text={userData.account} iconClass='text-black' />
 									</div>
 								</div>

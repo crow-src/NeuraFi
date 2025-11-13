@@ -278,7 +278,7 @@ function MessageBubble({message}: {message: Message}) {
 		<div className={`flex items-start gap-3 ${message.isUser ? 'flex-row-reverse' : ''}`}>
 			<Avatar icon={message.isUser ? <Icon icon='mdi:account' className='w-5 h-5' /> : <Icon icon='mdi:robot' className='w-5 h-5' />} className={message.isUser ? 'bg-primary text-white' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'} size='sm' />
 			<div className={`max-w-[70%] ${message.isUser ? 'flex flex-col items-end' : ''}`}>
-				<div className={`rounded-lg p-3 ${message.isUser ? 'bg-primary text-white' : 'bg-default-100 text-foreground'}`}>
+				<div className={`rounded-lg p-3 ${message.isUser ? 'bg-primary text-white' : 'bg-default-100 text-primary-foreground'}`}>
 					<p className='text-sm whitespace-pre-wrap'>{message.content}</p>
 				</div>
 				<span className='text-xs text-primary-foreground mt-1'>{message.timestamp.toLocaleTimeString()}</span>

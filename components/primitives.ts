@@ -35,7 +35,7 @@ export const title = tv({
 });
 
 export const subtitle = tv({
-	base: 'w-full md:w-1/2 my-2 text-lg lg:text-xl text-foreground block max-w-full', // font-(--font-body)
+	base: 'w-full md:w-1/2 my-2 text-lg lg:text-xl text-primary-foreground block max-w-full', // font-(--font-body)
 	variants: {fullWidth: {true: 'w-full!'}},
 	defaultVariants: {fullWidth: true}
 });

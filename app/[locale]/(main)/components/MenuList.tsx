@@ -69,7 +69,7 @@ const FundsContent = () => {
 				<div className={`text-sm font-medium text-${transaction.color}`}>
 					{transaction.amount > 0 ? '+' : ''}${transaction.amount.toFixed(2)}
 				</div>
-				<div className='text-xs text-foreground/60'>{transaction.time}</div>
+				<div className='text-xs text-primary-foreground/60'>{transaction.time}</div>
 			</div>
 		</div>
 	);
@@ -80,7 +80,7 @@ const FundsContent = () => {
 				<div className='space-y-4 flex-1 flex flex-col'>
 					{/* 交易记录 - 布满剩余高度 */}
 					<div className='space-y-2 flex-1 flex flex-col'>
-						<h4 className='text-sm font-semibold text-foreground/80'>{t('recent_transactions')}</h4>
+						<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('recent_transactions')}</h4>
 						<div className='space-y-2 flex-1 overflow-y-auto'>
 							{transactionData.map(transaction => (
 								<TransactionItem key={transaction.id} transaction={transaction} />
@@ -127,7 +127,7 @@ const RiskContent = () => {
 
 					{/* 资金去向监控 */}
 					<div className='space-y-3'>
-						<h4 className='text-sm font-semibold text-foreground/80'>{t('fund_monitoring')}</h4>
+						<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('fund_monitoring')}</h4>
 						<div className='space-y-2'>
 							<MonitoringItem icon='mdi:check-circle' color='success' name={t('trading_account')} status={t('normal')} />
 							<MonitoringItem icon='mdi:alert-circle' color='warning' name={t('liquidity_pool')} status={t('monitoring')} />
@@ -183,9 +183,9 @@ const NoticeContent = () => {
 			<div className='flex justify-between items-start'>
 				<div className='flex-1'>
 					<p className='text-sm font-medium'>{title}</p>
-					<p className='text-xs text-foreground/60 mt-1'>{content}</p>
+					<p className='text-xs text-primary-foreground/60 mt-1'>{content}</p>
 				</div>
-				<span className='text-xs text-foreground/40'>{time}</span>
+				<span className='text-xs text-primary-foreground/40'>{time}</span>
 			</div>
 		</div>
 	);
@@ -233,19 +233,19 @@ const PrefsContent = () => {
 				<div className='space-y-4'>
 					<div className='space-y-4'>
 						<div className='space-y-3'>
-							<h4 className='text-sm font-semibold text-foreground/80'>{t('basic_settings')}</h4>
+							<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('basic_settings')}</h4>
 							<SettingItem label={t('language_setting')} value={t('chinese')} />
 							<SettingItem label={t('theme_mode')} value={t('auto')} />
 							<SettingItem label={t('timezone_setting')} value='UTC+8' />
 						</div>
 
 						<div className='space-y-3'>
-							<h4 className='text-sm font-semibold text-foreground/80'>{t('trading_settings')}</h4>
+							<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('trading_settings')}</h4>
 							<SettingItem label={t('price_alerts')} value={t('enabled')} />
 						</div>
 
 						<div className='space-y-3'>
-							<h4 className='text-sm font-semibold text-foreground/80'>{t('security_settings')}</h4>
+							<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('security_settings')}</h4>
 							<SettingItem label={t('two_factor_auth')} value={t('enabled_status')} isChip />
 							<SettingItem label={t('login_protection')} value={t('enabled_status')} isChip />
 						</div>
@@ -264,7 +264,7 @@ const SupportContent = () => {
 	const FAQItem = ({question, answer}: {question: string; answer: string}) => (
 		<div className='p-3 bg-content2/30 rounded-lg'>
 			<p className='text-sm font-medium'>{question}</p>
-			<p className='text-xs text-foreground/60 mt-1'>{answer}</p>
+			<p className='text-xs text-primary-foreground/60 mt-1'>{answer}</p>
 		</div>
 	);
 
@@ -288,7 +288,7 @@ const SupportContent = () => {
 
 					{/* 常见问题 */}
 					<div className='space-y-3'>
-						<h4 className='text-sm font-semibold text-foreground/80'>{t('frequently_asked')}</h4>
+						<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('frequently_asked')}</h4>
 						<div className='space-y-2'>
 							<FAQItem question={t('how_to_deposit')} answer={t('deposit_methods')} />
 							<FAQItem question={t('trading_fees')} answer={t('vip_discounts')} />
@@ -298,7 +298,7 @@ const SupportContent = () => {
 
 					{/* 联系方式 */}
 					<div className='space-y-3'>
-						<h4 className='text-sm font-semibold text-foreground/80'>{t('contact_methods')}</h4>
+						<h4 className='text-sm font-semibold text-primary-foreground/80'>{t('contact_methods')}</h4>
 						<div className='space-y-2'>
 							<ContactItem icon='mdi:twitter' text='https://x.com/NeuraFi679' />
 							<ContactItem icon='mdi:telegram' text='https://t.me/@NeuraFi6791' />
@@ -319,7 +319,7 @@ const AboutContent = () => {
 	const InfoItem = ({label, value}: {label: string; value: string}) => (
 		<div className='flex justify-between'>
 			<span>{label}</span>
-			<span className='text-foreground/60'>{value}</span>
+			<span className='text-primary-foreground/60'>{value}</span>
 		</div>
 	);
 
@@ -412,10 +412,10 @@ export const MenuList = ({onMenuClick}: {onMenuClick: (key: string) => void}) =>
 						{menus.map(m => (
 							<button key={m.key} onClick={() => handleMenuClick(m.key)} className='w-full flex items-center justify-between px-4 py-4 hover:bg-content2/40 transition-colors'>
 								<div className='flex items-center gap-3'>
-									<Icon icon={m.icon} width={20} className='text-foreground-500' />
+									<Icon icon={m.icon} width={20} className='text-primary-foreground-500' />
 									<span className='text-base'>{m.label}</span>
 								</div>
-								<Icon icon='mdi:chevron-right' width={22} className='text-foreground-400' />
+								<Icon icon='mdi:chevron-right' width={22} className='text-primary-foreground-400' />
 							</button>
 						))}
 					</div>

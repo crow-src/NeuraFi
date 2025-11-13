@@ -41,9 +41,9 @@ export const About = ({faqs: externalFaqs}: {faqs?: FaqItem[]}) => {
 					keepContentMounted
 					itemClasses={{
 						base: 'px-0 md:px-2 md:px-6',
-						title: 'font-medium text-foreground text-small',
+						title: 'font-medium text-primary-foreground text-small',
 						trigger: 'py-6 flex-row-reverse',
-						content: 'pt-0 pb-6 text-sm text-foreground/60',
+						content: 'pt-0 pb-6 text-sm text-primary-foreground/60',
 						indicator: 'rotate-0 data-[open=true]:-rotate-45'
 					}}
 					items={faqs}

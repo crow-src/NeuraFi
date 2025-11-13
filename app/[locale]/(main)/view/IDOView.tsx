@@ -148,25 +148,13 @@ export function IDOView() {
 									<Icon icon='mdi:rocket-launch' className='w-8 h-8 text-primary' />
 								</div>
 								<div>
-									<h1 className='text-3xl font-bold text-foreground mb-1 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text'>元智项目 IDO 白名单</h1>
-									<p className='text-sm text-default-500 flex items-center gap-2'>
+									<h1 className='text-3xl font-bold text-primary mb-1 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text'>NeuraFi IDO</h1>
+									<p className='text-sm text-primary-foreground flex items-center gap-2'>
 										<Icon icon='mdi:shield-check' className='w-4 h-4' />
-										通过推荐关系绑定，参与项目早期募资
+										推荐关系绑定，参与早期募资
 									</p>
 								</div>
 							</div>
-						</div>
-						{/* 推荐关系状态 */}
-						<div className='flex items-center gap-3'>
-							{isReferralBound ? (
-								<Chip color='success' variant='flat' className='shadow-lg border border-success/30' startContent={<Icon icon='mdi:check-circle' className='w-4 h-4' />}>
-									已绑定推荐关系
-								</Chip>
-							) : (
-								<Button color='primary' variant='solid' className='shadow-lg bg-gradient-to-r from-primary to-secondary' onPress={onReferralOpen} startContent={<Icon icon='mdi:link-variant' className='w-4 h-4' />}>
-									绑定推荐关系
-								</Button>
-							)}
 						</div>
 					</div>
 					{boundReferrer && (
@@ -177,7 +165,7 @@ export function IDOView() {
 									<Icon icon='mdi:information' className='w-5 h-5 text-success' />
 								</div>
 								<div>
-									<p className='text-xs text-default-500 mb-1'>推荐码</p>
+									<p className='text-xs text-primary-foreground mb-1'>推荐码</p>
 									<p className='font-mono font-bold text-success text-lg'>{boundReferrer}</p>
 								</div>
 							</div>
@@ -235,10 +223,10 @@ export function IDOView() {
 					<ModalHeader>绑定推荐关系</ModalHeader>
 					<ModalBody>
 						<div className='space-y-4'>
-							<p className='text-sm text-default-500'>请输入推荐码以绑定推荐关系</p>
+							<p className='text-sm text-primary-foreground'>请输入推荐码以绑定推荐关系</p>
 							<Input placeholder='请输入推荐码' value={referralCode} onValueChange={setReferralCode} startContent={<Icon icon='mdi:key-variant' className='w-4 h-4 text-default-400' />} />
 							<div className='p-3 bg-default-100 rounded-lg'>
-								<p className='text-xs text-default-500'>绑定推荐关系后，您将可以参与小社区级别的IDO购买</p>
+								<p className='text-xs text-primary-foreground'>绑定推荐关系后，您将可以参与小社区级别的IDO购买</p>
 							</div>
 						</div>
 					</ModalBody>
@@ -275,19 +263,19 @@ export function IDOView() {
 										<Divider className='my-3' />
 										<div className='grid grid-cols-2 gap-3 text-sm'>
 											<div>
-												<span className='text-default-500'>捐赠金额</span>
+												<span className='text-primary-foreground'>捐赠金额</span>
 												<p className='font-semibold text-lg'>${selectedTierConfig.donationAmount} USDT</p>
 											</div>
 											<div>
-												<span className='text-default-500'>获得筹码</span>
+												<span className='text-primary-foreground'>获得筹码</span>
 												<p className='font-semibold text-lg'>${selectedTierConfig.tokenAmount} USDT</p>
 											</div>
 											<div>
-												<span className='text-default-500'>释放周期</span>
+												<span className='text-primary-foreground'>释放周期</span>
 												<p className='font-semibold'>{selectedTierConfig.releaseMonths} 个月</p>
 											</div>
 											<div>
-												<span className='text-default-500'>手续费分配</span>
+												<span className='text-primary-foreground'>手续费分配</span>
 												<p className='font-semibold'>{selectedTierConfig.feeShare}%</p>
 											</div>
 										</div>
@@ -415,7 +403,7 @@ function TierCard({tier, onPurchase, isReferralBound}: TierCardProps) {
 				</div>
 			</CardHeader>
 			<CardBody className='space-y-4 relative z-10'>
-				<p className={`text-sm leading-relaxed ${tier.id === 'community' ? 'text-foreground font-medium' : 'text-default-600'}`}>{tier.description}</p>
+				<p className={`text-sm leading-relaxed ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-default-600'}`}>{tier.description}</p>
 
 				<Divider className='bg-default-200' />
 
@@ -424,30 +412,30 @@ function TierCard({tier, onPurchase, isReferralBound}: TierCardProps) {
 					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-default-200/50 hover:bg-content1'}`}>
 						<div className='flex items-center gap-2'>
 							<Icon icon='mdi:currency-usd' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : 'text-default-400'}`} />
-							<span className={`text-sm ${tier.id === 'community' ? 'text-foreground font-medium' : 'text-default-500'}`}>捐赠金额</span>
+							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>捐赠金额</span>
 						</div>
-						<span className='font-bold text-xl text-foreground'>${tier.donationAmount}</span>
+						<span className='font-bold text-xl text-primary-foreground'>${tier.donationAmount}</span>
 					</div>
 					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-default-200/50 hover:bg-content1'}`}>
 						<div className='flex items-center gap-2'>
 							<Icon icon='mdi:coin' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : 'text-default-400'}`} />
-							<span className={`text-sm ${tier.id === 'community' ? 'text-foreground font-medium' : 'text-default-500'}`}>获得筹码</span>
+							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>获得筹码</span>
 						</div>
-						<span className='font-semibold text-lg text-foreground'>${tier.tokenAmount}</span>
+						<span className='font-semibold text-lg text-primary-foreground'>${tier.tokenAmount}</span>
 					</div>
 					<div className='grid grid-cols-2 gap-2'>
 						<div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
-							<span className={`text-xs ${tier.id === 'community' ? 'text-foreground' : 'text-default-500'}`}>释放周期</span>
-							<span className='font-semibold text-sm text-foreground'>{tier.releaseMonths} 个月</span>
+							<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>释放周期</span>
+							<span className='font-semibold text-sm text-primary-foreground'>{tier.releaseMonths} 个月</span>
 						</div>
 						<div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
-							<span className={`text-xs ${tier.id === 'community' ? 'text-foreground' : 'text-default-500'}`}>手续费</span>
-							<span className='font-semibold text-sm text-foreground'>{tier.feeShare}%</span>
+							<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>手续费</span>
+							<span className='font-semibold text-sm text-primary-foreground'>{tier.feeShare}%</span>
 						</div>
 					</div>
 					<div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
-						<span className={`text-xs ${tier.id === 'community' ? 'text-foreground' : 'text-default-500'}`}>限额</span>
-						<span className='font-semibold text-sm text-foreground'>{tier.limit.toLocaleString()} 名</span>
+						<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>限额</span>
+						<span className='font-semibold text-sm text-primary-foreground'>{tier.limit.toLocaleString()} 名</span>
 					</div>
 				</div>
 
@@ -455,12 +443,12 @@ function TierCard({tier, onPurchase, isReferralBound}: TierCardProps) {
 
 				{/* 要求列表 */}
 				<div className='space-y-2'>
-					<p className={`text-xs font-semibold mb-2 flex items-center gap-2 ${tier.id === 'community' ? 'text-foreground' : 'text-default-500'}`}>
+					<p className={`text-xs font-semibold mb-2 flex items-center gap-2 ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>
 						<Icon icon='mdi:check-circle-outline' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : ''}`} />
 						购买要求
 					</p>
 					{tier.requirements.map((req, index) => (
-						<div key={index} className={`flex items-start gap-2 text-xs p-2 rounded-lg transition-colors ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30 hover:bg-white/80 dark:hover:bg-content1 text-foreground' : 'bg-default-50/50 hover:bg-default-100/50 text-default-600'}`}>
+						<div key={index} className={`flex items-start gap-2 text-xs p-2 rounded-lg transition-colors ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30 hover:bg-white/80 dark:hover:bg-content1 text-primary-foreground' : 'bg-default-50/50 hover:bg-default-100/50 text-default-600'}`}>
 							<Icon icon='mdi:check' className={`w-3 h-3 flex-shrink-0 mt-0.5 ${tier.id === 'community' ? 'text-cyan-600' : 'text-success'}`} />
 							<span className='leading-relaxed'>{req}</span>
 						</div>

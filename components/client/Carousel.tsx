@@ -148,8 +148,8 @@ export const HorizontalCarousel = ({images, showCount = 3, autoPlay = true, inte
 						{images.map((image, index) => (
 							<div key={index} className='flex flex-col gap-2'>
 								<Image src={image.url} alt={image.title ?? `Image ${index + 1}`} className='w-full aspect-square object-cover rounded-lg' removeWrapper />
-								{image.title && <h3 className='font-semibold text-foreground text-sm whitespace-nowrap overflow-hidden text-ellipsis'>{image.title}</h3>}
-								{image.description && <p className='text-foreground/70 text-xs line-clamp-2'>{image.description}</p>}
+								{image.title && <h3 className='font-semibold text-primary-foreground text-sm whitespace-nowrap overflow-hidden text-ellipsis'>{image.title}</h3>}
+								{image.description && <p className='text-primary-foreground/70 text-xs line-clamp-2'>{image.description}</p>}
 							</div>
 						))}
 					</div>
@@ -167,8 +167,8 @@ export const HorizontalCarousel = ({images, showCount = 3, autoPlay = true, inte
 						{images.map((image, index) => (
 							<div key={index} className='shrink-0 flex flex-col gap-2' style={{width: `calc((100% - ${(showCount - 1) * 1}rem) / ${showCount})`}}>
 								<Image src={image.url} alt={image.title ?? `Image ${index + 1}`} className='w-full aspect-square object-cover rounded-lg' removeWrapper />
-								{image.title && <h3 className='font-semibold text-foreground text-sm whitespace-nowrap overflow-hidden text-ellipsis'>{image.title}</h3>}
-								{image.description && <p className='text-foreground/70 text-xs line-clamp-2'>{image.description}</p>}
+								{image.title && <h3 className='font-semibold text-primary-foreground text-sm whitespace-nowrap overflow-hidden text-ellipsis'>{image.title}</h3>}
+								{image.description && <p className='text-primary-foreground/70 text-xs line-clamp-2'>{image.description}</p>}
 							</div>
 						))}
 					</div>
