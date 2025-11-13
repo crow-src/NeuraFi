@@ -459,7 +459,7 @@ function TierCard({tier, onPurchase, isReferralBound}: TierCardProps) {
 				<Button
 					color={tier.color}
 					variant={canPurchase ? 'solid' : 'bordered'}
-					className={`w-full font-bold shadow-lg hover:shadow-xl transition-all ${tier.id === 'community' && canPurchase ? 'bg-gradient-to-r from-cyan-500 to-sky-400 text-white' : tier.id === 'regional' && canPurchase ? 'bg-gradient-to-r from-purple-500 to-purple-400 text-white' : tier.id === 'global' && canPurchase ? 'bg-warning text-warning-foreground hover:bg-warning/90' : ''}`}
+					className={`w-full font-bold shadow-lg hover:shadow-xl transition-all ${tier.id === 'community' && canPurchase ? 'bg-gradient-to-r from-cyan-500 to-sky-400 text-primary-foreground' : tier.id === 'regional' && canPurchase ? 'bg-gradient-to-r from-purple-500 to-purple-400 text-primary-foreground' : tier.id === 'global' && canPurchase ? 'bg-warning text-warning-foreground hover:bg-warning/90' : ''}`}
 					size='lg'
 					onPress={() => onPurchase(tier.id)}
 					disabled={!canPurchase}

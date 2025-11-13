@@ -63,7 +63,7 @@ export const Carousel = ({images, autoPlay = true, interval = 3000, className}: 
 							<div key={index} className='relative w-full' style={{width: `${100 / images.length}%`}}>
 								<Image src={image.url} alt={image.description ?? `Slide ${index + 1}`} className='w-full aspect-video object-cover' removeWrapper />
 								{image.description && (
-									<div className='absolute bottom-0 left-0 right-0 p-4 bg-black/50 text-white'>
+									<div className='absolute bottom-0 left-0 right-0 p-4 bg-black/50 text-primary-foreground'>
 										<p className='text-sm'>{image.description}</p>
 									</div>
 								)}

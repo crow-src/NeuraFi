@@ -22,7 +22,7 @@ export const HexView = ({tx}: {tx: string}) => {
 					<Card className='w-full h-full border-none bg-linear-to-br from-primary to-primary-secondary'>
 						<CardBody className='items-center justify-center pb-0'>
 							<CircularProgress
-								classNames={{svg: 'w-36 h-36 drop-shadow-md', indicator: 'stroke-white', track: 'stroke-white/10', value: 'text-3xl font-semibold text-white'}}
+								classNames={{svg: 'w-36 h-36 drop-shadow-md', indicator: 'stroke-white', track: 'stroke-white/10', value: 'text-3xl font-semibold text-primary-foreground'}}
 								strokeWidth={4} // 线宽
 							/>
 						</CardBody>
@@ -30,7 +30,7 @@ export const HexView = ({tx}: {tx: string}) => {
 							<Chip
 								classNames={{
 									base: 'border-1 border-white/30',
-									content: 'text-white/90 text-small font-semibold'
+									content: 'text-primary-foreground/90 text-small font-semibold'
 								}}
 								variant='bordered'>
 								Pending...
@@ -156,24 +156,24 @@ SidebarDrawer.displayName = 'SidebarDrawer';
 // 											svg: 'w-36 h-36 drop-shadow-md',
 // 											indicator: 'stroke-white',
 // 											track: 'stroke-white/10',
-// 											value: 'text-3xl font-semibold text-white'
+// 											value: 'text-3xl font-semibold text-primary-foreground'
 // 										}}
 // 										strokeWidth={4}
 // 									/>
 // 									<div className='absolute inset-0 flex items-center justify-center'>
-// 										<span className='text-white text-2xl font-bold'>{timeLeft}s</span>
+// 										<span className='text-primary-foreground text-2xl font-bold'>{timeLeft}s</span>
 // 									</div>
 // 								</div>
 // 							</div>
 // 						) : (
 // 							<div className='flex flex-col items-center justify-center h-36 w-full'>
-// 								<p className='text-white text-xl font-semibold'>Push Successful</p>
-// 								<p className='text-white/80 text-sm mt-2'>Please check in browse</p>
+// 								<p className='text-primary-foreground text-xl font-semibold'>Push Successful</p>
+// 								<p className='text-primary-foreground/80 text-sm mt-2'>Please check in browse</p>
 // 							</div>
 // 						)}
 // 					</CardBody>
 // 					<CardFooter className='items-center justify-center pt-0'>
-// 						<Chip classNames={{base: 'border-1 border-white/30', content: 'text-white/90 text-small font-semibold'}} variant='bordered'>
+// 						<Chip classNames={{base: 'border-1 border-white/30', content: 'text-primary-foreground/90 text-small font-semibold'}} variant='bordered'>
 // 							{latestTx.status === 'pending' ? 'Pending...' : latestTx.status === 'success' ? 'Success' : 'Failed'}
 // 						</Chip>
 // 					</CardFooter>

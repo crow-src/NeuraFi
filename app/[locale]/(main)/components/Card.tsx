@@ -100,7 +100,7 @@ const NFTCardBase: React.FC<NFTCardBaseProps> = ({nft, mode, className, noShadow
 
 				<div className='absolute bottom-4 left-2 right-2 z-20 backdrop-blur-lg bg-black/60 px-4 py-3 flex items-center gap-2 border-t border-white/10  rounded-lg'>
 					<Icon icon='token-branded:usdt' className='w-5 h-5 text-yellow-400' />
-					<span className='text-lg font-bold text-white drop-shadow-lg'>
+					<span className='text-lg font-bold text-primary-foreground drop-shadow-lg'>
 						{nft.price} {nft.currency}
 					</span>
 				</div>

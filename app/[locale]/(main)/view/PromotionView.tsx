@@ -47,7 +47,7 @@ export function PromotionView() {
 
 			{/* 推广概览卡片 */}
 			<div className='grid grid-cols-1 md:grid-cols-4 gap-6 mb-6'>
-				<Card className='bg-gradient-to-r from-blue-500/50 to-blue-600/50 text-white'>
+				<Card className='bg-gradient-to-r from-blue-500/50 to-blue-600/50 text-primary-foreground'>
 					<CardBody className='p-6'>
 						<div className='flex items-center justify-between'>
 							<div>
@@ -60,7 +60,7 @@ export function PromotionView() {
 					</CardBody>
 				</Card>
 
-				<Card className='bg-gradient-to-r from-green-500/50 to-green-600/50 text-white'>
+				<Card className='bg-gradient-to-r from-green-500/50 to-green-600/50 text-primary-foreground'>
 					<CardBody className='p-6'>
 						<div className='flex items-center justify-between'>
 							<div>
@@ -73,7 +73,7 @@ export function PromotionView() {
 					</CardBody>
 				</Card>
 
-				<Card className='bg-gradient-to-r from-purple-500/50 to-purple-600/50 text-white'>
+				<Card className='bg-gradient-to-r from-purple-500/50 to-purple-600/50 text-primary-foreground'>
 					<CardBody className='p-6'>
 						<div className='flex items-center justify-between'>
 							<div>
@@ -86,7 +86,7 @@ export function PromotionView() {
 					</CardBody>
 				</Card>
 
-				<Card className='bg-gradient-to-r from-orange-500/50 to-orange-600/50 text-white'>
+				<Card className='bg-gradient-to-r from-orange-500/50 to-orange-600/50 text-primary-foreground'>
 					<CardBody className='p-6'>
 						<div className='flex items-center justify-between'>
 							<div>
@@ -193,7 +193,7 @@ function OverviewTab({data}: {data: any}) {
 						{data.recentActivities?.map((activity: any, index: number) => (
 							<div key={index} className='flex items-center gap-4 p-3 bg-default-50 rounded-lg'>
 								<div className='w-10 h-10 bg-primary rounded-full flex items-center justify-center'>
-									<Icon icon={activity.icon} className='w-5 h-5 text-white' />
+									<Icon icon={activity.icon} className='w-5 h-5 text-primary-foreground' />
 								</div>
 								<div className='flex-1'>
 									<p className='font-medium'>{activity.title}</p>
@@ -226,7 +226,7 @@ function PlatformPromotionTab({data}: {data: any}) {
 					<div className='flex items-center gap-6'>
 						<div className='text-center'>
 							<div className='w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mb-2'>
-								<Icon icon='mdi:crown' className='w-10 h-10 text-white' />
+								<Icon icon='mdi:crown' className='w-10 h-10 text-primary-foreground' />
 							</div>
 							<p className='font-semibold'>黄金推广者</p>
 							<p className='text-sm text-primary-foreground'>等级 3</p>
@@ -379,7 +379,7 @@ function RewardsTab({data}: {data: any}) {
 							<div key={index} className='flex items-center justify-between p-4 border border-default-200 rounded-lg'>
 								<div className='flex items-center gap-4'>
 									<div className='w-10 h-10 bg-success rounded-full flex items-center justify-center'>
-										<Icon icon={reward.icon} className='w-5 h-5 text-white' />
+										<Icon icon={reward.icon} className='w-5 h-5 text-primary-foreground' />
 									</div>
 									<div>
 										<p className='font-medium'>{reward.title}</p>

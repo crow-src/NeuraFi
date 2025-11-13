@@ -219,7 +219,7 @@ export const SkeletonClass = {
 // 芯片
 export const ChipClass = {
 	base: 'border-1 border-white/30',
-	content: 'text-white/90 text-small font-semibold'
+	content: 'text-primary-foreground/90 text-small font-semibold'
 };
 
 // 圆形进度条
@@ -227,5 +227,5 @@ export const CircularProgressClass = {
 	svg: 'w-32 h-32 drop-shadow-md',
 	indicator: 'stroke-white',
 	track: 'stroke-white/10',
-	value: 'text-2xl font-semibold text-white'
+	value: 'text-2xl font-semibold text-primary-foreground'
 };

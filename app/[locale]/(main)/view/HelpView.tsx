@@ -117,7 +117,7 @@ export function HelpView() {
 				<div className='flex items-center justify-between p-4 border-b border-default-200 flex-shrink-0'>
 					<div className='flex items-center gap-3'>
 						<div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center'>
-							<Icon icon='mdi:robot' className='w-6 h-6 text-white' />
+							<Icon icon='mdi:robot' className='w-6 h-6 text-primary-foreground' />
 						</div>
 						<div>
 							<h2 className='text-lg font-semibold'>NeuraFi AI助手</h2>
@@ -140,7 +140,7 @@ export function HelpView() {
 						<div className='flex items-center justify-center h-full'>
 							<div className='text-center'>
 								<div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4'>
-									<Icon icon='mdi:robot' className='w-8 h-8 text-white' />
+									<Icon icon='mdi:robot' className='w-8 h-8 text-primary-foreground' />
 								</div>
 								<h3 className='text-lg font-semibold mb-2'>欢迎使用NeuraFi AI助手</h3>
 								<p className='text-primary-foreground mb-4'>我可以帮助您解答关于交易、NFT、钱包等各种问题</p>
@@ -166,7 +166,7 @@ export function HelpView() {
 					)}
 					{isLoading && (
 						<div className='flex items-start gap-3'>
-							<Avatar icon={<Icon icon='mdi:robot' className='w-5 h-5' />} className='bg-gradient-to-r from-blue-500 to-purple-600 text-white' size='sm' />
+							<Avatar icon={<Icon icon='mdi:robot' className='w-5 h-5' />} className='bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground' size='sm' />
 							<div className='bg-default-100 rounded-lg p-3 max-w-[70%]'>
 								<div className='flex items-center gap-2'>
 									<div className='flex gap-1'>
@@ -276,9 +276,9 @@ export function HelpView() {
 function MessageBubble({message}: {message: Message}) {
 	return (
 		<div className={`flex items-start gap-3 ${message.isUser ? 'flex-row-reverse' : ''}`}>
-			<Avatar icon={message.isUser ? <Icon icon='mdi:account' className='w-5 h-5' /> : <Icon icon='mdi:robot' className='w-5 h-5' />} className={message.isUser ? 'bg-primary text-white' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'} size='sm' />
+			<Avatar icon={message.isUser ? <Icon icon='mdi:account' className='w-5 h-5' /> : <Icon icon='mdi:robot' className='w-5 h-5' />} className={message.isUser ? 'bg-primary text-primary-foreground' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground'} size='sm' />
 			<div className={`max-w-[70%] ${message.isUser ? 'flex flex-col items-end' : ''}`}>
-				<div className={`rounded-lg p-3 ${message.isUser ? 'bg-primary text-white' : 'bg-default-100 text-primary-foreground'}`}>
+				<div className={`rounded-lg p-3 ${message.isUser ? 'bg-primary text-primary-foreground' : 'bg-default-100 text-primary-foreground'}`}>
 					<p className='text-sm whitespace-pre-wrap'>{message.content}</p>
 				</div>
 				<span className='text-xs text-primary-foreground mt-1'>{message.timestamp.toLocaleTimeString()}</span>
