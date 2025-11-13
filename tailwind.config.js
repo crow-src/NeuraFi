@@ -84,12 +84,12 @@ export default {
 						background: '#171717', // 深灰色背景
 						foreground: '#ffffff', // 白色文字
 						primary: {
-							DEFAULT: '#262626', // 深灰
+							DEFAULT: '#d8672f', // 深灰
 							background: '#1e1e1e', // 比背景色浅一点的灰色
-							ground: '#222222', // 深灰地面
-							foreground: '#dbdbdb', // 浅灰色前景文字
-							border: '#adadad', // 亮灰色边框
-							secondary: '#ffaa33' // 亮灰色
+							ground: '#53adb0', // 深灰地面
+							foreground: '#c4fdff', // 浅灰色前景文字
+							border: '#53adb0', // 亮灰色边框
+							secondary: '#13dbe1' // 亮灰色
 						}
 					}
 				}
