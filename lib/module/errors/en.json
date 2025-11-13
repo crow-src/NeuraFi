@@ -1,0 +1,23 @@
+{
+	"errors": {
+		"WALLET_NOT_FOUND": "Wallet {walletKey} not found",
+		"WALLET_CONNECTION_FAILED": "Failed to connect to wallet {walletKey}{reason}",
+		"WALLET_DISCONNECTED": "Wallet disconnected",
+		"WALLET_CHAIN_NOT_SUPPORTED": "Chain {chain} is not supported",
+		"WALLET_SIGN_FAILED": "Failed to sign message",
+		"WALLET_TX_FAILED": "Transaction failed",
+
+		"NETWORK_ERROR": "Network error occurred",
+		"API_ERROR": "API Error: {message}",
+		"TIMEOUT_ERROR": "Request timeout after {timeout}ms",
+
+		"INSUFFICIENT_BALANCE": "Insufficient balance. Required: {required}, Available: {available}",
+		"INVALID_PARAMS": "Invalid parameters provided",
+		"UNAUTHORIZED": "Unauthorized access",
+		"FORBIDDEN": "Access forbidden",
+		"NOT_FOUND": "Resource not found",
+
+		"UNKNOWN_ERROR": "An unknown error occurred",
+		"SYSTEM_ERROR": "System error occurred"
+	}
+}

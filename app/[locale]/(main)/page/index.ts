@@ -1,0 +1,12 @@
+export * from './HomePage'; //首页
+export * from './BlindBoxPage'; //盲盒
+export * from './QuotesPage'; //盲盒游戏
+export * from './MarketPage'; //市场
+export * from './MePage'; //我的
+export * from './SwapPage'; //交易
+export * from './TeamPage'; //团队
+export * from './RankPage'; //排行榜
+export * from './LaunchPage'; //发射
+export * from './CollectionPage'; //收藏
+export * from './PromotionPage'; //推广
+export * from './HelpPage'; //帮助

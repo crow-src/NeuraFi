@@ -1,0 +1,43 @@
+# ClaimX - 全局开发规则
+
+## 技术栈
+- Next.js 15 App Router + TypeScript
+- React 18 + HeroUI 组件库  
+- Tailwind CSS 4 + Zustand 状态管理
+- Bitcoin 生态: bitcoinjs-lib, bip32, bip39
+
+## 代码风格
+- 使用 TypeScript 严格模式，避免 any
+- 优先函数式组件 + Hooks
+- 客户端组件标记 "use client"
+- 服务端函数标记 "use server"
+- 组件 Props 必须定义接口
+- 使用 Tailwind CSS 类名
+
+## 文件规范
+- 页面: `app/[locale]/(main)/page/`
+- 组件: `components/client/` 或 `components/server/`
+- 状态: `app/store/use[Name]Store.ts`
+- 工具: `lib/[feature]/`
+- 类型: `types/`
+
+## 命名约定
+- 组件文件: PascalCase
+- 函数/变量: camelCase  
+- 接口: 以 Props/State 结尾
+- 常量: UPPER_CASE
+
+## 最佳实践
+- 使用 HeroUI 组件优先于自定义
+- 国际化使用 useTranslations hook
+- 状态管理使用 Zustand
+- 错误处理使用 try-catch
+- 路径别名: @/* 指向根目录
+
+## 避免
+- console.log (使用适当日志)
+- 内联样式 (使用 Tailwind)
+- 直接 DOM 操作
+- 未类型化的数据
+
+保持代码简洁、类型安全、符合项目架构。 

@@ -1,0 +1,216 @@
+{
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"DockerRun.DisableDockerrc": true,
+	// settings.json
+	"todo-tree.general.tags": ["TODO:", "FIXME:"],
+	"todo-tree.highlights.defaultHighlight": {
+		"gutterIcon": true
+	},
+	"todo-tree.highlights.customHighlight": {
+		"TODO:": {
+			"foreground": "#fff",
+			"background": "#ffbd2a",
+			"iconColour": "#ffbd2a"
+		},
+		"FIXME:": {
+			"foreground": "#fff",
+			"background": "#f06292",
+			"icon": "flame",
+			"iconColour": "#f06292"
+		}
+	},
+	"solidity.compileUsingRemoteVersion": "v0.8.25+commit.b61c2a91",
+	// Prettier 配置
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"prettier.singleQuote": true,
+	"prettier.jsxSingleQuote": true,
+	"javascript.format.semicolons": "insert",
+	"typescript.format.semicolons": "insert",
+	"prettier.requireConfig": false,
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"files.associations": {
+		"*.js": "javascript",
+		"*.jsx": "javascriptreact",
+		"*.ts": "typescript",
+		"*.tsx": "typescriptreact"
+	},
+	"cSpell.words": [
+		"akar",
+		"arbitrum",
+		"Autosize",
+		"avax",
+		"basefee",
+		"beru",
+		"Bitc",
+		"Blesstiger",
+		"chainid",
+		"clex",
+		"clsx",
+		"Computility",
+		"cooldown",
+		"Coverflow",
+		"dexs",
+		"echarts",
+		"ecpair",
+		"Fira",
+		"giphy",
+		"hcaptcha",
+		"Heure",
+		"iconify",
+		"IERC",
+		"IKOG",
+		"KLAY",
+		"Klaytn",
+		"languagedetector",
+		"linea",
+		"listbox",
+		"localematcher",
+		"magnifer",
+		"mdao",
+		"MacGuffin",
+		"meiu",
+		"messageformat",
+		"mexc",
+		"mktplace",
+		"multicall",
+		"nextui",
+		"nsis",
+		"Numberish",
+		"oktc",
+		"okxweb",
+		"onekey",
+		"opbnb",
+		"Ordinalscan",
+		"ordx",
+		"Oxalus",
+		"Pancakeswap",
+		"pino",
+		"Psbt",
+		"Psbts",
+		"Quantité",
+		"sats",
+		"SHIB",
+		"sitekey",
+		"siwe",
+		"Solana",
+		"Swiper",
+		"tbnb",
+		"Teko",
+		"toastify",
+		"TYPEHASH",
+		"unisat",
+		"upstash",
+		"usehooks",
+		"UTXO",
+		"viewbox",
+		"WBNB",
+		"wizz",
+		"Xverse",
+		"zkevm",
+		"zksync",
+		"zustand",
+		"Закрыто",
+		"Партнеры",
+		"Скоро",
+		"Сообщество",
+		"Узнать"
+	],
+	"DockerRun.DisableAutoGenerateConfig": true,
+	"css.validate": false,
+	"less.validate": false,
+	"scss.validate": false,
+	"editor.quickSuggestions": {
+		"strings": true
+	},
+	"tailwindCSS.includeLanguages": {
+		"typescript": "javascript",
+		"typescriptreact": "javascript"
+	},
+
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"editor.colorDecorators": true,
+	"colorHelper.pickerForm": "default",
+	"colorHelper.resident": true,
+	"colorHelper.formatsOrder": ["hex", "rgb", "hsl", "hwb", "named", "cmyk"],
+	"colorHelper.storeDir": "${workspaceFolder}/.vscode/color-palettes",
+	"colorHelper.disableGpu": 1,
+	"colorHelper.disableShadow": true,
+	"colorHelper.disableTransparent": true,
+	"editor.semanticHighlighting.enabled": true,
+	"colorInfo.languages": [
+		{
+			"selector": "css",
+			"colors": "css"
+		},
+		{
+			"selector": "scss",
+			"colors": "css"
+		},
+		{
+			"selector": "less",
+			"colors": "css"
+		},
+		{
+			"selector": "javascript",
+			"colors": "css"
+		},
+		{
+			"selector": "typescript",
+			"colors": "css"
+		},
+		{
+			"selector": "javascriptreact",
+			"colors": "css"
+		},
+		{
+			"selector": "typescriptreact",
+			"colors": "css"
+		}
+	],
+	"color-manager.enabledInJS": true,
+	"color-manager.enabledInTS": true,
+	"color-picker.languages": ["javascript", "typescript", "javascriptreact", "typescriptreact", "css", "scss", "less"],
+	"color-picker.format": "hex",
+	"sqltools.connections": [
+		{
+			"pgOptions": {
+				"ssl": {
+					"rejectUnauthorized": true
+				}
+			},
+			"ssh": "Disabled",
+			"previewLimit": 50,
+			"server": "ep-green-grass-a482g3r2-pooler.us-east-1.aws.neon.tech",
+			"port": 5432,
+			"driver": "PostgreSQL",
+			"name": "Mdao DB",
+			"database": "verceldb",
+			"password": "MF14cBtUzjNL",
+			"username": "default",
+			"group": "Neon"
+		}
+	]
+}
