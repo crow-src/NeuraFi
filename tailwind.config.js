@@ -17,8 +17,8 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				heading: 'var(--font-sans), sans-serif',
-				sans: 'var(--font-quicksand), sans-serif'
+				heading: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+				sans: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 			},
 
 			keyframes: {
@@ -84,12 +84,12 @@ export default {
 						background: '#171717', // 深灰色背景
 						foreground: '#ffffff', // 白色文字
 						primary: {
-							DEFAULT: '#d8672f', // 深灰
+							DEFAULT: '#13dbe1', // 深灰
 							background: '#1e1e1e', // 比背景色浅一点的灰色
 							ground: '#53adb0', // 深灰地面
 							foreground: '#c4fdff', // 浅灰色前景文字
 							border: '#53adb0', // 亮灰色边框
-							secondary: '#13dbe1' // 亮灰色
+							secondary: '#d8672f' // 亮灰色d8672f
 						}
 					}
 				}

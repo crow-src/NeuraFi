@@ -5,7 +5,7 @@ import {cn} from '@heroui/react';
 
 import {Providers} from '@/app/providers';
 import {MAIN_CONFIG} from '@/config';
-import {fontQuicksand} from '@/config/fonts';
+import {fontSans} from '@/config/fonts';
 // import clsx from 'clsx';
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head />
-			<body className={cn('min-h-screen bg-background font-sans antialiased custom-scrollbar', fontQuicksand.variable)}>
+			<body className={cn('min-h-screen bg-background font-sans font-extralight antialiased custom-scrollbar', fontSans.variable)}>
 				<Providers themeProps={{attribute: 'class', defaultTheme: 'dark'}}>
 					<main className=' grow p-0 mx-auto w-full'>{children}</main>
 				</Providers>

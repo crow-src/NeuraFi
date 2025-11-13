@@ -373,8 +373,8 @@ export const HotNFTList: React.FC<HotNFTListProps> = ({nfts, onPurchase, title =
 			{/* 标题区域 */}
 			<div className='flex items-center justify-between rounded-sm bg-background p-2'>
 				<div className='flex items-center gap-3'>
-					<Icon icon='mdi:fire' className='w-8 h-8 text-primary-secondary' />
-					<h2 className='text-2xl font-bold text-foreground'>{title}</h2>
+					<Icon icon='mdi:fire' className='w-8 h-8 text-primary' />
+					<h2 className='text-2xl font-bold text-primary'>{title}</h2>
 				</div>
 				{showViewAll && (
 					<Button variant='light' className='text-primary-foreground' onPress={onViewAll} endContent={<Icon icon='mdi:arrow-right' className='w-4 h-4' />}>
@@ -444,9 +444,7 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 	};
 
 	return (
-		<Card
-			className={cn('hover:shadow-lg transition-all border border-default-200 bg-content1 cursor-pointer', className)}
-			onClick={() => onClick?.(market)}>
+		<Card className={cn('hover:shadow-lg transition-all border border-default-200 bg-content1 cursor-pointer', className)} onClick={() => onClick?.(market)}>
 			<CardBody className='p-4 space-y-3'>
 				{/* 标题和分类 */}
 				<div className='flex items-start justify-between gap-2'>
@@ -462,18 +460,7 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 							<div className='relative w-16 h-16'>
 								<svg className='w-16 h-16 transform -rotate-90'>
 									<circle cx='32' cy='32' r='28' stroke='currentColor' strokeWidth='5' fill='none' className='text-default-200' />
-									<circle
-										cx='32'
-										cy='32'
-										r='28'
-										stroke='currentColor'
-										strokeWidth='5'
-										fill='none'
-										strokeDasharray={`${2 * Math.PI * 28}`}
-										strokeDashoffset={`${2 * Math.PI * 28 * (1 - market.yesProbability)}`}
-										className='text-success transition-all'
-										strokeLinecap='round'
-									/>
+									<circle cx='32' cy='32' r='28' stroke='currentColor' strokeWidth='5' fill='none' strokeDasharray={`${2 * Math.PI * 28}`} strokeDashoffset={`${2 * Math.PI * 28 * (1 - market.yesProbability)}`} className='text-success transition-all' strokeLinecap='round' />
 								</svg>
 								<div className='absolute inset-0 flex items-center justify-center'>
 									<span className='text-base font-bold text-foreground'>{formatProbability(market.yesProbability)}</span>
@@ -506,30 +493,18 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 							return (
 								<div key={option.id} className='flex items-center justify-between gap-2'>
 									<span className='text-xs font-medium text-foreground flex-1 truncate'>{option.label}</span>
-									<div className='flex gap-1 flex-shrink-0' onClick={(e) => e.stopPropagation()}>
-										<Button 
-											size='sm' 
-											color='success' 
-											variant='flat' 
-											className='min-w-[50px] h-6 text-xs font-semibold px-2' 
-											style={{backgroundColor: 'rgba(34, 197, 94, 0.1)'}}>
+									<div className='flex gap-1 flex-shrink-0' onClick={e => e.stopPropagation()}>
+										<Button size='sm' color='success' variant='flat' className='min-w-[50px] h-6 text-xs font-semibold px-2' style={{backgroundColor: 'rgba(34, 197, 94, 0.1)'}}>
 											Yes {formatProb(option.yesProbability)}
 										</Button>
-										<Button 
-											size='sm' 
-											color='danger' 
-											variant='flat' 
-											className='min-w-[50px] h-6 text-xs font-semibold px-2' 
-											style={{backgroundColor: 'rgba(239, 68, 68, 0.1)'}}>
+										<Button size='sm' color='danger' variant='flat' className='min-w-[50px] h-6 text-xs font-semibold px-2' style={{backgroundColor: 'rgba(239, 68, 68, 0.1)'}}>
 											No {formatProb(option.noProbability)}
 										</Button>
 									</div>
 								</div>
 							);
 						})}
-						{market.options.length > 2 && (
-							<div className='text-xs text-default-500 text-center pt-1'>+{market.options.length - 2} more</div>
-						)}
+						{market.options.length > 2 && <div className='text-xs text-default-500 text-center pt-1'>+{market.options.length - 2} more</div>}
 					</div>
 				)}
 
@@ -570,8 +545,8 @@ export const HotPredictionList: React.FC<HotPredictionListProps> = ({markets, ti
 			{/* 标题区域 */}
 			<div className='flex items-center justify-between rounded-sm bg-background p-2'>
 				<div className='flex items-center gap-3'>
-					<Icon icon='mdi:chart-line-variant' className='w-8 h-8 text-primary-secondary' />
-					<h2 className='text-2xl font-bold text-foreground'>{title}</h2>
+					<Icon icon='mdi:chart-line-variant' className='w-8 h-8 text-primary' />
+					<h2 className='text-2xl font-bold text-primary'>{title}</h2>
 				</div>
 				{showViewAll && (
 					<Button variant='light' className='text-primary-foreground' onPress={onViewAll} endContent={<Icon icon='mdi:arrow-right' className='w-4 h-4' />}>
