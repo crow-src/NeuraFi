@@ -8,15 +8,16 @@ import {useMountedState} from 'react-use';
 import BlindBoxPage from '../page/BlindBoxPage';
 import CollectionPage from '../page/CollectionPage';
 import HomePage from '../page/HomePage'; //首页
+import IDOPage from '../page/IDOPage';
 import LaunchPage from '../page/LaunchPage';
 import MarketPage from '../page/MarketPage';
 import MePage from '../page/MePage'; //
+import PredictPage from '../page/PredictPage';
 import PromotionPage from '../page/PromotionPage';
 import RankPage from '../page/RankPage';
 import SwapPage from '../page/SwapPage'; //
 import TeamPage from '../page/TeamPage';
-
-const tabKeys = ['home', 'quotes', 'rank', 'trading', 'me', 'team', 'invite', 'manage', 'box', 'market', 'launch', 'collection', 'promotion', 'help'] as const;
+const tabKeys = ['home', 'quotes', 'rank', 'trading', 'me', 'team', 'invite', 'manage', 'box', 'market', 'launch', 'collection', 'promotion', 'help', 'predict', 'ido'] as const;
 type TabKey = (typeof tabKeys)[number];
 type TabComponent = React.ComponentType<Record<string, unknown>>;
 
@@ -34,10 +35,12 @@ const tabComponentMap: Partial<Record<TabKey, TabComponent>> = {
 	team: TeamPage,
 	box: BlindBoxPage,
 	market: MarketPage,
+	predict: PredictPage,
 	rank: RankPage,
 	launch: LaunchPage,
 	collection: CollectionPage,
-	promotion: PromotionPage
+	promotion: PromotionPage,
+	ido: IDOPage
 };
 
 export const TabContent = () => {

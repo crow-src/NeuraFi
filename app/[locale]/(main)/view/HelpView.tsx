@@ -49,7 +49,7 @@ export function HelpView() {
 
 	const generateAIResponse = (userMessage: string, category: string) => {
 		const responses = {
-			general: ['您好！我是Agon的AI助手，很高兴为您服务。请问有什么可以帮助您的吗？', '我了解您的问题。让我为您详细解答一下...', '这是一个很好的问题！根据我的了解，建议您...', '感谢您的咨询。我可以为您提供以下建议...'],
+			general: ['您好！我是NeuraFi的AI助手，很高兴为您服务。请问有什么可以帮助您的吗？', '我了解您的问题。让我为您详细解答一下...', '这是一个很好的问题！根据我的了解，建议您...', '感谢您的咨询。我可以为您提供以下建议...'],
 			trading: ['关于交易问题，我建议您先了解基本的交易规则和风险。', '交易时请注意市场波动，建议设置止损点。', '您可以查看我们的交易指南来了解更多详情。', '交易前请确保您已经完成了身份验证。'],
 			nft: ['NFT盲盒是数字收藏品的一种形式，每个盲盒都有独特的属性。', '您可以在市场上交易您的NFT，或者将其兑换为代币。', 'NFT的稀有度决定了它的价值，传说级NFT通常更有价值。', '购买NFT前请确认卖家的信誉和NFT的真实性。'],
 			wallet: ['钱包安全非常重要，请务必保管好您的私钥。', '建议使用硬件钱包来存储大额资产。', '定期备份您的钱包，避免资产丢失。', '不要向任何人透露您的私钥或助记词。'],
@@ -120,7 +120,7 @@ export function HelpView() {
 							<Icon icon='mdi:robot' className='w-6 h-6 text-white' />
 						</div>
 						<div>
-							<h2 className='text-lg font-semibold'>Agon AI助手</h2>
+							<h2 className='text-lg font-semibold'>NeuraFi AI助手</h2>
 							<p className='text-sm text-primary-foreground'>{conversationCategories.find(cat => cat.id === selectedConversation)?.name}</p>
 						</div>
 					</div>
@@ -142,7 +142,7 @@ export function HelpView() {
 								<div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4'>
 									<Icon icon='mdi:robot' className='w-8 h-8 text-white' />
 								</div>
-								<h3 className='text-lg font-semibold mb-2'>欢迎使用Agon AI助手</h3>
+								<h3 className='text-lg font-semibold mb-2'>欢迎使用NeuraFi AI助手</h3>
 								<p className='text-primary-foreground mb-4'>我可以帮助您解答关于交易、NFT、钱包等各种问题</p>
 								<div className='flex flex-wrap gap-2 justify-center'>
 									{conversationCategories.slice(0, 3).map(category => (

@@ -1,20 +1,22 @@
 import {TelegramIcon, TwitterIcon, GithubIcon, DiscordIcon} from '@/components/icons';
 
 export const MAIN_CONFIG = {
-	name: 'Agon',
-	title: 'Agon. focuses on the field of new digital assets, guiding you to discover the value.',
-	description: 'Agon focuses on the field of new digital assets, guiding you to discover the value... ',
+	name: 'NeuraFi',
+	title: 'NeuraFi. focuses on the field of new digital assets, guiding you to discover the value.',
+	description: 'NeuraFi focuses on the field of new digital assets, guiding you to discover the value... ',
 
 	//导航栏
 	navItems: [
 		// 主要功能
 		{label: 'Home', key: 'home', icon: 'fluent:home-32-filled', href: '?tab=home', new: false, category: 'main', order: 1},
+		{label: 'IDO', key: 'ido', icon: 'material-symbols:storefront', href: '?tab=ido', new: true, category: 'main', order: 1}, //募资
 		{label: 'Box', key: 'box', icon: 'fluent:box-32-regular', href: '?tab=box', new: false, category: 'main', order: 1},
 		{label: 'Quotes', key: 'quotes', icon: 'material-symbols:trending-up', href: '?tab=quotes', new: false, category: 'main', order: 1}, //盲盒游戏
 		{label: 'Rank', key: 'rank', icon: 'material-symbols:leaderboard', href: '?tab=rank', new: false, category: 'main', order: 1},
 		{label: 'Launch', key: 'launch', icon: 'material-symbols:rocket-launch', href: '?tab=launch', new: false, category: 'main', order: 1}, //发布发射
 
 		// 市场相关
+		{label: 'Predict', key: 'predict', icon: 'material-symbols:storefront', href: '?tab=predict', new: true, category: 'market', order: 2}, //预测市场
 		{label: 'Market', key: 'market', icon: 'material-symbols:storefront', href: '?tab=market', new: true, category: 'market', order: 2},
 		{label: 'Swap', key: 'trading', icon: 'icon-park-outline:transaction', href: '?tab=trading', new: false, category: 'market', order: 2},
 		// {label: 'Bank', key: 'bank', icon: 'mdi:bank', href: '?tab=bank', new: false, category: 'market', order: 2},

@@ -300,9 +300,9 @@ const SupportContent = () => {
 					<div className='space-y-3'>
 						<h4 className='text-sm font-semibold text-foreground/80'>{t('contact_methods')}</h4>
 						<div className='space-y-2'>
-							<ContactItem icon='mdi:twitter' text='https://x.com/Agon679' />
-							<ContactItem icon='mdi:telegram' text='https://t.me/@Agon6791' />
-							<ContactItem icon='mdi:discord' text='https://t.me/@Agon6791' />
+							<ContactItem icon='mdi:twitter' text='https://x.com/NeuraFi679' />
+							<ContactItem icon='mdi:telegram' text='https://t.me/@NeuraFi6791' />
+							<ContactItem icon='mdi:discord' text='https://t.me/@NeuraFi6791' />
 						</div>
 					</div>
 				</div>
@@ -342,7 +342,7 @@ const AboutContent = () => {
 						<div className='space-y-2 text-sm'>
 							<InfoItem label={t('version')} value='1.0.0' />
 							<InfoItem label={t('build_time')} value='2025-08-18' />
-							<InfoItem label={t('developer')} value='Agon Team' />
+							<InfoItem label={t('developer')} value='NeuraFi Team' />
 						</div>
 					</div>
 

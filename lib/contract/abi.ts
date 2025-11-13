@@ -236,8 +236,8 @@ export const IEnumerableSet = [
 	'function remove(address value) returns (bool)' //删除
 ];
 
-// ===== AgonBank Contract =====
-export const IAgonBank = [
+// ===== NeuraFiBank Contract =====
+export const INeuraFiBank = [
 	...IOwnable,
 	...IPausable,
 	...IReentrancyGuard,
@@ -297,8 +297,8 @@ export const IAgonBank = [
 	'event WithdrawnInterest(address indexed user, address indexed token, uint256 amount)' //获取利息
 ];
 
-// ===== AgonAccount Contract =====
-export const IAgonAccount = [
+// ===== NeuraFiAccount Contract =====
+export const INeuraFiAccount = [
 	...IOwnable,
 	...IPausable,
 	...IReentrancyGuard,

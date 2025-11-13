@@ -10,7 +10,7 @@ import {useUserDataStore, useModalStore} from '@/app/store';
 import {button} from '@/components';
 import {InputClass} from '@/components/class';
 import {CopyButton, Snippet} from '@/components/client/common';
-import {useAvatarImage, useAgonAccount, useTeam} from '@/lib/hooks';
+import {useAvatarImage, useNeuraFiAccount, useTeam} from '@/lib/hooks';
 import {useBrowserWallet} from '@/lib/hooks/wallet';
 import {obsTxt, fmtMoney, pct} from '@/lib/utils';
 
@@ -39,14 +39,14 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 	const tUser = useTranslations('user');
 	const [masked, setMasked] = useState<boolean>(false); // 是否隐藏资金
 	const {showModal, closeModal} = useModalStore();
-	const {isLoading, setName, userData, createAccountByReferrer} = useAgonAccount({token: token});
+	const {isLoading, setName, userData, createAccountByReferrer} = useNeuraFiAccount({token: token});
 	const {addressFromSlug} = useTeam({token: token});
 	const [leaderAddress, setLeaderAddress] = useState<string>();
 
 	// 你自己的推广链接
-	const shareUrl = `https://Agon.top/?tab=team&slug=${userData.slug}`;
+	const shareUrl = `https://NeuraFi.top/?tab=team&slug=${userData.slug}`;
 	const shareTitle = tUser('share_title');
-	const shareText = `https://Agon.top/?tab=team&slug=${userData.slug}`;
+	const shareText = `https://NeuraFi.top/?tab=team&slug=${userData.slug}`;
 
 	useEffect(() => {
 		if (slug) {

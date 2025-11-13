@@ -10,3 +10,5 @@ export * from './LaunchView';
 export * from './CollectionView';
 export * from './PromotionView';
 export * from './HelpView';
+export * from './PredictView'; //预测
+export * from './IDOView'; //募资

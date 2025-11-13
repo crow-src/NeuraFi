@@ -5,15 +5,15 @@ import {ethers} from 'ethers';
 import {useMount} from 'react-use';
 import {useUserDataStore, UserData, DepositRecord} from '@/app/store';
 import {PROJECT_CONFIG} from '@/config/main';
-import {IAgonBank, IMulticall, IAgonAccount, ITeam, IERC20} from '@/lib/contract/abi';
+import {INeuraFiBank, IMulticall, INeuraFiAccount, ITeam, IERC20} from '@/lib/contract/abi';
 import {useBrowserWallet, useTransactionManager} from '@/lib/hooks';
 import {withError} from '@/lib/utils';
 import {useContract, useMulticall} from './common';
 
 //操作用户账户合约
-export const useAgonAccount = ({token}: {token: string}) => {
+export const useNeuraFiAccount = ({token}: {token: string}) => {
 	const {userData} = useUserDataStore();
-	const {getUserData} = useAgonData({token});
+	const {getUserData} = useNeuraFiData({token});
 	const {addTransaction} = useTransactionManager({onComplete: () => getUserData()});
 	const [isLoading, setIsLoading] = useState(false);
 	const {signer, address} = useBrowserWallet();
@@ -23,8 +23,8 @@ export const useAgonAccount = ({token}: {token: string}) => {
 		return address ? calculateAddress(address, PROJECT_CONFIG.accountClone, PROJECT_CONFIG.bankAddr) : '';
 	}, [address]);
 
-	const account = useContract(accountAddr, IAgonAccount, signer); //创建用户账户合约
-	const bank = useContract(PROJECT_CONFIG.bankAddr, IAgonBank, signer); //银行合约
+	const account = useContract(accountAddr, INeuraFiAccount, signer); //创建用户账户合约
+	const bank = useContract(PROJECT_CONFIG.bankAddr, INeuraFiBank, signer); //银行合约
 	const usdt = useContract(token, IERC20, signer);
 
 	//创建账户绑定
@@ -57,7 +57,7 @@ export const useAgonAccount = ({token}: {token: string}) => {
 };
 
 //操作用户账户合约
-export const useAgonData = ({token}: {token: string}) => {
+export const useNeuraFiData = ({token}: {token: string}) => {
 	const {updateUserData, userData} = useUserDataStore();
 	const [isLoading, setIsLoading] = useState(false);
 	const {address, loading} = useBrowserWallet();
@@ -67,7 +67,7 @@ export const useAgonData = ({token}: {token: string}) => {
 	}, [address]);
 
 	const {multicall, multicallAddr, call} = useMulticall();
-	const account = useContract(accountAddr, IAgonAccount); //创建用户账户合约
+	const account = useContract(accountAddr, INeuraFiAccount); //创建用户账户合约
 	const usdt = useContract(token, IERC20);
 
 	//获取用户所有数据 - 使用 useCallback 包装
@@ -175,7 +175,7 @@ export const useTeam = ({token}: {token: string}) => {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const {multicall, call} = useMulticall();
-	const bank = useContract(PROJECT_CONFIG.bankAddr, IAgonBank, signer);
+	const bank = useContract(PROJECT_CONFIG.bankAddr, INeuraFiBank, signer);
 	const team = useContract(userData.team ?? '', ITeam, signer);
 
 	const [data, setData] = useState<TeamData>(); //团队数据
@@ -307,8 +307,8 @@ export const useManageData = ({token}: {token: string}) => {
 	const bankAddr = PROJECT_CONFIG.bankAddr;
 	const usdtContract = useContract(token, IERC20, signer);
 	const {multicall, call} = useMulticall();
-	const bank = useContract(PROJECT_CONFIG.bankAddr, IAgonBank, signer);
-	const account = useContract(bankAddr, IAgonAccount, signer); //随便用一个地址！
+	const bank = useContract(PROJECT_CONFIG.bankAddr, INeuraFiBank, signer);
+	const account = useContract(bankAddr, INeuraFiAccount, signer); //随便用一个地址！
 	const team = useContract(bankAddr, ITeam, signer); //随便用一个地址！
 
 	const [bankData, setBankData] = useState<BankData>(); //团队数据
@@ -536,7 +536,7 @@ export const useManage = ({token}: {token: string}) => {
 	const {addTransaction} = useTransactionManager();
 	const [isLoading, setIsLoading] = useState(false);
 	const usdtContract = useContract(token, IERC20);
-	const bank = useContract(PROJECT_CONFIG.bankAddr, IAgonBank);
+	const bank = useContract(PROJECT_CONFIG.bankAddr, INeuraFiBank);
 
 	//提取资金
 	const _withdraw = async ({amount, to}: {amount: string; to: string}) => bank && (await bank.withdraw(token, amount, to).then(tx => addTransaction({...tx, type: 'Other'}))); //
@@ -594,7 +594,7 @@ export interface BankEvent {
 //银行事件
 export const useBankEvent = ({token, historyBlockCount = 10000}: {token: string; historyBlockCount?: number}) => {
 	const {provider} = useBrowserWallet();
-	const bank = useContract(PROJECT_CONFIG.bankAddr, IAgonBank);
+	const bank = useContract(PROJECT_CONFIG.bankAddr, INeuraFiBank);
 	const [events, setEvents] = useState<BankEvent[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string>('');
@@ -814,8 +814,8 @@ function slugFromAddress(address: string): string {
 }
 
 // 预计算盐命名空间
-const ACCOUNT_SALT_NS = keccak256(solidityPacked(['string'], ['Agon/AccountSalt/v1']));
-// const TEAM_SALT_NS = keccak256(solidityPacked(['string'], ['Agon/TeamSalt/v1']));
+const ACCOUNT_SALT_NS = keccak256(solidityPacked(['string'], ['NeuraFi/AccountSalt/v1']));
+// const TEAM_SALT_NS = keccak256(solidityPacked(['string'], ['NeuraFi/TeamSalt/v1']));
 
 // 计算账户地址
 const calculateAddress = (userAddress: string, implementation: string, bankAddr: string): string => {

@@ -8,7 +8,7 @@ import {useTranslations} from 'next-intl';
 import {useUserDataStore} from '@/app/store';
 import {button} from '@/components';
 import {PROJECT_CONFIG} from '@/config/main';
-import {useAgonAccount, useTeam} from '@/lib/hooks';
+import {useNeuraFiAccount, useTeam} from '@/lib/hooks';
 import {obsTxt} from '@/lib/utils';
 
 // ===== 团队视图 创建账户 =====
@@ -20,7 +20,7 @@ export function TeamView() {
 	const [slugError, setSlugError] = useState<string>('');
 	const searchParams = useSearchParams();
 	const slug = searchParams.get('slug');
-	const {createAccountByReferrer} = useAgonAccount({token: PROJECT_CONFIG.stablecoin[0].address});
+	const {createAccountByReferrer} = useNeuraFiAccount({token: PROJECT_CONFIG.stablecoin[0].address});
 	const {addressFromSlug, isValidSlug} = useTeam({token: PROJECT_CONFIG.stablecoin[0].address});
 
 	useEffect(() => {
@@ -136,7 +136,7 @@ export function TeamView() {
 							<div className='flex items-center justify-center gap-3'>
 								<Avatar src={'/favicon.png'} name={userData?.slug} size='lg' className='bg-primary-ground shadow-xl' />
 								<div className='flex flex-col items-start'>
-									<h2 className='text-xl font-bold text-primary-foreground font-heading'>Agon</h2>
+									<h2 className='text-xl font-bold text-primary-foreground font-heading'>NeuraFi</h2>
 									<p className='text-xs text-primary-foreground/60'>{t('decentralized_financial_platform')}</p>
 								</div>
 							</div>

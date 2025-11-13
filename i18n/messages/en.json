@@ -1,31 +1,31 @@
 {
 	"content": {
 		"subtitle": "Connecting the chain, protecting privacy",
-		"title": "Agon - Decentralized Cross-Chain and Privacy Finance Hub",
-		"description": "Agon is committed to becoming the world’s leading decentralized cross-chain and privacy finance hub, building a seamless, secure, and anonymous asset network for Web3 users. We offer one-stop cross-chain financial solutions, supporting one-click asset swaps across major public chains such as Ethereum, BNB Chain, and Solana. Additionally, we incorporate technologies like zero-knowledge proofs, coin mixing protocols, and stealth addresses to ensure that transaction history, fund flows, and identity information remain completely anonymous and untraceable.",
+		"title": "NeuraFi - Decentralized Cross-Chain and Privacy Finance Hub",
+		"description": "NeuraFi is committed to becoming the world’s leading decentralized cross-chain and privacy finance hub, building a seamless, secure, and anonymous asset network for Web3 users. We offer one-stop cross-chain financial solutions, supporting one-click asset swaps across major public chains such as Ethereum, BNB Chain, and Solana. Additionally, we incorporate technologies like zero-knowledge proofs, coin mixing protocols, and stealth addresses to ensure that transaction history, fund flows, and identity information remain completely anonymous and untraceable.",
 		"faq": {
 			"v1": {
-				"answer": "Agon adopts a multi-layered, modular technical architecture, aggregating multiple cross-chain communication protocols (LayerZero, Axelar, Wormhole) to achieve cross-chain interoperability. Core features include:  \n1. Smart Routing Engine: Automatically selects the optimal cross-chain path to ensure transaction atomicity  \n2. Privacy Protection System: Integrates zero-knowledge proofs (ZK-SNARKs) and coin mixing protocols  \n3. Liquidity Aggregation: Combines Uniswap V3 concentrated liquidity and Curve stablecoin optimization  \n4. Security Protection: Multiple rounds of independent audits, formal verification, and time-lock mechanisms",
+				"answer": "NeuraFi adopts a multi-layered, modular technical architecture, aggregating multiple cross-chain communication protocols (LayerZero, Axelar, Wormhole) to achieve cross-chain interoperability. Core features include:  \n1. Smart Routing Engine: Automatically selects the optimal cross-chain path to ensure transaction atomicity  \n2. Privacy Protection System: Integrates zero-knowledge proofs (ZK-SNARKs) and coin mixing protocols  \n3. Liquidity Aggregation: Combines Uniswap V3 concentrated liquidity and Curve stablecoin optimization  \n4. Security Protection: Multiple rounds of independent audits, formal verification, and time-lock mechanisms",
 				"question": "Technical Architecture"
 			},
 			"v2": {
-				"answer": "Agon focuses on addressing two core pain points in the blockchain ecosystem:  \n1. Cross-chain swaps: Supporting seamless asset exchanges among major public chains such as Ethereum, BNB Chain, Solana, Polygon, Avalanche, and others  \n2. Privacy protection services: Achieving fully anonymous asset transfers through zero-knowledge proofs, coin mixing protocols, and stealth address technology  \n3. Liquidity mining: Users can provide liquidity to earn a share of trading fees and Agon token rewards  \n4. Decentralized governance: Agon token holders participate in platform governance decisions",
+				"answer": "NeuraFi focuses on addressing two core pain points in the blockchain ecosystem:  \n1. Cross-chain swaps: Supporting seamless asset exchanges among major public chains such as Ethereum, BNB Chain, Solana, Polygon, Avalanche, and others  \n2. Privacy protection services: Achieving fully anonymous asset transfers through zero-knowledge proofs, coin mixing protocols, and stealth address technology  \n3. Liquidity mining: Users can provide liquidity to earn a share of trading fees and NeuraFi token rewards  \n4. Decentralized governance: NeuraFi token holders participate in platform governance decisions",
 				"question": "Core Features"
 			},
 			"v3": {
-				"answer": "Agon’s privacy protection system employs multiple cryptographic technologies:  \n1. Zero-Knowledge Proofs: Users can deposit and withdraw without revealing their identities, proving asset ownership through ZK-SNARKs.  \n2. Coin Mixing Protocol: Assets enter a large-scale privacy pool and are mixed with other users’ funds, breaking the linkage of fund flows.  \n3. Stealth Addresses: A unique one-time address is generated for each payment, preventing address correlation analysis.  \n4. Multi-Hop Encrypted Routing: Inspired by Tor’s onion routing, it protects transaction metadata from being tracked.",
+				"answer": "NeuraFi’s privacy protection system employs multiple cryptographic technologies:  \n1. Zero-Knowledge Proofs: Users can deposit and withdraw without revealing their identities, proving asset ownership through ZK-SNARKs.  \n2. Coin Mixing Protocol: Assets enter a large-scale privacy pool and are mixed with other users’ funds, breaking the linkage of fund flows.  \n3. Stealth Addresses: A unique one-time address is generated for each payment, preventing address correlation analysis.  \n4. Multi-Hop Encrypted Routing: Inspired by Tor’s onion routing, it protects transaction metadata from being tracked.",
 				"question": "Privacy Technology"
 			},
 			"v4": {
-				"answer": "The core team of Agon consists of senior experts in blockchain and cryptography:  \n• Founder: Former core researcher at the Ethereum Foundation, with 10+ years of experience in blockchain protocol development  \n• CTO: Former core developer at Uniswap, technical expert in the DeFi field  \n• CPO: PhD in cryptography, authority in zero-knowledge proofs, former researcher at the Zcash Foundation  \n• Advisory Team: Professors from Stanford and MIT, founders of leading Layer 1 projects, top partners from prominent crypto VCs",
+				"answer": "The core team of NeuraFi consists of senior experts in blockchain and cryptography:  \n• Founder: Former core researcher at the Ethereum Foundation, with 10+ years of experience in blockchain protocol development  \n• CTO: Former core developer at Uniswap, technical expert in the DeFi field  \n• CPO: PhD in cryptography, authority in zero-knowledge proofs, former researcher at the Zcash Foundation  \n• Advisory Team: Professors from Stanford and MIT, founders of leading Layer 1 projects, top partners from prominent crypto VCs",
 				"question": "Team Background"
 			},
 			"v5": {
-				"answer": "Agon Secures Top-Tier Institutional Investment and Establishes Strategic Partnerships:\n\nInvestment Institutions:  \n• Seed Round: Binance Labs, Coinbase Ventures  \n• Series A: Horowitz (a16z), Paradigm  \n• Strategic Investment: Alameda Research, Jump Capital  \n\nTechnical Partners:  \n• Cross-Chain Protocols: LayerZero, Wormhole  \n• Privacy Technologies: Zcash Foundation, Privacy & Scaling Explorations  \n• Security Audits: CertiK, SlowMist, OpenZeppelin",
+				"answer": "NeuraFi Secures Top-Tier Institutional Investment and Establishes Strategic Partnerships:\n\nInvestment Institutions:  \n• Seed Round: Binance Labs, Coinbase Ventures  \n• Series A: Horowitz (a16z), Paradigm  \n• Strategic Investment: Alameda Research, Jump Capital  \n\nTechnical Partners:  \n• Cross-Chain Protocols: LayerZero, Wormhole  \n• Privacy Technologies: Zcash Foundation, Privacy & Scaling Explorations  \n• Security Audits: CertiK, SlowMist, OpenZeppelin",
 				"question": "Collaborative Ecosystem"
 			},
 			"v6": {
-				"answer": "Agon's Core Competitive Advantages:\n\nTechnical Advantages:  \n• The first platform to natively integrate bank-grade privacy protection into a cross-chain DEX  \n• Outstanding capital efficiency and diversified yield strategies  \n• Security as the highest priority, building a defense-in-depth system  \n\nMarket Advantages:  \n• Meeting the privacy needs of high-net-worth individuals and institutions  \n• Fully decentralized, with no centralized intermediary risk  \n• Building a Privacy-as-a-Service ecosystem through open API/SDK",
+				"answer": "NeuraFi's Core Competitive Advantages:\n\nTechnical Advantages:  \n• The first platform to natively integrate bank-grade privacy protection into a cross-chain DEX  \n• Outstanding capital efficiency and diversified yield strategies  \n• Security as the highest priority, building a defense-in-depth system  \n\nMarket Advantages:  \n• Meeting the privacy needs of high-net-worth individuals and institutions  \n• Fully decentralized, with no centralized intermediary risk  \n• Building a Privacy-as-a-Service ecosystem through open API/SDK",
 				"question": "Competitive Advantage"
 			}
 		},
@@ -59,7 +59,7 @@
 		},
 		"roadmap": {
 			"v1": {
-				"description": "Q4 2024 - Q2 2025: Complete the development of core smart contracts, conduct audits through multiple top-tier security firms, officially launch Agon V1 on the Ethereum mainnet, support cross-chain swaps and basic privacy features across ETH, BSC, and Polygon networks, and initiate the first phase of the liquidity mining program.",
+				"description": "Q4 2024 - Q2 2025: Complete the development of core smart contracts, conduct audits through multiple top-tier security firms, officially launch NeuraFi V1 on the Ethereum mainnet, support cross-chain swaps and basic privacy features across ETH, BSC, and Polygon networks, and initiate the first phase of the liquidity mining program.",
 				"title": "Core Features Launched",
 				"cycle": "Q4 2024 - Q2 2025"
 			},
@@ -69,30 +69,30 @@
 				"cycle": "Q3 2025 - Q2 2026"
 			},
 			"v3": {
-				"description": "Q3 2026 and beyond: Seek global compliance certification, establish the Agon Ecosystem Fund to invest in and incubate projects, explore bridging with traditional finance, gradually transfer protocol control to Agon DAO, achieve fully decentralized governance, and become the infrastructure for Web3 value circulation and privacy protection.",
+				"description": "Q3 2026 and beyond: Seek global compliance certification, establish the NeuraFi Ecosystem Fund to invest in and incubate projects, explore bridging with traditional finance, gradually transfer protocol control to NeuraFi DAO, achieve fully decentralized governance, and become the infrastructure for Web3 value circulation and privacy protection.",
 				"title": "Globalization and Complete Decentralization",
 				"cycle": "Q3 2026+"
 			},
 			"v4": {
-				"description": "Launch the Agon mobile app to optimize user experience, integrate more DeFi protocols, provide one-stop cross-chain financial services, enhance privacy protection features, and support more mainstream cryptocurrencies.",
+				"description": "Launch the NeuraFi mobile app to optimize user experience, integrate more DeFi protocols, provide one-stop cross-chain financial services, enhance privacy protection features, and support more mainstream cryptocurrencies.",
 				"title": "Mobile Integration with DeFi",
 				"cycle": "Q1-Q2 2027"
 			},
 			"v5": {
-				"description": "Build the Agon ecosystem, launch developer tools and SDKs, support third-party application integration, create a decentralized identity authentication system, and enable cross-chain NFT trading functionality.",
+				"description": "Build the NeuraFi ecosystem, launch developer tools and SDKs, support third-party application integration, create a decentralized identity authentication system, and enable cross-chain NFT trading functionality.",
 				"title": "Ecosystem Development",
 				"cycle": "Q3-Q4 2027"
 			},
 			"v6": {
-				"description": "Achieve fully decentralized governance by launching Agon DAO, a community-driven decision-making platform to guide development directions, explore Layer 2 solutions, and become a key component of Web3 infrastructure.",
+				"description": "Achieve fully decentralized governance by launching NeuraFi DAO, a community-driven decision-making platform to guide development directions, explore Layer 2 solutions, and become a key component of Web3 infrastructure.",
 				"title": "Decentralized Governance and Layer 2",
 				"cycle": "2028 and beyond"
 			}
 		},
 		"news": {
-			"v1": "Welcome to the Agon platform",
-			"v2": "Agon Airdrop Section is now open",
-			"v3": "Agon Chat is coming soon"
+			"v1": "Welcome to the NeuraFi platform",
+			"v2": "NeuraFi Airdrop Section is now open",
+			"v3": "NeuraFi Chat is coming soon"
 		}
 	},
 	"common": {
@@ -188,6 +188,7 @@
 		"hot": "Popularity",
 		"hour": "Time",
 		"icon": "Icon",
+		"ido": "Whitelist",
 		"import": "Introduction",
 		"inactive": "Inactive",
 		"income": "Earnings",
@@ -248,6 +249,7 @@
 		"pending": "Packaging in progress",
 		"performance": "Performance",
 		"position": "Warehouse",
+		"predict": "Prediction",
 		"preferences": "Preference",
 		"premine": "Pre-mining",
 		"previous": "Previous Step",
@@ -401,7 +403,7 @@
 		"set_contract": "Please set your contract basic information",
 		"set_contract_meta": "You can optionally set your contract metadata, which will be stored in distributed storage and linked to your contract address.",
 		"set_token": "Please set your token's basic information",
-		"steps_to_start": "Simple Steps to Get Started with Agon.",
+		"steps_to_start": "Simple Steps to Get Started with NeuraFi.",
 		"sort_by_change": "By Price Change Percentage",
 		"sort_by_name": "By Name",
 		"sort_by_price": "At the latest price",
@@ -430,7 +432,7 @@
 		"asset_account": "Asset Account",
 		"asset_account_note": "*You can withdraw any assets from your account at any time",
 		"available_balance": "Available Balance",
-		"bank_title": "Agon Bank",
+		"bank_title": "NeuraFi Bank",
 		"completed_deposits": "Completed",
 		"completed_on": "Completed on",
 		"confirm_deposit": "Certificate of Deposit Confirmation",

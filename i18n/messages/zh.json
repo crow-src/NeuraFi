@@ -1,31 +1,31 @@
 {
 	"content": {
 		"subtitle": "连接链条，保护隐私",
-		"title": "Agon - 去中心化跨链与隐私金融枢纽",
-		"description": "Agon 致力于成为全球领先的去中心化跨链与隐私金融枢纽，为 Web3 用户构建无缝、安全、匿名的资产网络。我们提供一站式跨链金融方案，支持以太坊、BNB Chain、Solana 等主流公链资产一键兑换，并引入零知识证明、混币协议、隐身地址等技术，确保交易历史、资金流向与身份信息完全匿名、不可追踪。",
+		"title": "NeuraFi - 去中心化跨链与隐私金融枢纽",
+		"description": "NeuraFi 致力于成为全球领先的去中心化跨链与隐私金融枢纽，为 Web3 用户构建无缝、安全、匿名的资产网络。我们提供一站式跨链金融方案，支持以太坊、BNB Chain、Solana 等主流公链资产一键兑换，并引入零知识证明、混币协议、隐身地址等技术，确保交易历史、资金流向与身份信息完全匿名、不可追踪。",
 		"faq": {
 			"v1": {
-				"answer": "Agon 采用多层次、模块化的技术架构，聚合多个跨链通信协议（LayerZero、Axelar、Wormhole）实现跨链互操作性。核心功能包括：\n1. 智能路由引擎：自动选择最优跨链路径，确保交易原子性\n2. 隐私保护系统：集成零知识证明(ZK-SNARKs)和混币协议\n3. 流动性聚合：融合Uniswap V3集中流动性和Curve稳定币优化\n4. 安全防护：多轮独立审计、形式化验证、时间锁机制",
+				"answer": "NeuraFi 采用多层次、模块化的技术架构，聚合多个跨链通信协议（LayerZero、Axelar、Wormhole）实现跨链互操作性。核心功能包括：\n1. 智能路由引擎：自动选择最优跨链路径，确保交易原子性\n2. 隐私保护系统：集成零知识证明(ZK-SNARKs)和混币协议\n3. 流动性聚合：融合Uniswap V3集中流动性和Curve稳定币优化\n4. 安全防护：多轮独立审计、形式化验证、时间锁机制",
 				"question": "技术架构"
 			},
 			"v2": {
-				"answer": "Agon 专注于解决区块链生态的两大核心痛点：\n1. 跨链兑换：支持以太坊、BNB Chain、Solana、Polygon、Avalanche等主流公链间的资产无缝交换\n2. 隐私保护服务：通过零知识证明、混币协议、隐身地址技术实现完全匿名的资产流通\n3. 流动性挖矿：用户可提供流动性赚取交易手续费分成和Agon代币奖励\n4. 去中心化治理：Agon代币持有者参与平台治理决策",
+				"answer": "NeuraFi 专注于解决区块链生态的两大核心痛点：\n1. 跨链兑换：支持以太坊、BNB Chain、Solana、Polygon、Avalanche等主流公链间的资产无缝交换\n2. 隐私保护服务：通过零知识证明、混币协议、隐身地址技术实现完全匿名的资产流通\n3. 流动性挖矿：用户可提供流动性赚取交易手续费分成和NeuraFi代币奖励\n4. 去中心化治理：NeuraFi代币持有者参与平台治理决策",
 				"question": "核心功能"
 			},
 			"v3": {
-				"answer": "Agon 的隐私保护系统采用多重密码学技术：\n1. 零知识证明：用户存取款时无需暴露身份，通过ZK-SNARKs证明资产所有权\n2. 混币协议：资产进入大规模隐私池与其他用户资金混合，切断资金流关联\n3. 隐身地址：为每次收款生成唯一的一次性地址，防止地址关联分析\n4. 多跳加密路由：借鉴Tor洋葱路由，保护交易元数据不被追踪",
+				"answer": "NeuraFi 的隐私保护系统采用多重密码学技术：\n1. 零知识证明：用户存取款时无需暴露身份，通过ZK-SNARKs证明资产所有权\n2. 混币协议：资产进入大规模隐私池与其他用户资金混合，切断资金流关联\n3. 隐身地址：为每次收款生成唯一的一次性地址，防止地址关联分析\n4. 多跳加密路由：借鉴Tor洋葱路由，保护交易元数据不被追踪",
 				"question": "隐私技术"
 			},
 			"v4": {
-				"answer": "Agon 核心团队由区块链和密码学领域的资深专家组成：\n• 创始人：前以太坊基金会核心研究员，10年+区块链协议研发经验\n• CTO：前Uniswap核心开发者，DeFi领域技术专家\n• CPO：密码学博士，零知识证明领域权威，前Zcash基金会研究员\n• 顾问团队：斯坦福和MIT教授、主流Layer1创始人、顶级加密VC合伙人",
+				"answer": "NeuraFi 核心团队由区块链和密码学领域的资深专家组成：\n• 创始人：前以太坊基金会核心研究员，10年+区块链协议研发经验\n• CTO：前Uniswap核心开发者，DeFi领域技术专家\n• CPO：密码学博士，零知识证明领域权威，前Zcash基金会研究员\n• 顾问团队：斯坦福和MIT教授、主流Layer1创始人、顶级加密VC合伙人",
 				"question": "团队背景"
 			},
 			"v5": {
-				"answer": "Agon 获得顶级机构投资并建立战略合作：\n\n投资机构：\n• 种子轮：Binance Labs, Coinbase Ventures\n• A轮： Horowitz (a16z), Paradigm\n• 战略投资：Alameda Research, Jump Capital\n\n技术合作伙伴：\n• 跨链协议：LayerZero,  Wormhole\n• 隐私技术：Zcash Foundation, Privacy & Scaling Explorations\n• 安全审计：CertiK, SlowMist, OpenZeppelin",
+				"answer": "NeuraFi 获得顶级机构投资并建立战略合作：\n\n投资机构：\n• 种子轮：Binance Labs, Coinbase Ventures\n• A轮： Horowitz (a16z), Paradigm\n• 战略投资：Alameda Research, Jump Capital\n\n技术合作伙伴：\n• 跨链协议：LayerZero,  Wormhole\n• 隐私技术：Zcash Foundation, Privacy & Scaling Explorations\n• 安全审计：CertiK, SlowMist, OpenZeppelin",
 				"question": "合作生态"
 			},
 			"v6": {
-				"answer": "Agon 的核心竞争优势：\n\n技术优势：\n• 首个将银行级隐私保护原生集成到跨链DEX的平台\n• 卓越的资本效率与多元化收益策略\n• 安全作为最高优先级，构建纵深防御体系\n\n市场优势：\n• 满足高净值个人和机构的隐私需求\n• 完全去中心化，无中心化中介风险\n• 通过开放API/SDK构建Privacy-as-a-Service生态",
+				"answer": "NeuraFi 的核心竞争优势：\n\n技术优势：\n• 首个将银行级隐私保护原生集成到跨链DEX的平台\n• 卓越的资本效率与多元化收益策略\n• 安全作为最高优先级，构建纵深防御体系\n\n市场优势：\n• 满足高净值个人和机构的隐私需求\n• 完全去中心化，无中心化中介风险\n• 通过开放API/SDK构建Privacy-as-a-Service生态",
 				"question": "竞争优势"
 			}
 		},
@@ -59,7 +59,7 @@
 		},
 		"roadmap": {
 			"v1": {
-				"description": "2024年Q4-2025年Q2：完成核心智能合约开发，通过多家顶级安全公司审计，在以太坊主网正式上线Agon V1版本，支持ETH、BSC、Polygon三大网络跨链兑换和基础隐私功能，启动首期流动性挖矿计划。",
+				"description": "2024年Q4-2025年Q2：完成核心智能合约开发，通过多家顶级安全公司审计，在以太坊主网正式上线NeuraFi V1版本，支持ETH、BSC、Polygon三大网络跨链兑换和基础隐私功能，启动首期流动性挖矿计划。",
 				"title": "核心功能上线",
 				"cycle": "2024年Q4-2025年Q2"
 			},
@@ -69,30 +69,30 @@
 				"cycle": "2025年Q3-2026年Q2"
 			},
 			"v3": {
-				"description": "2026年Q3及以后：寻求全球合规认证，设立Agon生态基金投资孵化项目，探索与传统金融桥接，逐步将协议控制权移交给Agon DAO，实现完全去中心化治理，成为Web3价值流通和隐私保护的基础设施。",
+				"description": "2026年Q3及以后：寻求全球合规认证，设立NeuraFi生态基金投资孵化项目，探索与传统金融桥接，逐步将协议控制权移交给NeuraFi DAO，实现完全去中心化治理，成为Web3价值流通和隐私保护的基础设施。",
 				"title": "全球化与完全去中心化",
 				"cycle": "2026年Q3+"
 			},
 			"v4": {
-				"description": "推出Agon移动端应用，优化用户体验，集成更多DeFi协议，提供一站式跨链金融服务，增强隐私保护功能，支持更多主流加密货币。",
+				"description": "推出NeuraFi移动端应用，优化用户体验，集成更多DeFi协议，提供一站式跨链金融服务，增强隐私保护功能，支持更多主流加密货币。",
 				"title": "移动端与DeFi集成",
 				"cycle": "2027年Q1-Q2"
 			},
 			"v5": {
-				"description": "建立Agon生态系统，推出开发者工具和SDK，支持第三方应用集成，创建去中心化身份验证系统，实现跨链NFT交易功能。",
+				"description": "建立NeuraFi生态系统，推出开发者工具和SDK，支持第三方应用集成，创建去中心化身份验证系统，实现跨链NFT交易功能。",
 				"title": "生态系统建设",
 				"cycle": "2027年Q3-Q4"
 			},
 			"v6": {
-				"description": "实现完全去中心化治理，推出Agon DAO，社区自主决策平台发展方向，探索Layer 2解决方案，成为Web3基础设施的重要组成部分。",
+				"description": "实现完全去中心化治理，推出NeuraFi DAO，社区自主决策平台发展方向，探索Layer 2解决方案，成为Web3基础设施的重要组成部分。",
 				"title": "去中心化治理与Layer 2",
 				"cycle": "2028年及以后"
 			}
 		},
 		"news": {
-			"v1": "欢迎来到 Agon 平台",
-			"v2": "Agon 空投板块 已经开放",
-			"v3": "Agon Chat 即将上线"
+			"v1": "欢迎来到 NeuraFi 平台",
+			"v2": "NeuraFi 空投板块 已经开放",
+			"v3": "NeuraFi Chat 即将上线"
 		}
 	},
 	"common": {
@@ -188,6 +188,7 @@
 		"hot": "热度",
 		"hour": "时",
 		"icon": "图标",
+		"ido": "白名单",
 		"import": "导入",
 		"inactive": "非活跃",
 		"income": "收益",
@@ -248,6 +249,7 @@
 		"pending": "打包中",
 		"performance": "业绩",
 		"position": "仓",
+		"predict": "预测",
 		"preferences": "偏好",
 		"premine": "预挖",
 		"previous": "上一步",
@@ -401,7 +403,7 @@
 		"set_contract": "请设置您的合约基本信息",
 		"set_contract_meta": "可选择设置您的合约元数据,数据将储存在分布式存储中,并指向您的合约地址",
 		"set_token": "请设置您的代币基本信息",
-		"steps_to_start": "开始使用 Agon 的简单步骤。",
+		"steps_to_start": "开始使用 NeuraFi 的简单步骤。",
 		"sort_by_change": "按涨跌幅",
 		"sort_by_name": "按名称",
 		"sort_by_price": "按最新价",
@@ -430,7 +432,7 @@
 		"asset_account": "资产账户",
 		"asset_account_note": "*你可以随时提取账户中的任何资产",
 		"available_balance": "可用余额",
-		"bank_title": "Agon 银行",
+		"bank_title": "NeuraFi 银行",
 		"completed_deposits": "已完成",
 		"completed_on": "完成于",
 		"confirm_deposit": "确认存单",

@@ -66,7 +66,7 @@ export const useAvatarImage = () => {
 			// ctx.fillText(data.performance?.toString() ?? '0', 820, 1000);
 
 			// 二维码
-			const inviteUrl = `https://Agon.top/?tab=team&slug=${data.slug}`;
+			const inviteUrl = `https://NeuraFi.top/?tab=team&slug=${data.slug}`;
 			const qrCodeUrl = await generateQrcode({
 				text: inviteUrl,
 				size: 200,

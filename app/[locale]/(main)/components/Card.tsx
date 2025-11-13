@@ -1,6 +1,6 @@
 'use client';
 import React, {useState} from 'react';
-import {cn, Button, Input, Image, ScrollShadow, Avatar, Chip} from '@heroui/react';
+import {cn, Button, Input, Image, ScrollShadow, Avatar, Chip, Card, CardBody} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useTranslations} from 'next-intl';
 
@@ -388,6 +388,203 @@ export const HotNFTList: React.FC<HotNFTListProps> = ({nfts, onPurchase, title =
 				<div className='flex gap-4'>
 					{nfts.map(nft => (
 						<NFTCard key={nft.id} nft={nft} className='w-80 flex-shrink-0' mode='blindbox' onPurchase={onPurchase} noShadow />
+					))}
+				</div>
+			</ScrollShadow>
+		</div>
+	);
+};
+
+// ===== 预测市场类型定义 =====
+export interface MarketOption {
+	id: string;
+	label: string;
+	yesProbability: number; // 0-1, Yes 的概率
+	noProbability: number; // 0-1, No 的概率 (通常 = 1 - yesProbability)
+	volume?: number;
+}
+
+export interface PredictionMarket {
+	id: string;
+	title: string;
+	category: string;
+	type: 'binary' | 'multiple'; // binary: 简单 Yes/No, multiple: 多个选项
+	options?: MarketOption[]; // multiple 类型时使用
+	yesProbability?: number; // binary 类型时使用
+	noProbability?: number; // binary 类型时使用
+	totalVolume: number;
+	status: 'active' | 'ending_soon' | 'live';
+	isTrending?: boolean;
+	endDate?: string;
+}
+
+// ===== 简化版预测市场卡片（用于横向滚动） =====
+interface PredictionMarketCardProps {
+	market: PredictionMarket;
+	onClick?: (market: PredictionMarket) => void;
+	className?: string;
+}
+
+const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onClick, className}) => {
+	const formatVolume = (volume: number) => {
+		if (volume >= 1000000) {
+			return `$${(volume / 1000000).toFixed(0)}m`;
+		}
+		if (volume >= 1000) {
+			return `$${(volume / 1000).toFixed(0)}k`;
+		}
+		return `$${volume}`;
+	};
+
+	const formatProbability = (prob: number) => {
+		const percent = prob * 100;
+		if (percent >= 99.5) return '100%';
+		if (percent < 0.5) return '<1%';
+		return `${percent.toFixed(0)}%`;
+	};
+
+	return (
+		<Card
+			className={cn('hover:shadow-lg transition-all border border-default-200 bg-content1 cursor-pointer', className)}
+			onClick={() => onClick?.(market)}>
+			<CardBody className='p-4 space-y-3'>
+				{/* 标题和分类 */}
+				<div className='flex items-start justify-between gap-2'>
+					<h3 className='text-sm font-semibold text-foreground leading-tight line-clamp-2 flex-1'>{market.title}</h3>
+					{market.isTrending && <Icon icon='mdi:fire' className='w-4 h-4 text-warning flex-shrink-0' />}
+				</div>
+
+				{/* Binary 类型：简单 Yes/No */}
+				{market.type === 'binary' && market.yesProbability !== undefined && (
+					<div className='space-y-2'>
+						{/* 圆形进度条显示概率 */}
+						<div className='flex justify-center'>
+							<div className='relative w-16 h-16'>
+								<svg className='w-16 h-16 transform -rotate-90'>
+									<circle cx='32' cy='32' r='28' stroke='currentColor' strokeWidth='5' fill='none' className='text-default-200' />
+									<circle
+										cx='32'
+										cy='32'
+										r='28'
+										stroke='currentColor'
+										strokeWidth='5'
+										fill='none'
+										strokeDasharray={`${2 * Math.PI * 28}`}
+										strokeDashoffset={`${2 * Math.PI * 28 * (1 - market.yesProbability)}`}
+										className='text-success transition-all'
+										strokeLinecap='round'
+									/>
+								</svg>
+								<div className='absolute inset-0 flex items-center justify-center'>
+									<span className='text-base font-bold text-foreground'>{formatProbability(market.yesProbability)}</span>
+								</div>
+							</div>
+						</div>
+						<div className='text-center text-xs text-default-500'>chance</div>
+						{/* Yes/No 按钮 */}
+						<div className='flex gap-2'>
+							<Button size='sm' color='success' className='flex-1 font-semibold text-xs' variant='solid'>
+								Yes
+							</Button>
+							<Button size='sm' color='danger' className='flex-1 font-semibold text-xs' variant='solid'>
+								No
+							</Button>
+						</div>
+					</div>
+				)}
+
+				{/* Multiple 类型：显示前两个选项 */}
+				{market.type === 'multiple' && market.options && (
+					<div className='space-y-1.5'>
+						{market.options.slice(0, 2).map(option => {
+							const formatProb = (prob: number) => {
+								const percent = prob * 100;
+								if (percent >= 99.5) return '100%';
+								if (percent < 0.5) return '<1%';
+								return `${percent.toFixed(0)}%`;
+							};
+							return (
+								<div key={option.id} className='flex items-center justify-between gap-2'>
+									<span className='text-xs font-medium text-foreground flex-1 truncate'>{option.label}</span>
+									<div className='flex gap-1 flex-shrink-0' onClick={(e) => e.stopPropagation()}>
+										<Button 
+											size='sm' 
+											color='success' 
+											variant='flat' 
+											className='min-w-[50px] h-6 text-xs font-semibold px-2' 
+											style={{backgroundColor: 'rgba(34, 197, 94, 0.1)'}}>
+											Yes {formatProb(option.yesProbability)}
+										</Button>
+										<Button 
+											size='sm' 
+											color='danger' 
+											variant='flat' 
+											className='min-w-[50px] h-6 text-xs font-semibold px-2' 
+											style={{backgroundColor: 'rgba(239, 68, 68, 0.1)'}}>
+											No {formatProb(option.noProbability)}
+										</Button>
+									</div>
+								</div>
+							);
+						})}
+						{market.options.length > 2 && (
+							<div className='text-xs text-default-500 text-center pt-1'>+{market.options.length - 2} more</div>
+						)}
+					</div>
+				)}
+
+				{/* 底部：交易量和状态 */}
+				<div className='flex items-center justify-between pt-2 border-t border-default-200'>
+					<span className='text-xs text-default-500 font-medium'>{formatVolume(market.totalVolume)} Vol.</span>
+					<div className='flex items-center gap-1.5'>
+						{market.status === 'live' && (
+							<Chip size='sm' color='danger' variant='flat' className='h-5 text-xs'>
+								Live
+							</Chip>
+						)}
+						{market.status === 'ending_soon' && (
+							<Chip size='sm' color='warning' variant='flat' className='h-5 text-xs'>
+								Ending
+							</Chip>
+						)}
+					</div>
+				</div>
+			</CardBody>
+		</Card>
+	);
+};
+
+// ===== 热门预测市场横向列表组件（首页用） =====
+interface HotPredictionListProps {
+	markets: PredictionMarket[]; //数据
+	title?: string; //标题
+	showViewAll?: boolean;
+	onViewAll?: () => void; //查看全部函数
+	onMarketClick?: (market: PredictionMarket) => void; //点击市场函数
+}
+
+export const HotPredictionList: React.FC<HotPredictionListProps> = ({markets, title = '🔥 热门预测', showViewAll = true, onViewAll, onMarketClick}) => {
+	const tTip = useTranslations('tip');
+	return (
+		<div className='w-full flex flex-col gap-1'>
+			{/* 标题区域 */}
+			<div className='flex items-center justify-between rounded-sm bg-background p-2'>
+				<div className='flex items-center gap-3'>
+					<Icon icon='mdi:chart-line-variant' className='w-8 h-8 text-primary-secondary' />
+					<h2 className='text-2xl font-bold text-foreground'>{title}</h2>
+				</div>
+				{showViewAll && (
+					<Button variant='light' className='text-primary-foreground' onPress={onViewAll} endContent={<Icon icon='mdi:arrow-right' className='w-4 h-4' />}>
+						{tTip('view_all')}
+					</Button>
+				)}
+			</div>
+
+			{/* 横向滚动列表 */}
+			<ScrollShadow orientation='horizontal' className='w-full' hideScrollBar>
+				<div className='flex gap-4'>
+					{markets.map(market => (
+						<PredictionMarketCard key={market.id} market={market} className='w-80 flex-shrink-0' onClick={onMarketClick} />
 					))}
 				</div>
 			</ScrollShadow>

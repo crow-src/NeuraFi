@@ -190,7 +190,7 @@ export const useTransactionStore = create<TransactionStore>()(
 			}
 		}),
 		{
-			name: 'Agon-transactions', // localStorage key
+			name: 'NeuraFi-transactions', // localStorage key
 			storage: createJSONStorage(() => localStorage),
 			// 只持久化 transactions，不持久化 listeners
 			partialize: state => ({transactions: state.transactions}),

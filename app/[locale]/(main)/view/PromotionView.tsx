@@ -111,7 +111,7 @@ export function PromotionView() {
 						<div className='flex-1'>
 							<Input
 								label='平台推广链接'
-								value='https://agon.com/ref/user123'
+								value='https://NeuraFi.com/ref/user123'
 								readOnly
 								startContent={<Icon icon='mdi:link' className='w-4 h-4 text-default-400' />}
 								endContent={
@@ -431,7 +431,7 @@ function ProjectDetailModal({projectId}: {projectId: string}) {
 			<div>
 				<h4 className='font-semibold mb-3'>推广链接</h4>
 				<Input
-					value={`https://agon.com/project/${project.id}/ref/user123`}
+					value={`https://NeuraFi.com/project/${project.id}/ref/user123`}
 					readOnly
 					endContent={
 						<Button size='sm' variant='bordered' startContent={<Icon icon='mdi:content-copy' className='w-4 h-4' />}>

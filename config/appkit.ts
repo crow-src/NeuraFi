@@ -50,6 +50,6 @@ export const bitcoinAdapter = new BitcoinAdapter();
 export const metadata = {
 	name: 'MdaoTool',
 	description: 'MdaoTool - Multi-chain support (EVM + Solana + Bitcoin)',
-	url: 'https://Agon.to',
-	icons: ['https://Agon.to/favicon.png']
+	url: 'https://NeuraFi.to',
+	icons: ['https://NeuraFi.to/favicon.png']
 };

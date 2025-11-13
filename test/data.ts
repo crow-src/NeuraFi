@@ -1,7 +1,7 @@
 export const data = {
 	list: [
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -14,7 +14,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -29,7 +29,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -44,7 +44,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -58,7 +58,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -71,7 +71,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -86,7 +86,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -101,7 +101,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -115,7 +115,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -128,7 +128,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -143,7 +143,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -158,7 +158,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -172,7 +172,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -185,7 +185,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -200,7 +200,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -215,7 +215,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -229,7 +229,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -242,7 +242,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -257,7 +257,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -272,7 +272,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -286,7 +286,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -299,7 +299,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -314,7 +314,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -329,7 +329,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -343,7 +343,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 			type: 'BRC-20',
 			progress: 74,
@@ -356,7 +356,7 @@ export const data = {
 			status: 'Open'
 		},
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -371,7 +371,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -386,7 +386,7 @@ export const data = {
 		},
 
 		{
-			name: 'Agon',
+			name: 'NeuraFi',
 			symbol: 'CYM',
 
 			type: 'Runes',
@@ -744,7 +744,7 @@ export const test = [
 // export const products: ProductProps[] = [
 // 	{
 // 		id: 1,
-// 		name: 'Agon',
+// 		name: 'NeuraFi',
 // 		img: '/images/box/box-1.webp',
 // 		label: 'Buy',
 // 		type: 0,
@@ -763,7 +763,7 @@ export const test = [
 // 	},
 // 	{
 // 		id: 1,
-// 		name: 'Agon',
+// 		name: 'NeuraFi',
 // 		img: '/images/box/box-1.webp',
 // 		label: 'Buy',
 // 		type: 0,
@@ -787,15 +787,15 @@ export const erc314TokenList = [
 	{
 		id: 1,
 		chainID: 97,
-		name: 'Agon',
-		symbol: '🌟Agon🌟',
-		trading: 'Agon/BNB',
+		name: 'NeuraFi',
+		symbol: '🌟NeuraFi🌟',
+		trading: 'NeuraFi/BNB',
 		status: 'Coming',
 		icon: '/images/token/erc-20/wdmbo.png',
 		img: '/images/chain/bnb.png',
 		price: '0.032',
 		volume24hChange: '+00.00%',
-		slug: '97/Agon/0x0BB5FD209c486da5941e70D79b6C8e1402FDBC3F'
+		slug: '97/NeuraFi/0x0BB5FD209c486da5941e70D79b6C8e1402FDBC3F'
 	}
 ];
 
