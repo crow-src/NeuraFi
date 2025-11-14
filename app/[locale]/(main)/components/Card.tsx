@@ -92,12 +92,12 @@ const NFTCardBase: React.FC<NFTCardBaseProps> = ({nft, mode, className, noShadow
 
 	return (
 		<div className={cn('flex flex-col gap-4 p-4 transition-all duration-200 rounded-lg border border-divider/30 bg-background', noShadow ? '' : 'shadow-xl hover:shadow-2xl', className)}>
-			<div className={cn('relative w-full h-64 rounded-lg overflow-hidden bg-linear-to-br from-primary/20 to-secondary/20', onImageClick && 'cursor-pointer')} onClick={onImageClick}>
+			<div className={cn('relative w-full h-64 rounded-lg overflow-hidden', onImageClick && 'cursor-pointer')} onClick={onImageClick}>
 				<div className='absolute inset-0 z-0'>
-					<Image src={nft.image} alt={nft.name} className='w-full h-full object-cover transition-transform duration-300 hover:scale-105' fallbackSrc='/images/nft-placeholder.png' />
+					<Image src={nft.image} radius='md' alt={nft.name} className='w-full h-full object-cover transition-transform duration-300 hover:scale-105' fallbackSrc='/images/nft-placeholder.png' />
 				</div>
 
-				<div className='absolute bottom-4 left-2 right-2 z-20 backdrop-blur-lg bg-black/60 px-4 py-3 flex items-center gap-2 border-t border-white/10  rounded-lg'>
+				<div className='absolute bottom-2 left-2 right-2 z-20 backdrop-blur-lg bg-black/60 px-4 py-3 flex items-center gap-2 border-t border-white/10  rounded-lg'>
 					<Icon icon='token-branded:usdt' className='w-5 h-5 text-yellow-400' />
 					<span className='text-lg font-bold text-primary-foreground drop-shadow-lg'>
 						{nft.price} {nft.currency}
