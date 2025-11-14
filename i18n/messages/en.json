@@ -95,6 +95,107 @@
 			"v3": "NeuraFi Chat is coming soon"
 		}
 	},
+	"chat": {
+		"hero": {
+			"title": "NeuraFi AI Assistant",
+			"subtitle": "Smart insights · Multilingual · Real-time strategies",
+			"features": "Smart insights · Multilingual · Real-time strategies"
+		},
+		"status": {
+			"online": "ONLINE"
+		},
+		"buttons": {
+			"clear": "Clear",
+			"settings": "Settings",
+			"clear_all": "Clear all conversations",
+			"export": "Export chat history",
+			"close": "Close"
+		},
+		"sections": {
+			"categories": "Conversations",
+			"count": "{count} categories",
+			"none": "No categories found"
+		},
+		"search": {
+			"placeholder": "Search categories..."
+		},
+		"input": {
+			"placeholder": "Type your question...",
+			"hint": "Press Enter to send · Shift + Enter for new line",
+			"counter": "{count}/{max}"
+		},
+		"empty": {
+			"title": "Welcome to the NeuraFi AI Assistant",
+			"subtitle": "Ask me anything about trading, NFTs, wallet security or tech support."
+		},
+		"loading": "The AI is thinking about your question...",
+		"prompts": [
+			"What are the current trading fees?",
+			"Can you analyze the latest NFT market trend?",
+			"How can I improve wallet security?",
+			"How do I contact technical support?"
+		],
+		"input_template": "I'd like to learn about {category}.",
+		"categories": {
+			"general": {
+				"name": "General",
+				"description": "Common questions and onboarding help"
+			},
+			"trading": {
+				"name": "Trading",
+				"description": "Rules, strategies and risk management"
+			},
+			"nft": {
+				"name": "NFT Blind Boxes",
+				"description": "NFT purchasing, trading and redemption"
+			},
+			"wallet": {
+				"name": "Wallet Security",
+				"description": "Wallet usage tips and safety advice"
+			},
+			"technical": {
+				"name": "Tech Support",
+				"description": "Troubleshooting and platform issues"
+			}
+		},
+		"settings": {
+			"title": "AI Assistant Settings",
+			"categories": "Conversation categories",
+			"other": "Other actions"
+		},
+		"responses": {
+			"general": [
+				"Hi there! I'm the NeuraFi AI assistant. How can I help you today?",
+				"I see what you're asking—let me walk you through the details.",
+				"Great question! Based on what I know, here's my suggestion...",
+				"Thanks for reaching out. Here are a few ideas you can try."
+			],
+			"trading": [
+				"For trading topics, start by reviewing the basic rules and risk limits.",
+				"Watch market volatility closely and consider setting stop-loss orders.",
+				"Our trading handbook covers these scenarios in more detail.",
+				"Please make sure your identity verification is completed before trading."
+			],
+			"nft": [
+				"NeuraFi blind boxes are unique digital collectibles with different traits.",
+				"You can trade NFTs on the marketplace or redeem them for tokens.",
+				"Rarity drives most of the value—legendary NFTs usually command a premium.",
+				"Always verify the seller and the NFT metadata before purchasing."
+			],
+			"wallet": [
+				"Wallet security is critical—never share your private key.",
+				"For large balances, consider storing assets in a hardware wallet.",
+				"Back up your wallet regularly to avoid accidental loss.",
+				"Never disclose your seed phrase to anyone, including support staff."
+			],
+			"technical": [
+				"Tech issues are often browser or network related—try refreshing first.",
+				"Please clear your cache or try a private session to rule out extensions.",
+				"If the issue persists, contact our technical support team.",
+				"Make sure your browser and wallet extensions are fully up to date."
+			]
+		}
+	},
 	"common": {
 		"about": "About",
 		"action": "Action",
@@ -448,6 +549,63 @@
 		"sort_by_price": "By Latest Price",
 		"sort_field": "Sorting Field"
 	},
+	"ido": {
+		"hero_title": "NeuraFi IDO",
+		"hero_subtitle": "Yuanzhi whitelist fundraising system",
+		"notes": {
+			"title": "Important Notes",
+			"note1": "Every contribution must be approved in advance; unqualified orders incur a 2% penalty and the remaining funds are refunded.",
+			"note2": "Super and major community tiers require offline applications and manual review; direct purchases are invalid.",
+			"note3": "The community tier demands a valid referral code and basic identity verification before purchasing."
+		},
+		"buttons": {
+			"buy_now": "Buy Now",
+			"connect_wallet": "Connect Wallet"
+		},
+		"tiers": {
+			"super": {
+				"name": "Super Community",
+				"description": "Donate 5,000 USDT (manual review, refunded if requirements are not met).",
+				"benefits": "Benefits: minimum 5,000 USDT seed allocation (released over 10 months), 0.5% global fee share, V4 tier privileges.",
+				"requirements": {
+					"r1": "Lead a top-tier community of at least 1,000 members",
+					"r2": "Mandatory offline due diligence",
+					"r3": "Purchase allowed only after approval",
+					"r4": "Direct purchases are invalid"
+				}
+			},
+			"regional": {
+				"name": "Major Community",
+				"description": "Donate 1,000 USDT (manual review, refunded if requirements are not met).",
+				"benefits": "Benefits: 1,000 USDT seed allocation (released over 6 months), 0.5% global fee share, V3 tier privileges.",
+				"requirements": {
+					"r1": "Manage a community of at least 200 members",
+					"r2": "Must apply offline and pass review",
+					"r3": "Direct purchases are invalid"
+				}
+			},
+			"community": {
+				"name": "Community Tier",
+				"description": "Donate 200 USDT (requires a referral code; direct purchases are invalid).",
+				"benefits": "Benefits: 200 USDT allocation (released over 2 months), V2 tier privileges.",
+				"requirements": {
+					"r1": "Must provide a valid referral code",
+					"r2": "Basic identity verification is required before purchasing"
+				}
+			}
+		},
+		"fields": {
+			"donation": "Donation Amount",
+			"token_amount": "Seed Allocation",
+			"release_period": "Release Schedule",
+			"release_value": "{value} months",
+			"fee_share": "Fee Share",
+			"fee_value": "{value}%",
+			"limit": "Quota",
+			"limit_value": "{value} seats",
+			"requirements": "Purchase Requirements"
+		}
+	},
 	"bank": {
 		"accruing_time": "Interest Accrual Period",
 		"annual_yield": "Annualized Yield",
@@ -648,5 +806,259 @@
 		"user_level": "User Level",
 		"user_profile": "User Avatar",
 		"view_promotion_data": "View Promotion Data and User List"
+	},
+	"launch": {
+		"hero": {
+			"title": "Launch a New Project",
+			"subtitle": "Create your token project and raise funds through blind boxes"
+		},
+		"steps": {
+			"basic": {
+				"title": "Basic Info",
+				"description": "Project overview"
+			},
+			"token": {
+				"title": "Token Info",
+				"description": "Token issuance details"
+			},
+			"blindbox": {
+				"title": "Blind Box",
+				"description": "Reward configuration"
+			},
+			"funding": {
+				"title": "Funding Plan",
+				"description": "Capital planning"
+			},
+			"launch": {
+				"title": "Launch Settings",
+				"description": "Go-live configuration"
+			}
+		},
+		"buttons": {
+			"previous": "Previous",
+			"reset": "Reset",
+			"publish": "Publish Project",
+			"next": "Next"
+		},
+		"modal": {
+			"title": "Confirm Project Launch",
+			"heading": "Your project is ready to launch",
+			"description": "Please double-check every detail before publishing.",
+			"overview": "Project Overview",
+			"fields": {
+				"name": "Project Name",
+				"symbol": "Token Symbol",
+				"price": "Blind Box Price",
+				"target": "Funding Target"
+			},
+			"cancel": "Cancel",
+			"confirm": "Confirm Launch"
+		},
+		"basic": {
+			"title": "Project Basics",
+			"description": "Provide core information so investors can understand your vision.",
+			"fields": {
+				"name": {
+					"label": "Project Name",
+					"placeholder": "Enter project name"
+				},
+				"category": {
+					"label": "Project Category",
+					"placeholder": "Select a category",
+					"options": {
+						"defi": "DeFi",
+						"nft": "NFT",
+						"gaming": "Gaming",
+						"dao": "DAO",
+						"infrastructure": "Infrastructure",
+						"other": "Other"
+					}
+				},
+				"description": {
+					"label": "Project Description",
+					"placeholder": "Describe your vision, roadmap, and technical highlights."
+				},
+				"website": {
+					"label": "Website",
+					"placeholder": "https://example.com"
+				},
+				"twitter": {
+					"label": "Twitter",
+					"placeholder": "@username"
+				},
+				"discord": {
+					"label": "Discord",
+					"placeholder": "Discord invite link"
+				}
+			},
+			"logo": {
+				"title": "Project Logo",
+				"cta": "Click to upload a logo",
+				"note": "Supports PNG, JPG, SVG. Recommended size 200x200px."
+			}
+		},
+		"token": {
+			"title": "Token Information",
+			"description": "Configure the parameters for your token launch.",
+			"fields": {
+				"name": {
+					"label": "Token Name",
+					"placeholder": "e.g., MyToken"
+				},
+				"symbol": {
+					"label": "Token Symbol",
+					"placeholder": "e.g., MTK"
+				},
+				"totalSupply": {
+					"label": "Total Supply",
+					"placeholder": "1000000"
+				},
+				"decimals": {
+					"label": "Decimals",
+					"placeholder": "18"
+				},
+				"description": {
+					"label": "Token Description",
+					"placeholder": "Explain token utility, mechanics, and economics."
+				}
+			},
+			"info": {
+				"title": "Distribution Notes",
+				"content": "Tokens are distributed via blind-box rewards. Each rarity tier grants different allocations, and you can craft a vesting schedule to protect long-term value."
+			}
+		},
+		"blindbox": {
+			"title": "Blind Box Setup",
+			"description": "Define price, supply, and reward logic.",
+			"fields": {
+				"price": {
+					"label": "Blind Box Price (USD)",
+					"placeholder": "10"
+				},
+				"totalBoxes": {
+					"label": "Total Boxes",
+					"placeholder": "10000"
+				}
+			},
+			"rewards": {
+				"title": "Reward Configuration",
+				"card_title": "Reward #{index}",
+				"delete": "Delete",
+				"tier": {
+					"label": "Rarity"
+				},
+				"tiers": {
+					"common": "Common",
+					"rare": "Rare",
+					"epic": "Epic",
+					"legendary": "Legendary"
+				},
+				"fields": {
+					"probability": "Probability (%)",
+					"tokenAmount": "Token Amount",
+					"description": "Description"
+				},
+				"image": {
+					"label": "Reward Image",
+					"alt": "{tier} reward image",
+					"change": "Replace",
+					"remove": "Remove",
+					"cta": "Click to upload a reward image",
+					"note": "Supports PNG, JPG, SVG. Recommended size 200x200px."
+				},
+				"add": "Add Reward"
+			},
+			"notice": {
+				"title": "Probability Reminder",
+				"content": "Keep the total probability at or below 100%. Consider adding empty rewards (0%) to increase suspense."
+			}
+		},
+		"funding": {
+			"title": "Funding Plan",
+			"description": "Define targets and contribution limits.",
+			"fields": {
+				"target": {
+					"label": "Target Amount (USD)",
+					"placeholder": "1000000"
+				},
+				"minimum": {
+					"label": "Minimum Contribution (USD)",
+					"placeholder": "100"
+				},
+				"maximum": {
+					"label": "Maximum Contribution (USD)",
+					"placeholder": "10000"
+				}
+			},
+			"vesting": {
+				"label": "Token Vesting Period (months)",
+				"mark": "{value}m",
+				"current": "Current setting: {months} months ({detail})",
+				"detail_immediate": "Unlocks immediately",
+				"detail_delayed": "Unlocks after {months} months"
+			},
+			"schedule": {
+				"title": "Unlock Schedule",
+				"items": {
+					"immediate": {
+						"label": "Immediately",
+						"value": "20%"
+					},
+					"after3": {
+						"label": "After 3 months",
+						"value": "20%"
+					},
+					"after6": {
+						"label": "After 6 months",
+						"value": "20%"
+					},
+					"after12": {
+						"label": "After 12 months",
+						"value": "20%"
+					},
+					"after18": {
+						"label": "After 18 months",
+						"value": "20%"
+					}
+				}
+			},
+			"progress": {
+				"title": "Funding Progress",
+				"content": "Funds raised from blind-box purchases flow directly into the project pool. Once the target is reached, the launch starts automatically and tokens unlock according to the schedule."
+			}
+		},
+		"launchStep": {
+			"title": "Launch Settings",
+			"description": "Configure timing and participation requirements.",
+			"fields": {
+				"start": "Start Time",
+				"end": "End Time"
+			},
+			"requirements": {
+				"title": "Participation Requirements",
+				"whitelist": {
+					"title": "Whitelist Only",
+					"description": "Only whitelisted users can join the raise."
+				},
+				"kyc": {
+					"title": "KYC Verification",
+					"description": "Participants must pass identity checks."
+				}
+			},
+			"legal": {
+				"title": "Legal Terms",
+				"checkbox": "I agree to the following terms:",
+				"items": {
+					"truthful": "All project information is accurate and truthful.",
+					"compliance": "I comply with relevant regulations and accept responsibility.",
+					"token": "Token issuance meets regulatory requirements.",
+					"risk": "Investors assume their own risk; the team is not liable for losses."
+				}
+			},
+			"alert": {
+				"title": "Important Reminder",
+				"content": "All launch settings become immutable after publishing. Double-check every detail and ensure compliance with local laws."
+			}
+		}
 	}
 }

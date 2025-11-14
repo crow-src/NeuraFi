@@ -95,6 +95,107 @@
 			"v3": "NeuraFi Chat 即将上线"
 		}
 	},
+	"chat": {
+		"hero": {
+			"title": "NeuraFi AI助手",
+			"subtitle": "智能解答 · 多语言支持 · 实时策略建议",
+			"features": "智能解答 · 多语言支持 · 实时策略建议"
+		},
+		"status": {
+			"online": "ONLINE"
+		},
+		"buttons": {
+			"clear": "清空",
+			"settings": "设置",
+			"clear_all": "清空所有对话",
+			"export": "导出对话记录",
+			"close": "关闭"
+		},
+		"sections": {
+			"categories": "对话分类",
+			"count": "{count} 类",
+			"none": "未找到相关分类"
+		},
+		"search": {
+			"placeholder": "搜索分类..."
+		},
+		"input": {
+			"placeholder": "输入您的问题...",
+			"hint": "按 Enter 发送 · Shift + Enter 换行",
+			"counter": "{count}/{max}"
+		},
+		"empty": {
+			"title": "欢迎使用 NeuraFi AI 助手",
+			"subtitle": "我可以帮助你解决交易、NFT、钱包安全以及技术支持等场景问题"
+		},
+		"loading": "AI 正在思考你的问题...",
+		"prompts": [
+			"我想了解当前的交易手续费",
+			"帮我分析一下NFT市场趋势",
+			"如何提升钱包安全性？",
+			"技术支持联系方式是什么？"
+		],
+		"input_template": "我想了解{category}相关的问题",
+		"categories": {
+			"general": {
+				"name": "通用问题",
+				"description": "常见问题和一般性咨询"
+			},
+			"trading": {
+				"name": "交易相关",
+				"description": "交易规则、策略和风险管理"
+			},
+			"nft": {
+				"name": "NFT盲盒",
+				"description": "NFT购买、交易和兑换"
+			},
+			"wallet": {
+				"name": "钱包安全",
+				"description": "钱包使用和安全建议"
+			},
+			"technical": {
+				"name": "技术支持",
+				"description": "技术问题和故障排除"
+			}
+		},
+		"settings": {
+			"title": "AI助手设置",
+			"categories": "对话分类",
+			"other": "其他设置"
+		},
+		"responses": {
+			"general": [
+				"您好！我是NeuraFi的AI助手，很高兴为您服务。请问有什么可以帮助您的吗？",
+				"我了解您的问题。让我为您详细解答一下...",
+				"这是一个很好的问题！根据我的了解，建议您...",
+				"感谢您的咨询。我可以为您提供以下建议..."
+			],
+			"trading": [
+				"关于交易问题，我建议您先了解基本的交易规则和风险。",
+				"交易时请注意市场波动，建议设置止损点。",
+				"您可以查看我们的交易指南来了解更多详情。",
+				"交易前请确保您已经完成了身份验证。"
+			],
+			"nft": [
+				"NFT盲盒是数字收藏品的一种形式，每个盲盒都有独特的属性。",
+				"您可以在市场上交易您的NFT，或者将其兑换为代币。",
+				"NFT的稀有度决定了它的价值，传说级NFT通常更有价值。",
+				"购买NFT前请确认卖家的信誉和NFT的真实性。"
+			],
+			"wallet": [
+				"钱包安全非常重要，请务必保管好您的私钥。",
+				"建议使用硬件钱包来存储大额资产。",
+				"定期备份您的钱包，避免资产丢失。",
+				"不要向任何人透露您的私钥或助记词。"
+			],
+			"technical": [
+				"技术问题通常与网络连接或浏览器设置有关。",
+				"请尝试刷新页面或清除浏览器缓存。",
+				"如果问题持续存在，请联系我们的技术支持团队。",
+				"确保您的浏览器版本是最新的。"
+			]
+		}
+	},
 	"common": {
 		"about": "关于",
 		"action": "动作",
@@ -448,6 +549,64 @@
 		"sort_field": "排序字段"
 	},
 
+	"ido": {
+		"hero_title": "NeuraFi IDO",
+		"hero_subtitle": "元智项目白名单收币系统",
+		"notes": {
+			"title": "重要提示",
+			"note1": "购买前必须通过审核，未达条件的订单将扣除2%惩罚性手续费并原路退回。",
+			"note2": "超级社区与大社区需要线下申请并通过人工审核，直接购买无效。",
+			"note3": "小社区需持有有效推荐码并完成基础身份验证后才可购买。"
+		},
+		"buttons": {
+			"buy_now": "立即购买",
+			"connect_wallet": "连接钱包"
+		},
+		"tiers": {
+			"super": {
+				"name": "超级社区",
+				"description": "捐赠5000U（审核购买，未过条件原路退回）",
+				"benefits": "待遇：5000U最低原始筹码（分10个月释放），全球手续费0.5%分红，享V4级别。",
+				"requirements": {
+					"r1": "至少拥有1000人以上顶级大社区",
+					"r2": "必须线下考核沟通",
+					"r3": "仅限审核通过后购买",
+					"r4": "直接购买无效"
+				}
+			},
+			"regional": {
+				"name": "大社区",
+				"description": "捐赠1000U（审核购买，未过条件原路退回）",
+				"benefits": "待遇：1000U原始筹码（分6个月释放），全球手续费0.5%分红，享V3级别。",
+				"requirements": {
+					"r1": "至少200人以上的社区负责人",
+					"r2": "需线下申请并通过审核",
+					"r3": "直接购买无效"
+				}
+			},
+			"community": {
+				"name": "小社区",
+				"description": "捐赠200U（需要推荐码才能购买，直接购买无效）",
+				"benefits": "待遇：200U筹码（分2个月释放），享受V2级别。",
+				"requirements": {
+					"r1": "必须持有有效推荐码",
+					"r2": "需完成基础身份验证后方可购买"
+				}
+			}
+		},
+		"fields": {
+			"donation": "捐赠金额",
+			"token_amount": "获得筹码",
+			"release_period": "释放周期",
+			"release_value": "{value} 个月",
+			"fee_share": "手续费",
+			"fee_value": "{value}%",
+			"limit": "限额",
+			"limit_value": "{value} 名",
+			"requirements": "购买要求"
+		}
+	},
+
 	"bank": {
 		"accruing_time": "计息时间",
 		"annual_yield": "年化收益率",
@@ -648,5 +807,259 @@
 		"user_level": "用户等级",
 		"user_profile": "用户头像",
 		"view_promotion_data": "查看推广数据和用户列表"
+	},
+	"launch": {
+		"hero": {
+			"title": "发布新项目",
+			"subtitle": "创建您的代币项目并通过盲盒进行募资"
+		},
+		"steps": {
+			"basic": {
+				"title": "基本信息",
+				"description": "项目基础信息"
+			},
+			"token": {
+				"title": "代币信息",
+				"description": "代币发行详情"
+			},
+			"blindbox": {
+				"title": "盲盒设置",
+				"description": "盲盒奖励配置"
+			},
+			"funding": {
+				"title": "募资计划",
+				"description": "资金募集设置"
+			},
+			"launch": {
+				"title": "发布设置",
+				"description": "上线时间配置"
+			}
+		},
+		"buttons": {
+			"previous": "上一步",
+			"reset": "重置",
+			"publish": "发布项目",
+			"next": "下一步"
+		},
+		"modal": {
+			"title": "确认发布项目",
+			"heading": "项目即将发布",
+			"description": "请确认所有信息无误后再发布您的项目",
+			"overview": "项目概览",
+			"fields": {
+				"name": "项目名称",
+				"symbol": "代币符号",
+				"price": "盲盒价格",
+				"target": "目标金额"
+			},
+			"cancel": "取消",
+			"confirm": "确认发布"
+		},
+		"basic": {
+			"title": "项目基本信息",
+			"description": "填写项目的基础信息，让投资者了解您的项目",
+			"fields": {
+				"name": {
+					"label": "项目名称",
+					"placeholder": "输入项目名称"
+				},
+				"category": {
+					"label": "项目分类",
+					"placeholder": "选择项目分类",
+					"options": {
+						"defi": "DeFi",
+						"nft": "NFT",
+						"gaming": "游戏",
+						"dao": "DAO",
+						"infrastructure": "基础设施",
+						"other": "其他"
+					}
+				},
+				"description": {
+					"label": "项目描述",
+					"placeholder": "详细描述您的项目，包括愿景、目标、技术特点等"
+				},
+				"website": {
+					"label": "官方网站",
+					"placeholder": "https://example.com"
+				},
+				"twitter": {
+					"label": "Twitter",
+					"placeholder": "@username"
+				},
+				"discord": {
+					"label": "Discord",
+					"placeholder": "Discord 邀请链接"
+				}
+			},
+			"logo": {
+				"title": "项目 Logo",
+				"cta": "点击上传项目 Logo",
+				"note": "支持 PNG, JPG, SVG 格式，建议尺寸 200x200px"
+			}
+		},
+		"token": {
+			"title": "代币信息",
+			"description": "配置您的代币发行参数",
+			"fields": {
+				"name": {
+					"label": "代币名称",
+					"placeholder": "例如：MyToken"
+				},
+				"symbol": {
+					"label": "代币符号",
+					"placeholder": "例如：MTK"
+				},
+				"totalSupply": {
+					"label": "总供应量",
+					"placeholder": "1000000"
+				},
+				"decimals": {
+					"label": "小数位数",
+					"placeholder": "18"
+				},
+				"description": {
+					"label": "代币描述",
+					"placeholder": "描述代币的用途、功能和经济模型"
+				}
+			},
+			"info": {
+				"title": "代币分配说明",
+				"content": "代币将通过盲盒奖励的形式分发给投资者。不同稀有度的盲盒将获得不同数量的代币。项目方可以设置代币的解锁时间表，确保项目的长期发展。"
+			}
+		},
+		"blindbox": {
+			"title": "盲盒设置",
+			"description": "配置盲盒的价格、数量和奖励机制",
+			"fields": {
+				"price": {
+					"label": "盲盒价格 (USD)",
+					"placeholder": "10"
+				},
+				"totalBoxes": {
+					"label": "盲盒总数量",
+					"placeholder": "10000"
+				}
+			},
+			"rewards": {
+				"title": "奖励配置",
+				"card_title": "奖励 #{index}",
+				"delete": "删除",
+				"tier": {
+					"label": "稀有度"
+				},
+				"tiers": {
+					"common": "普通",
+					"rare": "稀有",
+					"epic": "史诗",
+					"legendary": "传说"
+				},
+				"fields": {
+					"probability": "概率 (%)",
+					"tokenAmount": "代币数量",
+					"description": "描述"
+				},
+				"image": {
+					"label": "奖励图片",
+					"alt": "{tier} 奖励图片",
+					"change": "更换",
+					"remove": "移除",
+					"cta": "点击上传奖励图片",
+					"note": "支持 PNG, JPG, SVG 格式，建议尺寸 200x200px"
+				},
+				"add": "添加奖励"
+			},
+			"notice": {
+				"title": "概率设置提醒",
+				"content": "请确保所有奖励的概率总和不超过100%。建议设置一些空奖（概率为0）来增加开盒的趣味性。"
+			}
+		},
+		"funding": {
+			"title": "募资计划",
+			"description": "设置资金募集的目标和限制",
+			"fields": {
+				"target": {
+					"label": "目标金额 (USD)",
+					"placeholder": "1000000"
+				},
+				"minimum": {
+					"label": "最小投资额 (USD)",
+					"placeholder": "100"
+				},
+				"maximum": {
+					"label": "最大投资额 (USD)",
+					"placeholder": "10000"
+				}
+			},
+			"vesting": {
+				"label": "代币解锁周期 (月)",
+				"mark": "{value}月",
+				"current": "当前设置: {months} 个月 ({detail})",
+				"detail_immediate": "立即解锁",
+				"detail_delayed": "{months}个月后开始解锁"
+			},
+			"schedule": {
+				"title": "解锁时间表",
+				"items": {
+					"immediate": {
+						"label": "立即解锁",
+						"value": "20%"
+					},
+					"after3": {
+						"label": "3个月后",
+						"value": "20%"
+					},
+					"after6": {
+						"label": "6个月后",
+						"value": "20%"
+					},
+					"after12": {
+						"label": "12个月后",
+						"value": "20%"
+					},
+					"after18": {
+						"label": "18个月后",
+						"value": "20%"
+					}
+				}
+			},
+			"progress": {
+				"title": "募资进度",
+				"content": "投资者购买盲盒的资金将直接进入项目资金池。当达到目标金额时，项目将自动启动，代币将按照设定的时间表逐步解锁给投资者。"
+			}
+		},
+		"launchStep": {
+			"title": "发布设置",
+			"description": "配置项目的发布时间和相关要求",
+			"fields": {
+				"start": "开始时间",
+				"end": "结束时间"
+			},
+			"requirements": {
+				"title": "参与要求",
+				"whitelist": {
+					"title": "白名单要求",
+					"description": "只有白名单用户才能参与募资"
+				},
+				"kyc": {
+					"title": "KYC 认证",
+					"description": "参与者需要通过身份认证"
+				}
+			},
+			"legal": {
+				"title": "法律条款",
+				"checkbox": "我同意以下条款：",
+				"items": {
+					"truthful": "项目信息真实有效，不存在虚假宣传",
+					"compliance": "遵守相关法律法规，承担相应责任",
+					"token": "代币发行符合监管要求",
+					"risk": "投资者风险自担，项目方不承担投资损失"
+				}
+			},
+			"alert": {
+				"title": "重要提醒",
+				"content": "项目发布后，所有设置将无法修改。请仔细检查所有信息确保准确无误。代币发行涉及法律风险，请确保符合当地监管要求。"
+			}
+		}
 	}
 }

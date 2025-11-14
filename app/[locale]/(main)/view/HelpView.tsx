@@ -1,16 +1,87 @@
 'use client';
+
 import React, {useState, useEffect, useRef} from 'react';
-import {Button, Input, Card, CardBody, CardHeader, Avatar, Chip, Divider, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Textarea} from '@heroui/react';
+import Image from 'next/image';
+import {Button, Input, Card, CardBody, Avatar, Chip, Divider, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Textarea} from '@heroui/react';
 import {Icon} from '@iconify/react';
+import {useTranslations} from 'next-intl';
+
+const LOGO_SRC = '/favicon-256x256.png';
+type CategoryColor = 'primary' | 'success' | 'warning' | 'danger' | 'secondary';
+
+const CATEGORY_STYLES: Record<CategoryColor, {icon: string; text: string; card: string; ring: string}> = {
+	primary: {icon: 'bg-primary/15 text-primary', text: 'text-primary', card: 'hover:border-primary/40', ring: 'ring-primary/30'},
+	success: {icon: 'bg-success/15 text-success', text: 'text-success', card: 'hover:border-success/40', ring: 'ring-success/30'},
+	warning: {icon: 'bg-warning/15 text-warning', text: 'text-warning', card: 'hover:border-warning/40', ring: 'ring-warning/30'},
+	danger: {icon: 'bg-danger/15 text-danger', text: 'text-danger', card: 'hover:border-danger/40', ring: 'ring-danger/30'},
+	secondary: {icon: 'bg-secondary/15 text-secondary', text: 'text-secondary', card: 'hover:border-secondary/40', ring: 'ring-secondary/30'}
+};
+
+interface ConversationCategory {
+	id: 'general' | 'trading' | 'nft' | 'wallet' | 'technical';
+	icon: string;
+	color: CategoryColor;
+	accent: string;
+}
+
+interface Message {
+	id: string;
+	content: string;
+	isUser: boolean;
+	timestamp: Date;
+}
 
 // ===== AI对话页面 =====
 export function HelpView() {
+	const t = useTranslations('chat');
 	const [selectedConversation, setSelectedConversation] = useState<string>('general');
+	const [categoryQuery, setCategoryQuery] = useState('');
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [inputValue, setInputValue] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const {isOpen, onOpen, onClose} = useDisclosure();
+
+	const quickPrompts = (t.raw('prompts') as string[]) ?? [];
+
+	const conversationCategories: ConversationCategory[] = [
+		{
+			id: 'general',
+			icon: 'mdi:help-circle',
+			color: 'primary',
+			accent: 'from-primary/15 via-primary/5 to-transparent'
+		},
+		{
+			id: 'trading',
+			icon: 'mdi:chart-line',
+			color: 'success',
+			accent: 'from-success/15 via-success/5 to-transparent'
+		},
+		{
+			id: 'nft',
+			icon: 'mdi:package-variant',
+			color: 'warning',
+			accent: 'from-warning/20 via-warning/5 to-transparent'
+		},
+		{
+			id: 'wallet',
+			icon: 'mdi:shield-check',
+			color: 'danger',
+			accent: 'from-danger/15 via-danger/5 to-transparent'
+		},
+		{
+			id: 'technical',
+			icon: 'mdi:cog',
+			color: 'secondary',
+			accent: 'from-secondary/20 via-secondary/5 to-transparent'
+		}
+	];
+
+	const getCategoryName = (id: ConversationCategory['id']) => t(`categories.${id}.name`);
+	const getCategoryDescription = (id: ConversationCategory['id']) => t(`categories.${id}.description`);
+
+	const filteredCategories = conversationCategories.filter(cat => (getCategoryName(cat.id) + getCategoryDescription(cat.id)).toLowerCase().includes(categoryQuery.toLowerCase()));
+	const activeCategory = conversationCategories.find(cat => cat.id === selectedConversation);
 
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
@@ -34,7 +105,6 @@ export function HelpView() {
 		setInputValue('');
 		setIsLoading(true);
 
-		// 模拟AI回复
 		setTimeout(() => {
 			const aiResponse: Message = {
 				id: (Date.now() + 1).toString(),
@@ -48,16 +118,10 @@ export function HelpView() {
 	};
 
 	const generateAIResponse = (userMessage: string, category: string) => {
-		const responses = {
-			general: ['您好！我是NeuraFi的AI助手，很高兴为您服务。请问有什么可以帮助您的吗？', '我了解您的问题。让我为您详细解答一下...', '这是一个很好的问题！根据我的了解，建议您...', '感谢您的咨询。我可以为您提供以下建议...'],
-			trading: ['关于交易问题，我建议您先了解基本的交易规则和风险。', '交易时请注意市场波动，建议设置止损点。', '您可以查看我们的交易指南来了解更多详情。', '交易前请确保您已经完成了身份验证。'],
-			nft: ['NFT盲盒是数字收藏品的一种形式，每个盲盒都有独特的属性。', '您可以在市场上交易您的NFT，或者将其兑换为代币。', 'NFT的稀有度决定了它的价值，传说级NFT通常更有价值。', '购买NFT前请确认卖家的信誉和NFT的真实性。'],
-			wallet: ['钱包安全非常重要，请务必保管好您的私钥。', '建议使用硬件钱包来存储大额资产。', '定期备份您的钱包，避免资产丢失。', '不要向任何人透露您的私钥或助记词。'],
-			technical: ['技术问题通常与网络连接或浏览器设置有关。', '请尝试刷新页面或清除浏览器缓存。', '如果问题持续存在，请联系我们的技术支持团队。', '确保您的浏览器版本是最新的。']
-		};
-
-		const categoryResponses = responses[category as keyof typeof responses] || responses.general;
-		return categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+		const categoryResponses = (t.raw(`responses.${category}`) as string[]) ?? [];
+		const fallbackResponses = (t.raw('responses.general') as string[]) ?? [];
+		const pool = categoryResponses.length > 0 ? categoryResponses : fallbackResponses;
+		return pool[Math.floor(Math.random() * pool.length)];
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -71,164 +135,173 @@ export function HelpView() {
 		setMessages([]);
 	};
 
-	const conversationCategories = [
-		{
-			id: 'general',
-			name: '通用问题',
-			icon: 'mdi:help-circle',
-			description: '常见问题和一般性咨询',
-			color: 'primary'
-		},
-		{
-			id: 'trading',
-			name: '交易相关',
-			icon: 'mdi:chart-line',
-			description: '交易规则、策略和风险管理',
-			color: 'success'
-		},
-		{
-			id: 'nft',
-			name: 'NFT盲盒',
-			icon: 'mdi:package-variant',
-			description: 'NFT购买、交易和兑换',
-			color: 'warning'
-		},
-		{
-			id: 'wallet',
-			name: '钱包安全',
-			icon: 'mdi:shield-check',
-			description: '钱包使用和安全建议',
-			color: 'danger'
-		},
-		{
-			id: 'technical',
-			name: '技术支持',
-			icon: 'mdi:cog',
-			description: '技术问题和故障排除',
-			color: 'secondary'
-		}
-	];
+	const handleQuickPrompt = (prompt: string) => {
+		setInputValue(prompt);
+	};
 
 	return (
-		<div className='h-screen w-full flex flex-col lg:flex-row'>
-			{/* 主对话区域 */}
-			<div className='flex-1 flex flex-col h-full min-h-0'>
-				{/* 对话头部 */}
-				<div className='flex items-center justify-between p-4 border-b border-default-200 shrink-0'>
-					<div className='flex items-center gap-3'>
-						<div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center'>
-							<Icon icon='mdi:robot' className='w-6 h-6 text-primary-foreground' />
-						</div>
-						<div>
-							<h2 className='text-lg font-semibold'>NeuraFi AI助手</h2>
-							<p className='text-sm text-primary-foreground'>{conversationCategories.find(cat => cat.id === selectedConversation)?.name}</p>
-						</div>
-					</div>
-					<div className='flex items-center gap-2'>
-						<Button variant='ghost' size='sm' onPress={clearConversation} startContent={<Icon icon='mdi:delete-sweep' className='w-4 h-4' />}>
-							清空对话
-						</Button>
-						<Button variant='ghost' size='sm' onPress={onOpen} startContent={<Icon icon='mdi:cog' className='w-4 h-4' />}>
-							设置
-						</Button>
-					</div>
-				</div>
-
-				{/* 消息区域 */}
-				<div className='flex-1 overflow-y-auto p-4 space-y-4 min-h-0'>
-					{messages.length === 0 ? (
-						<div className='flex items-center justify-center h-full'>
-							<div className='text-center'>
-								<div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4'>
-									<Icon icon='mdi:robot' className='w-8 h-8 text-primary-foreground' />
-								</div>
-								<h3 className='text-lg font-semibold mb-2'>欢迎使用NeuraFi AI助手</h3>
-								<p className='text-primary-foreground mb-4'>我可以帮助您解答关于交易、NFT、钱包等各种问题</p>
-								<div className='flex flex-wrap gap-2 justify-center'>
-									{conversationCategories.slice(0, 3).map(category => (
-										<Button
-											key={category.id}
-											variant='bordered'
-											size='sm'
-											onPress={() => {
-												setSelectedConversation(category.id);
-												setInputValue(`我想了解${category.name}相关的问题`);
-											}}
-											startContent={<Icon icon={category.icon} className='w-4 h-4' />}>
-											{category.name}
-										</Button>
-									))}
-								</div>
-							</div>
-						</div>
-					) : (
-						messages.map(message => <MessageBubble key={message.id} message={message} />)
-					)}
-					{isLoading && (
-						<div className='flex items-start gap-3'>
-							<Avatar icon={<Icon icon='mdi:robot' className='w-5 h-5' />} className='bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground' size='sm' />
-							<div className='bg-default-100 rounded-lg p-3 max-w-[70%]'>
-								<div className='flex items-center gap-2'>
-									<div className='flex gap-1'>
-										<div className='w-2 h-2 bg-default-400 rounded-full animate-bounce'></div>
-										<div className='w-2 h-2 bg-default-400 rounded-full animate-bounce' style={{animationDelay: '0.1s'}}></div>
-										<div className='w-2 h-2 bg-default-400 rounded-full animate-bounce' style={{animationDelay: '0.2s'}}></div>
-									</div>
-									<span className='text-sm text-primary-foreground'>AI正在思考...</span>
-								</div>
-							</div>
-						</div>
-					)}
-					<div ref={messagesEndRef} />
-				</div>
-
-				{/* 输入区域 */}
-				<div className='border-t border-default-200 p-4 shrink-0'>
-					<div className='flex gap-2'>
-						<Textarea placeholder='输入您的问题...' value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyPress} className='flex-1' minRows={1} maxRows={4} disabled={isLoading} />
-						<Button color='primary' onPress={handleSendMessage} disabled={!inputValue.trim() || isLoading} isLoading={isLoading} className='px-6'>
-							{!isLoading && <Icon icon='mdi:send' className='w-4 h-4' />}
-						</Button>
-					</div>
-					<div className='flex items-center justify-between mt-2 text-xs text-primary-foreground'>
-						<span>按 Enter 发送，Shift + Enter 换行</span>
-						<span>{inputValue.length}/1000</span>
-					</div>
-				</div>
+		<div className='relative flex h-screen w-full flex-col overflow-hidden bg-linear-to-br from-background via-background/80 to-default-100/40'>
+			<div className='pointer-events-none absolute inset-0 opacity-70'>
+				<div className='absolute -top-32 -right-10 h-80 w-80 rounded-full bg-primary/10 blur-[140px]' />
+				<div className='absolute bottom-0 left-10 h-80 w-80 rounded-full bg-secondary/10 blur-[130px]' />
 			</div>
 
-			{/* 对话分类侧边栏 - 大屏幕显示 */}
-			<div className='hidden lg:block w-80 border-l border-default-200 bg-default-50 shrink-0'>
-				<div className='p-4'>
-					<h3 className='text-lg font-semibold mb-4'>对话分类</h3>
-					<div className='space-y-2'>
-						{conversationCategories.map(category => (
-							<Card key={category.id} className={`cursor-pointer transition-all ${selectedConversation === category.id ? 'ring-2 ring-primary bg-primary-50' : 'hover:bg-default-100'}`} onPress={() => setSelectedConversation(category.id)}>
-								<CardBody className='p-3'>
+			<div className='relative z-10 flex h-full w-full flex-col gap-4 px-4 py-4 lg:flex-row'>
+				<div className='flex min-h-0 flex-1 flex-col rounded-2xl border border-default-200/70 bg-background/80 shadow-xl backdrop-blur'>
+					<div className='rounded-t-2xl border-b border-default-200/60 bg-background/70 px-6 py-4 backdrop-blur'>
+						<div className='flex items-center justify-between'>
+							<div className='flex items-center gap-4'>
+								<div className='relative h-14 w-14'>
+									<div className='absolute inset-0 rounded-2xl bg-linear-to-br from-primary/30 to-secondary/20 blur-lg' />
+									<div className='relative h-full w-full rounded-2xl border border-primary/30 bg-content1/60 p-2'>
+										<Image src={LOGO_SRC} alt='NeuraFi Logo' fill sizes='56px' className='rounded-xl object-contain' />
+									</div>
+								</div>
+								<div>
 									<div className='flex items-center gap-3'>
-										<div className={`w-10 h-10 rounded-full flex items-center justify-center bg-${category.color}-100`}>
-											<Icon icon={category.icon} className={`w-5 h-5 text-${category.color}`} />
-										</div>
-										<div className='flex-1'>
-											<h4 className='font-medium'>{category.name}</h4>
-											<p className='text-sm text-primary-foreground'>{category.description}</p>
-										</div>
+										<h2 className='text-xl font-semibold tracking-tight'>{t('hero.title')}</h2>
+										<Chip size='sm' color='success' variant='flat'>
+											{t('status.online')}
+										</Chip>
+										<Chip size='sm' variant='bordered' color='primary'>
+											{activeCategory ? getCategoryName(activeCategory.id) : t('categories.general.name')}
+										</Chip>
 									</div>
-								</CardBody>
-							</Card>
-						))}
+									<p className='text-sm text-primary-foreground'>{t('hero.features')}</p>
+								</div>
+							</div>
+							<div className='flex items-center gap-2'>
+								<Button variant='flat' size='sm' onPress={clearConversation} startContent={<Icon icon='mdi:refresh' className='w-4 h-4' />}>
+									{t('buttons.clear')}
+								</Button>
+								<Button variant='light' size='sm' onPress={onOpen} startContent={<Icon icon='mdi:tune' className='w-4 h-4' />}>
+									{t('buttons.settings')}
+								</Button>
+							</div>
+						</div>
+					</div>
+
+					<div className='custom-scrollbar flex-1 min-h-0 space-y-4 overflow-y-auto px-6 py-6'>
+						{messages.length === 0 ? (
+							<div className='flex h-full items-center justify-center'>
+								<Card className='max-w-xl border border-default-200/60 bg-content1/80 p-6 text-center shadow-lg backdrop-blur'>
+									<CardBody className='space-y-4'>
+										<div className='mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-lg'>
+											<Icon icon='mdi:robot-excited' className='h-8 w-8' />
+										</div>
+										<div>
+											<h3 className='mb-1 text-xl font-semibold'>{t('empty.title')}</h3>
+											<p className='text-sm text-primary-foreground/80'>{t('empty.subtitle')}</p>
+										</div>
+										<div className='flex flex-wrap justify-center gap-2'>
+											{conversationCategories.slice(0, 3).map(category => (
+												<Button
+													key={category.id}
+													variant='bordered'
+													size='sm'
+													onPress={() => {
+														setSelectedConversation(category.id);
+														const categoryName = getCategoryName(category.id);
+														setInputValue(t('input_template', {category: categoryName}));
+													}}
+													startContent={<Icon icon={category.icon} className='w-4 h-4' />}>
+													{getCategoryName(category.id)}
+												</Button>
+											))}
+										</div>
+									</CardBody>
+								</Card>
+							</div>
+						) : (
+							messages.map(message => <MessageBubble key={message.id} message={message} />)
+						)}
+
+						{isLoading && (
+							<div className='flex items-start gap-3'>
+								<Avatar icon={<Icon icon='mdi:robot' className='w-5 h-5' />} className='bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-lg' size='sm' />
+								<div className='max-w-[70%] rounded-2xl bg-content1/80 px-4 py-3 shadow-inner'>
+									<div className='flex items-center gap-3 text-sm text-primary-foreground'>
+										<span className='flex gap-1'>
+											<span className='h-2 w-2 animate-bounce rounded-full bg-primary' />
+											<span className='h-2 w-2 animate-bounce rounded-full bg-primary' style={{animationDelay: '0.1s'}} />
+											<span className='h-2 w-2 animate-bounce rounded-full bg-primary' style={{animationDelay: '0.2s'}} />
+										</span>
+										{t('loading')}
+									</div>
+								</div>
+							</div>
+						)}
+						<div ref={messagesEndRef} />
+					</div>
+
+					<div className='rounded-b-2xl border-t border-default-200/60 bg-background/80 px-6 py-4 backdrop-blur'>
+						<div className='mb-3 flex flex-wrap gap-2'>
+							{quickPrompts.map(prompt => (
+								<Chip key={prompt} size='sm' variant='flat' className='cursor-pointer' onClick={() => handleQuickPrompt(prompt)}>
+									{prompt}
+								</Chip>
+							))}
+						</div>
+						<Card className='border border-default-200/70 bg-content1/80 shadow-lg backdrop-blur'>
+							<CardBody className='space-y-3'>
+								<div className='flex gap-2'>
+									<Textarea placeholder={t('input.placeholder')} value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyPress} className='flex-1' minRows={1} maxRows={4} disabled={isLoading} />
+									<Button color='primary' onPress={handleSendMessage} disabled={!inputValue.trim() || isLoading} isLoading={isLoading} className='px-6'>
+										{!isLoading && <Icon icon='mdi:send' className='w-4 h-4' />}
+									</Button>
+								</div>
+								<div className='flex items-center justify-between text-xs text-primary-foreground/80'>
+									<span>{t('input.hint')}</span>
+									<span>{t('input.counter', {count: inputValue.length, max: 1000})}</span>
+								</div>
+							</CardBody>
+						</Card>
+					</div>
+				</div>
+
+				<div className='hidden w-80 shrink-0 flex-col rounded-2xl border border-default-200/70 bg-background/80 px-4 py-6 shadow-xl backdrop-blur lg:flex'>
+					<div className='mb-4 flex items-center justify-between'>
+						<h3 className='text-lg font-semibold'>{t('sections.categories')}</h3>
+						<Chip size='sm' variant='flat'>
+							{t('sections.count', {count: conversationCategories.length})}
+						</Chip>
+					</div>
+					<Input size='sm' placeholder={t('search.placeholder')} value={categoryQuery} onChange={e => setCategoryQuery(e.target.value)} startContent={<Icon icon='mdi:magnify' className='h-4 w-4 text-default-400' />} className='mb-4' />
+					<div className='custom-scrollbar space-y-3 overflow-y-auto pr-1'>
+						{filteredCategories.map(category => {
+							const styles = CATEGORY_STYLES[category.color];
+							const active = selectedConversation === category.id;
+							return (
+								<Card key={category.id} className={`cursor-pointer border border-default-200/60 bg-content1/70 transition-all duration-200 ${styles.card} ${active ? `ring-2 ${styles.ring} shadow-lg` : ''}`} onPress={() => setSelectedConversation(category.id)}>
+									<CardBody className='p-3'>
+										<div className='flex items-center gap-3'>
+											<div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${styles.icon}`}>
+												<Icon icon={category.icon} className='h-5 w-5' />
+											</div>
+											<div className='flex-1'>
+												<div className='flex items-center justify-between'>
+													<h4 className='font-medium'>{getCategoryName(category.id)}</h4>
+													<Icon icon='mdi:chevron-right' className={`h-4 w-4 ${styles.text}`} />
+												</div>
+												<p className='text-xs text-primary-foreground'>{getCategoryDescription(category.id)}</p>
+											</div>
+										</div>
+									</CardBody>
+								</Card>
+							);
+						})}
+						{filteredCategories.length === 0 && <p className='text-center text-sm text-primary-foreground/70'>{t('sections.none')}</p>}
 					</div>
 				</div>
 			</div>
 
-			{/* 设置弹窗 */}
 			<Modal isOpen={isOpen} onClose={onClose} size='md'>
 				<ModalContent>
-					<ModalHeader>AI助手设置</ModalHeader>
+					<ModalHeader>{t('settings.title')}</ModalHeader>
 					<ModalBody>
 						<div className='space-y-4'>
 							<div>
-								<h4 className='font-semibold mb-2'>对话分类</h4>
+								<h4 className='font-semibold mb-2'>{t('settings.categories')}</h4>
 								<div className='grid grid-cols-1 gap-2'>
 									{conversationCategories.map(category => (
 										<Button
@@ -242,20 +315,20 @@ export function HelpView() {
 											}}
 											startContent={<Icon icon={category.icon} className='w-4 h-4' />}
 											className='justify-start'>
-											{category.name}
+											{getCategoryName(category.id)}
 										</Button>
 									))}
 								</div>
 							</div>
 							<Divider />
 							<div>
-								<h4 className='font-semibold mb-2'>其他设置</h4>
+								<h4 className='font-semibold mb-2'>{t('settings.other')}</h4>
 								<div className='space-y-2'>
 									<Button variant='bordered' size='sm' onPress={clearConversation} startContent={<Icon icon='mdi:delete-sweep' className='w-4 h-4' />} className='w-full justify-start'>
-										清空所有对话
+										{t('buttons.clear_all')}
 									</Button>
 									<Button variant='bordered' size='sm' startContent={<Icon icon='mdi:download' className='w-4 h-4' />} className='w-full justify-start'>
-										导出对话记录
+										{t('buttons.export')}
 									</Button>
 								</div>
 							</div>
@@ -263,7 +336,7 @@ export function HelpView() {
 					</ModalBody>
 					<ModalFooter>
 						<Button variant='ghost' onPress={onClose}>
-							关闭
+							{t('buttons.close')}
 						</Button>
 					</ModalFooter>
 				</ModalContent>
@@ -272,25 +345,18 @@ export function HelpView() {
 	);
 }
 
-// 消息气泡组件
 function MessageBubble({message}: {message: Message}) {
+	const timeString = message.timestamp.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+
 	return (
 		<div className={`flex items-start gap-3 ${message.isUser ? 'flex-row-reverse' : ''}`}>
-			<Avatar icon={message.isUser ? <Icon icon='mdi:account' className='w-5 h-5' /> : <Icon icon='mdi:robot' className='w-5 h-5' />} className={message.isUser ? 'bg-primary text-primary-foreground' : 'bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground'} size='sm' />
+			<Avatar icon={message.isUser ? <Icon icon='mdi:account-circle' className='w-5 h-5' /> : <Icon icon='mdi:robot' className='w-5 h-5' />} className={message.isUser ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-lg'} size='sm' />
 			<div className={`max-w-[70%] ${message.isUser ? 'flex flex-col items-end' : ''}`}>
-				<div className={`rounded-lg p-3 ${message.isUser ? 'bg-primary text-primary-foreground' : 'bg-default-100 text-primary-foreground'}`}>
-					<p className='text-sm whitespace-pre-wrap'>{message.content}</p>
+				<div className={`rounded-2xl px-4 py-3 shadow-sm ${message.isUser ? 'bg-primary text-primary-foreground' : 'bg-content1/80 text-primary-foreground'}`}>
+					<p className='whitespace-pre-wrap text-sm leading-relaxed'>{message.content}</p>
 				</div>
-				<span className='text-xs text-primary-foreground mt-1'>{message.timestamp.toLocaleTimeString()}</span>
+				<span className='mt-1 text-xs text-primary-foreground/70'>{timeString}</span>
 			</div>
 		</div>
 	);
-}
-
-// 类型定义
-interface Message {
-	id: string;
-	content: string;
-	isUser: boolean;
-	timestamp: Date;
 }

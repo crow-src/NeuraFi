@@ -95,6 +95,107 @@
 			"v3": "NeuraFi Chat がまもなくリリースされます"
 		}
 	},
+	"chat": {
+		"hero": {
+			"title": "NeuraFi AIアシスタント",
+			"subtitle": "スマートな洞察・多言語対応・リアルタイム戦略",
+			"features": "スマートな洞察・多言語対応・リアルタイム戦略"
+		},
+		"status": {
+			"online": "ONLINE"
+		},
+		"buttons": {
+			"clear": "クリア",
+			"settings": "設定",
+			"clear_all": "すべての会話を削除",
+			"export": "会話履歴をエクスポート",
+			"close": "閉じる"
+		},
+		"sections": {
+			"categories": "カテゴリ",
+			"count": "{count} 件",
+			"none": "該当するカテゴリがありません"
+		},
+		"search": {
+			"placeholder": "カテゴリを検索..."
+		},
+		"input": {
+			"placeholder": "質問内容を入力してください...",
+			"hint": "Enterで送信 · Shift + Enterで改行",
+			"counter": "{count}/{max}"
+		},
+		"empty": {
+			"title": "NeuraFi AIアシスタントへようこそ",
+			"subtitle": "トレード、NFT、ウォレットセキュリティ、技術サポートに関するご質問にお答えします。"
+		},
+		"loading": "AIがご質問の回答を準備しています...",
+		"prompts": [
+			"現在の取引手数料を知りたい",
+			"最新のNFT市場の傾向を分析してほしい",
+			"ウォレットの安全性を高めるには？",
+			"技術サポートへの連絡方法は？"
+		],
+		"input_template": "{category} について知りたいです。",
+		"categories": {
+			"general": {
+				"name": "一般質問",
+				"description": "よくある質問と基本サポート"
+			},
+			"trading": {
+				"name": "取引関連",
+				"description": "ルール、戦略、リスク管理"
+			},
+			"nft": {
+				"name": "NFTブラインドボックス",
+				"description": "NFTの購入・取引・交換"
+			},
+			"wallet": {
+				"name": "ウォレット安全",
+				"description": "ウォレット利用とセキュリティのヒント"
+			},
+			"technical": {
+				"name": "技術サポート",
+				"description": "技術的な問題とトラブルシューティング"
+			}
+		},
+		"settings": {
+			"title": "AIアシスタント設定",
+			"categories": "会話カテゴリ",
+			"other": "その他の操作"
+		},
+		"responses": {
+			"general": [
+				"こんにちは！NeuraFiのAIアシスタントです。ご用件をお聞かせください。",
+				"ご質問の内容を把握しました。詳しくご説明します...",
+				"良い質問ですね。私の知識では次の方法がおすすめです。",
+				"お問い合わせありがとうございます。いくつか提案がありますのでご確認ください。"
+			],
+			"trading": [
+				"取引の前に基本ルールとリスク制限を確認しましょう。",
+				"市場のボラティリティに注意し、ストップロスの設定を検討してください。",
+				"詳細については当社のトレーディングガイドをご覧ください。",
+				"取引を始める前に本人確認が完了しているかご確認ください。"
+			],
+			"nft": [
+				"NeuraFiのブラインドボックスは属性が異なるデジタルコレクションです。",
+				"マーケットプレイスでNFTを取引したり、トークンに交換することができます。",
+				"レアリティが価値を左右します。レジェンダリーNFTは特に人気があります。",
+				"購入前に販売者の信用度とNFTメタデータを必ず確認してください。"
+			],
+			"wallet": [
+				"ウォレットの安全性は最優先です。秘密鍵は絶対に共有しないでください。",
+				"多額の資産はハードウェアウォレットに保管することをおすすめします。",
+				"定期的にバックアップを取り、不慮の損失を防ぎましょう。",
+				"リカバリーフレーズはサポートを含め誰にも教えないでください。"
+			],
+			"technical": [
+				"多くの技術的問題はブラウザやネットワークに起因します。まずは再読み込みしてください。",
+				"キャッシュを削除するか、シークレットウィンドウでお試しください。",
+				"問題が解決しない場合は技術サポートにご連絡ください。",
+				"ブラウザおよび拡張機能が最新版かどうかご確認ください。"
+			]
+		}
+	},
 	"common": {
 		"about": "について",
 		"action": "アクション",
@@ -448,6 +549,63 @@
 		"sort_by_price": "最新価格順",
 		"sort_field": "ソートフィールド"
 	},
+	"ido": {
+		"hero_title": "NeuraFi IDO",
+		"hero_subtitle": "Yuanzhi プロジェクトのホワイトリスト資金調達システム",
+		"notes": {
+			"title": "重要なお知らせ",
+			"note1": "すべての購入は事前審査が必要です。条件を満たさない場合は2%のペナルティを差し引いたうえで返金されます。",
+			"note2": "スーパーコミュニティと大型コミュニティはオフライン申請と手動審査が必須で、直接購入は無効です。",
+			"note3": "コミュニティ枠は有効な紹介コードと基本的な本人確認を完了してから購入できます。"
+		},
+		"buttons": {
+			"buy_now": "今すぐ購入",
+			"connect_wallet": "ウォレットを接続"
+		},
+		"tiers": {
+			"super": {
+				"name": "スーパーコミュニティ",
+				"description": "5,000 USDT を寄付（審査あり、条件未達の場合は返金）。",
+				"benefits": "特典：最低 5,000 USDT の原始配分（10 ヶ月でリリース）、グローバル手数料 0.5% の分配、V4 グレード。",
+				"requirements": {
+					"r1": "1,000 人以上のトップコミュニティを率いること",
+					"r2": "オフラインでの面談・デューデリジェンスが必須",
+					"r3": "承認後のみ購入可能",
+					"r4": "直接購入は無効"
+				}
+			},
+			"regional": {
+				"name": "大型コミュニティ",
+				"description": "1,000 USDT を寄付（審査あり、条件未達の場合は返金）。",
+				"benefits": "特典：1,000 USDT の原始配分（6 ヶ月でリリース）、グローバル手数料 0.5% の分配、V3 グレード。",
+				"requirements": {
+					"r1": "200 人以上のコミュニティを運営",
+					"r2": "オフライン申請と承認が必要",
+					"r3": "直接購入は無効"
+				}
+			},
+			"community": {
+				"name": "コミュニティ枠",
+				"description": "200 USDT を寄付（紹介コード必須、直接購入は無効）。",
+				"benefits": "特典：200 USDT の配分（2 ヶ月でリリース）、V2 グレード。",
+				"requirements": {
+					"r1": "有効な紹介コードを保有していること",
+					"r2": "基本的な本人確認を完了してから購入"
+				}
+			}
+		},
+		"fields": {
+			"donation": "寄付金額",
+			"token_amount": "獲得トークン",
+			"release_period": "リリース期間",
+			"release_value": "{value} ヶ月",
+			"fee_share": "手数料",
+			"fee_value": "{value}%",
+			"limit": "上限数",
+			"limit_value": "{value} 名",
+			"requirements": "購入条件"
+		}
+	},
 	"bank": {
 		"accruing_time": "利息計算期間",
 		"annual_yield": "年利回り",
@@ -648,5 +806,259 @@
 		"user_level": "ユーザーレベル",
 		"user_profile": "ユーザーアイコン",
 		"view_promotion_data": "プロモーションデータとユーザーリストを確認する"
+	},
+	"launch": {
+		"hero": {
+			"title": "新規プロジェクトを公開",
+			"subtitle": "トークンプロジェクトを作成し、ブラインドボックスで資金調達"
+		},
+		"steps": {
+			"basic": {
+				"title": "基本情報",
+				"description": "プロジェクト概要"
+			},
+			"token": {
+				"title": "トークン情報",
+				"description": "発行パラメータ"
+			},
+			"blindbox": {
+				"title": "ブラインドボックス",
+				"description": "報酬設定"
+			},
+			"funding": {
+				"title": "資金計画",
+				"description": "調達設定"
+			},
+			"launch": {
+				"title": "公開設定",
+				"description": "スケジュール構成"
+			}
+		},
+		"buttons": {
+			"previous": "前へ",
+			"reset": "リセット",
+			"publish": "プロジェクトを公開",
+			"next": "次へ"
+		},
+		"modal": {
+			"title": "公開内容の確認",
+			"heading": "プロジェクト公開準備完了",
+			"description": "公開前にすべての情報を再確認してください。",
+			"overview": "概要",
+			"fields": {
+				"name": "プロジェクト名",
+				"symbol": "トークンシンボル",
+				"price": "ブラインドボックス価格",
+				"target": "目標金額"
+			},
+			"cancel": "キャンセル",
+			"confirm": "公開を確定"
+		},
+		"basic": {
+			"title": "プロジェクト基本情報",
+			"description": "投資家にビジョンを伝えるための基本情報を入力してください。",
+			"fields": {
+				"name": {
+					"label": "プロジェクト名",
+					"placeholder": "プロジェクト名を入力"
+				},
+				"category": {
+					"label": "カテゴリ",
+					"placeholder": "カテゴリを選択",
+					"options": {
+						"defi": "DeFi",
+						"nft": "NFT",
+						"gaming": "ゲーム",
+						"dao": "DAO",
+						"infrastructure": "インフラ",
+						"other": "その他"
+					}
+				},
+				"description": {
+					"label": "プロジェクト説明",
+					"placeholder": "ビジョン・目標・技術的特徴などを詳しく記入"
+				},
+				"website": {
+					"label": "公式サイト",
+					"placeholder": "https://example.com"
+				},
+				"twitter": {
+					"label": "Twitter",
+					"placeholder": "@username"
+				},
+				"discord": {
+					"label": "Discord",
+					"placeholder": "Discord招待リンク"
+				}
+			},
+			"logo": {
+				"title": "プロジェクトロゴ",
+				"cta": "クリックしてロゴをアップロード",
+				"note": "PNG / JPG / SVG 対応、推奨サイズ 200x200px"
+			}
+		},
+		"token": {
+			"title": "トークン情報",
+			"description": "トークン発行パラメータを設定します。",
+			"fields": {
+				"name": {
+					"label": "トークン名",
+					"placeholder": "例: MyToken"
+				},
+				"symbol": {
+					"label": "シンボル",
+					"placeholder": "例: MTK"
+				},
+				"totalSupply": {
+					"label": "総供給量",
+					"placeholder": "1000000"
+				},
+				"decimals": {
+					"label": "小数点",
+					"placeholder": "18"
+				},
+				"description": {
+					"label": "トークン説明",
+					"placeholder": "用途・機能・トークノミクスを記載"
+				}
+			},
+			"info": {
+				"title": "配分メモ",
+				"content": "トークンはブラインドボックス報酬として配布されます。各レアリティで配布量を変え、長期価値を守るベスティングスケジュールを設定できます。"
+			}
+		},
+		"blindbox": {
+			"title": "ブラインドボックス設定",
+			"description": "価格・供給・報酬ロジックを定義します。",
+			"fields": {
+				"price": {
+					"label": "ブラインドボックス価格 (USD)",
+					"placeholder": "10"
+				},
+				"totalBoxes": {
+					"label": "総ボックス数",
+					"placeholder": "10000"
+				}
+			},
+			"rewards": {
+				"title": "報酬設定",
+				"card_title": "報酬 #{index}",
+				"delete": "削除",
+				"tier": {
+					"label": "レアリティ"
+				},
+				"tiers": {
+					"common": "コモン",
+					"rare": "レア",
+					"epic": "エピック",
+					"legendary": "レジェンダリー"
+				},
+				"fields": {
+					"probability": "確率 (%)",
+					"tokenAmount": "トークン数量",
+					"description": "説明"
+				},
+				"image": {
+					"label": "報酬画像",
+					"alt": "{tier} 報酬画像",
+					"change": "差し替え",
+					"remove": "削除",
+					"cta": "クリックして画像をアップロード",
+					"note": "PNG / JPG / SVG 対応、推奨 200x200px"
+				},
+				"add": "報酬を追加"
+			},
+			"notice": {
+				"title": "確率設定の注意",
+				"content": "総確率が100％を超えないようにしてください。0％の空枠を入れてワクワク感を高めても構いません。"
+			}
+		},
+		"funding": {
+			"title": "資金計画",
+			"description": "目標金額と投資上限を設定します。",
+			"fields": {
+				"target": {
+					"label": "目標金額 (USD)",
+					"placeholder": "1000000"
+				},
+				"minimum": {
+					"label": "最小投資額 (USD)",
+					"placeholder": "100"
+				},
+				"maximum": {
+					"label": "最大投資額 (USD)",
+					"placeholder": "10000"
+				}
+			},
+			"vesting": {
+				"label": "ベスティング期間 (月)",
+				"mark": "{value} ヶ月",
+				"current": "現在の設定: {months} ヶ月 ({detail})",
+				"detail_immediate": "即時アンロック",
+				"detail_delayed": "{months} ヶ月後にアンロック"
+			},
+			"schedule": {
+				"title": "アンロックスケジュール",
+				"items": {
+					"immediate": {
+						"label": "即時",
+						"value": "20%"
+					},
+					"after3": {
+						"label": "3ヶ月後",
+						"value": "20%"
+					},
+					"after6": {
+						"label": "6ヶ月後",
+						"value": "20%"
+					},
+					"after12": {
+						"label": "12ヶ月後",
+						"value": "20%"
+					},
+					"after18": {
+						"label": "18ヶ月後",
+						"value": "20%"
+					}
+				}
+			},
+			"progress": {
+				"title": "資金調達の進捗",
+				"content": "ブラインドボックス購入資金は直接プロジェクトプールに入ります。目標到達後に自動で公開が開始され、スケジュールに沿ってトークンがアンロックされます。"
+			}
+		},
+		"launchStep": {
+			"title": "公開設定",
+			"description": "公開スケジュールと参加条件を構成します。",
+			"fields": {
+				"start": "開始日時",
+				"end": "終了日時"
+			},
+			"requirements": {
+				"title": "参加要件",
+				"whitelist": {
+					"title": "ホワイトリスト制",
+					"description": "ホワイトリストユーザーのみ参加可能。"
+				},
+				"kyc": {
+					"title": "KYC 認証",
+					"description": "参加者は本人確認を完了する必要があります。"
+				}
+			},
+			"legal": {
+				"title": "法的条項",
+				"checkbox": "以下の条項に同意します：",
+				"items": {
+					"truthful": "プロジェクト情報は正確で虚偽がありません。",
+					"compliance": "関連法令を順守し、責任を負います。",
+					"token": "トークン発行は規制要件を満たしています。",
+					"risk": "投資リスクは投資家自身が負い、チームは損失に責任を負いません。"
+				}
+			},
+			"alert": {
+				"title": "重要な注意",
+				"content": "公開後は設定を変更できません。すべての情報を確認し、各地域の法規制を遵守してください。"
+			}
+		}
 	}
 }

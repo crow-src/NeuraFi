@@ -95,6 +95,107 @@
 			"v3": "NeuraFi Chat sera bientôt lancé"
 		}
 	},
+	"chat": {
+		"hero": {
+			"title": "Assistant IA NeuraFi",
+			"subtitle": "Analyses intelligentes · Multilingue · Stratégies en temps réel",
+			"features": "Analyses intelligentes · Multilingue · Stratégies en temps réel"
+		},
+		"status": {
+			"online": "EN LIGNE"
+		},
+		"buttons": {
+			"clear": "Effacer",
+			"settings": "Paramètres",
+			"clear_all": "Effacer toutes les conversations",
+			"export": "Exporter l'historique",
+			"close": "Fermer"
+		},
+		"sections": {
+			"categories": "Catégories",
+			"count": "{count} catégories",
+			"none": "Aucune catégorie trouvée"
+		},
+		"search": {
+			"placeholder": "Rechercher une catégorie..."
+		},
+		"input": {
+			"placeholder": "Saisissez votre question...",
+			"hint": "Appuyez sur Entrée pour envoyer · Shift + Entrée pour une nouvelle ligne",
+			"counter": "{count}/{max}"
+		},
+		"empty": {
+			"title": "Bienvenue dans l'assistant IA de NeuraFi",
+			"subtitle": "Posez vos questions sur le trading, les NFT, la sécurité des portefeuilles ou le support technique."
+		},
+		"loading": "L'IA réfléchit à votre question...",
+		"prompts": [
+			"Quels sont les frais de trading actuels ?",
+			"Peux-tu analyser la tendance récente du marché NFT ?",
+			"Comment renforcer la sécurité de mon portefeuille ?",
+			"Comment contacter le support technique ?"
+		],
+		"input_template": "Je souhaite en savoir plus sur {category}.",
+		"categories": {
+			"general": {
+				"name": "Questions générales",
+				"description": "Questions fréquentes et assistance de base"
+			},
+			"trading": {
+				"name": "Trading",
+				"description": "Règles, stratégies et gestion des risques"
+			},
+			"nft": {
+				"name": "Blind box NFT",
+				"description": "Achat, échange et conversion de NFT"
+			},
+			"wallet": {
+				"name": "Sécurité du portefeuille",
+				"description": "Bonnes pratiques et conseils de sécurité"
+			},
+			"technical": {
+				"name": "Support technique",
+				"description": "Dépannage et problèmes de plateforme"
+			}
+		},
+		"settings": {
+			"title": "Paramètres de l'assistant IA",
+			"categories": "Catégories de dialogue",
+			"other": "Autres actions"
+		},
+		"responses": {
+			"general": [
+				"Bonjour ! Je suis l'assistant IA de NeuraFi. Comment puis-je vous aider ?",
+				"Je comprends votre question, laissez-moi vous détailler cela.",
+				"Excellente question ! Voici ce que je vous recommande...",
+				"Merci pour votre demande. Voici quelques pistes à explorer."
+			],
+			"trading": [
+				"Pour le trading, commencez par réviser les règles et les limites de risque.",
+				"Surveillez la volatilité et pensez à placer des ordres stop-loss.",
+				"Notre guide de trading couvre ces sujets plus en détail.",
+				"Assurez-vous d'avoir terminé la vérification d'identité avant de trader."
+			],
+			"nft": [
+				"Les blind box NeuraFi sont des collectibles numériques aux attributs uniques.",
+				"Vous pouvez échanger vos NFT sur le marché ou les convertir en jetons.",
+				"La rareté influence fortement la valeur—les NFT légendaires sont plus recherchés.",
+				"Avant d'acheter, vérifiez la réputation du vendeur et les métadonnées du NFT."
+			],
+			"wallet": [
+				"La sécurité du portefeuille est essentielle : ne partagez jamais votre clé privée.",
+				"Pour de gros montants, privilégiez un portefeuille matériel.",
+				"Effectuez des sauvegardes régulières afin d'éviter toute perte involontaire.",
+				"Ne divulguez jamais votre phrase secrète, même au support."
+			],
+			"technical": [
+				"La plupart des problèmes sont liés au navigateur ou au réseau—essayez d'abord d'actualiser.",
+				"Videz le cache ou utilisez une fenêtre privée pour éliminer les extensions.",
+				"Si le souci persiste, contactez notre équipe support.",
+				"Vérifiez que votre navigateur et vos extensions sont à jour."
+			]
+		}
+	},
 	"common": {
 		"about": "À propos",
 		"action": "Action",
@@ -448,6 +549,63 @@
 		"sort_by_price": "Au dernier prix",
 		"sort_field": "Champ de tri"
 	},
+	"ido": {
+		"hero_title": "NeuraFi IDO",
+		"hero_subtitle": "Système de collecte whitelist Yuanzhi",
+		"notes": {
+			"title": "Points importants",
+			"note1": "Chaque participation doit être approuvée au préalable ; en cas de refus, 2 % sont retenus et le reste est remboursé.",
+			"note2": "Les niveaux Super et Grande communauté exigent une candidature hors ligne et une validation manuelle ; tout achat direct est invalide.",
+			"note3": "Le niveau Petite communauté nécessite un code de parrainage valide et une vérification d'identité de base avant l'achat."
+		},
+		"buttons": {
+			"buy_now": "Acheter maintenant",
+			"connect_wallet": "Connecter le portefeuille"
+		},
+		"tiers": {
+			"super": {
+				"name": "Super communauté",
+				"description": "Don de 5 000 USDT (soumis à validation ; remboursé si les conditions ne sont pas remplies).",
+				"benefits": "Avantages : allocation minimale de 5 000 USDT (libérée sur 10 mois), 0,5 % des frais globaux, privilèges V4.",
+				"requirements": {
+					"r1": "Diriger une communauté d'au moins 1 000 membres",
+					"r2": "Contrôle préalable hors ligne obligatoire",
+					"r3": "Achat autorisé uniquement après approbation",
+					"r4": "Les achats directs sont invalides"
+				}
+			},
+			"regional": {
+				"name": "Grande communauté",
+				"description": "Don de 1 000 USDT (soumis à validation ; remboursé si les conditions ne sont pas remplies).",
+				"benefits": "Avantages : allocation de 1 000 USDT (libérée sur 6 mois), 0,5 % des frais globaux, privilèges V3.",
+				"requirements": {
+					"r1": "Animer une communauté d'au moins 200 membres",
+					"r2": "Doit postuler hors ligne et être approuvé",
+					"r3": "Les achats directs sont invalides"
+				}
+			},
+			"community": {
+				"name": "Petite communauté",
+				"description": "Don de 200 USDT (nécessite un code de parrainage ; achat direct invalide).",
+				"benefits": "Avantages : allocation de 200 USDT (libérée sur 2 mois), privilèges V2.",
+				"requirements": {
+					"r1": "Fournir un code de parrainage valide",
+					"r2": "Effectuer une vérification d'identité de base avant l'achat"
+				}
+			}
+		},
+		"fields": {
+			"donation": "Montant du don",
+			"token_amount": "Allocation obtenue",
+			"release_period": "Période de libération",
+			"release_value": "{value} mois",
+			"fee_share": "Part des frais",
+			"fee_value": "{value} %",
+			"limit": "Limite",
+			"limit_value": "{value} places",
+			"requirements": "Conditions d'achat"
+		}
+	},
 	"bank": {
 		"accruing_time": "Temps de calcul des intérêts",
 		"annual_yield": "Taux de rendement annuel",
@@ -648,5 +806,259 @@
 		"user_level": "Niveau utilisateur",
 		"user_profile": "Avatar utilisateur",
 		"view_promotion_data": "Consulter les données de promotion et la liste des utilisateurs"
+	},
+	"launch": {
+		"hero": {
+			"title": "Lancer un nouveau projet",
+			"subtitle": "Créez votre projet de jeton et levez des fonds via des blind boxes"
+		},
+		"steps": {
+			"basic": {
+				"title": "Infos de base",
+				"description": "Présentation du projet"
+			},
+			"token": {
+				"title": "Infos token",
+				"description": "Détails de l’émission"
+			},
+			"blindbox": {
+				"title": "Blind box",
+				"description": "Configuration des récompenses"
+			},
+			"funding": {
+				"title": "Plan de levée",
+				"description": "Paramètres financiers"
+			},
+			"launch": {
+				"title": "Paramètres de lancement",
+				"description": "Mise en ligne"
+			}
+		},
+		"buttons": {
+			"previous": "Précédent",
+			"reset": "Réinitialiser",
+			"publish": "Publier le projet",
+			"next": "Suivant"
+		},
+		"modal": {
+			"title": "Confirmer le lancement",
+			"heading": "Votre projet est prêt à être lancé",
+			"description": "Vérifiez chaque information avant de publier.",
+			"overview": "Vue d’ensemble",
+			"fields": {
+				"name": "Nom du projet",
+				"symbol": "Symbole du jeton",
+				"price": "Prix de la blind box",
+				"target": "Objectif de levée"
+			},
+			"cancel": "Annuler",
+			"confirm": "Confirmer"
+		},
+		"basic": {
+			"title": "Informations de base",
+			"description": "Fournissez les informations essentielles pour présenter votre projet aux investisseurs.",
+			"fields": {
+				"name": {
+					"label": "Nom du projet",
+					"placeholder": "Entrez le nom du projet"
+				},
+				"category": {
+					"label": "Catégorie",
+					"placeholder": "Sélectionnez une catégorie",
+					"options": {
+						"defi": "DeFi",
+						"nft": "NFT",
+						"gaming": "Jeu",
+						"dao": "DAO",
+						"infrastructure": "Infrastructure",
+						"other": "Autre"
+					}
+				},
+				"description": {
+					"label": "Description",
+					"placeholder": "Décrivez votre vision, vos objectifs et vos atouts techniques."
+				},
+				"website": {
+					"label": "Site web",
+					"placeholder": "https://example.com"
+				},
+				"twitter": {
+					"label": "Twitter",
+					"placeholder": "@username"
+				},
+				"discord": {
+					"label": "Discord",
+					"placeholder": "Lien d’invitation Discord"
+				}
+			},
+			"logo": {
+				"title": "Logo du projet",
+				"cta": "Cliquez pour téléverser un logo",
+				"note": "PNG, JPG, SVG acceptés. Format recommandé 200x200px."
+			}
+		},
+		"token": {
+			"title": "Informations sur le jeton",
+			"description": "Configurez les paramètres de votre émission.",
+			"fields": {
+				"name": {
+					"label": "Nom du jeton",
+					"placeholder": "ex. MyToken"
+				},
+				"symbol": {
+					"label": "Symbole",
+					"placeholder": "ex. MTK"
+				},
+				"totalSupply": {
+					"label": "Offre totale",
+					"placeholder": "1000000"
+				},
+				"decimals": {
+					"label": "Décimales",
+					"placeholder": "18"
+				},
+				"description": {
+					"label": "Description du jeton",
+					"placeholder": "Expliquez l’utilité, la mécanique et l’économie du jeton."
+				}
+			},
+			"info": {
+				"title": "Notes de distribution",
+				"content": "Les jetons sont attribués via des blind boxes. Chaque rareté octroie une allocation différente et vous pouvez définir un calendrier de déverrouillage pour assurer la pérennité."
+			}
+		},
+		"blindbox": {
+			"title": "Configuration des blind boxes",
+			"description": "Définissez le prix, le stock et les récompenses.",
+			"fields": {
+				"price": {
+					"label": "Prix (USD)",
+					"placeholder": "10"
+				},
+				"totalBoxes": {
+					"label": "Nombre total de box",
+					"placeholder": "10000"
+				}
+			},
+			"rewards": {
+				"title": "Récompenses",
+				"card_title": "Récompense #{index}",
+				"delete": "Supprimer",
+				"tier": {
+					"label": "Rareté"
+				},
+				"tiers": {
+					"common": "Commune",
+					"rare": "Rare",
+					"epic": "Épique",
+					"legendary": "Légendaire"
+				},
+				"fields": {
+					"probability": "Probabilité (%)",
+					"tokenAmount": "Quantité de jetons",
+					"description": "Description"
+				},
+				"image": {
+					"label": "Image de récompense",
+					"alt": "Image de récompense {tier}",
+					"change": "Remplacer",
+					"remove": "Retirer",
+					"cta": "Cliquez pour téléverser une image",
+					"note": "PNG, JPG, SVG acceptés. Taille conseillée 200x200px."
+				},
+				"add": "Ajouter une récompense"
+			},
+			"notice": {
+				"title": "Rappel sur les probabilités",
+				"content": "Veillez à ce que la somme des probabilités n’excède pas 100 %. Ajoutez éventuellement des récompenses vides (0 %) pour plus de suspense."
+			}
+		},
+		"funding": {
+			"title": "Plan de financement",
+			"description": "Définissez l’objectif et les limites de contribution.",
+			"fields": {
+				"target": {
+					"label": "Objectif (USD)",
+					"placeholder": "1000000"
+				},
+				"minimum": {
+					"label": "Contribution minimale (USD)",
+					"placeholder": "100"
+				},
+				"maximum": {
+					"label": "Contribution maximale (USD)",
+					"placeholder": "10000"
+				}
+			},
+			"vesting": {
+				"label": "Période de vesting (mois)",
+				"mark": "{value} mois",
+				"current": "Paramètre actuel : {months} mois ({detail})",
+				"detail_immediate": "Déblocage immédiat",
+				"detail_delayed": "Déblocage après {months} mois"
+			},
+			"schedule": {
+				"title": "Calendrier de déblocage",
+				"items": {
+					"immediate": {
+						"label": "Immédiatement",
+						"value": "20%"
+					},
+					"after3": {
+						"label": "Après 3 mois",
+						"value": "20%"
+					},
+					"after6": {
+						"label": "Après 6 mois",
+						"value": "20%"
+					},
+					"after12": {
+						"label": "Après 12 mois",
+						"value": "20%"
+					},
+					"after18": {
+						"label": "Après 18 mois",
+						"value": "20%"
+					}
+				}
+			},
+			"progress": {
+				"title": "Progression de la levée",
+				"content": "Les fonds collectés via les blind boxes alimentent directement le projet. Une fois l’objectif atteint, le lancement démarre automatiquement et les jetons se débloquent selon le calendrier."
+			}
+		},
+		"launchStep": {
+			"title": "Paramètres de lancement",
+			"description": "Configurez le calendrier et les exigences de participation.",
+			"fields": {
+				"start": "Date de début",
+				"end": "Date de fin"
+			},
+			"requirements": {
+				"title": "Conditions de participation",
+				"whitelist": {
+					"title": "Accès whitelist",
+					"description": "Seuls les utilisateurs sur liste blanche peuvent participer."
+				},
+				"kyc": {
+					"title": "Vérification KYC",
+					"description": "Les participants doivent valider leur identité."
+				}
+			},
+			"legal": {
+				"title": "Clauses légales",
+				"checkbox": "J’accepte les conditions suivantes :",
+				"items": {
+					"truthful": "Les informations du projet sont exactes et véridiques.",
+					"compliance": "Respect des lois et responsabilités correspondantes.",
+					"token": "L’émission du jeton est conforme à la réglementation.",
+					"risk": "Les investisseurs assument leurs risques, l’équipe n’est pas responsable des pertes."
+				}
+			},
+			"alert": {
+				"title": "Rappel important",
+				"content": "Une fois publié, aucun paramètre ne peut être modifié. Vérifiez chaque détail et assurez-vous d’être conforme aux lois locales."
+			}
+		}
 	}
 }
