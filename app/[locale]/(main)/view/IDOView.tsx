@@ -282,10 +282,10 @@ function TierCard({tier, onPurchase}: TierCardProps) {
 							<span className='font-semibold text-sm text-primary-foreground'>{feeValue}</span>
 						</div>
 					</div>
-					<div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
+					{/* <div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
 						<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>{limitLabel}</span>
 						<span className='font-semibold text-sm text-primary-foreground'>{limitValue}</span>
-					</div>
+					</div> */}
 				</div>
 
 				<Divider className='bg-default-200' />
