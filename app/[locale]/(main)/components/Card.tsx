@@ -231,7 +231,6 @@ export const NFTCard: React.FC<NFTCardProps> = props => {
 };
 
 // ===== 行情卡片（列表） =====
-
 interface QuoteCardProps {
 	item: QuoteItem;
 	onClick?: (item: QuoteItem) => void;
@@ -258,58 +257,12 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({item, onClick}) => {
 					<div className='tabular-nums font-bold'>{item.last}</div>
 				</div>
 				<Chip size='sm' color={isUp ? 'success' : 'danger'} variant='solid' className='min-w-20 text-center'>
-					{isUp ? '+' : '-'}
+					{isUp ? '+' : ''}
 					{formatPercent(item.changePct)}
 				</Chip>
 				<Icon icon='mdi:chevron-right' width={20} className='text-primary-foreground' />
 			</div>
 		</button>
-	);
-};
-
-// ===== 行情卡片（自选） =====
-interface QuoteWatchCardProps {
-	item: QuoteItem;
-	onOpen?: (item: QuoteItem) => void;
-	onRemove?: (id: string) => void;
-	onStar?: (id: string, value: boolean) => void;
-}
-
-export const QuoteWatchCard: React.FC<QuoteWatchCardProps> = ({item, onOpen, onRemove, onStar}) => {
-	const isUp = item.changePct >= 0;
-	return (
-		<div className='group flex items-center justify-between rounded-lg border border-content3/20 bg-content1/40 p-4 hover:bg-content2/40 transition-colors'>
-			<button onClick={() => onOpen?.(item)} className='flex min-w-0 flex-1 items-center gap-3 text-left'>
-				<Image alt={item.name} src={item.image} className='w-10 h-10 rounded-md object-cover shrink-0' fallbackSrc='/images/nft-placeholder.png' />
-				<div className='flex min-w-0 flex-col'>
-					<div className='flex items-center gap-2'>
-						<span className='truncate font-semibold'>{item.name}</span>
-						<Chip size='sm' variant='flat' radius='sm' className='h-5'>
-							{item.exchange}
-						</Chip>
-						<span className='text-xs text-primary-foreground'>{item.symbol}</span>
-					</div>
-					<div className='mt-1 text-xs text-primary-foreground'>{item.group ?? '默认分组'}</div>
-				</div>
-			</button>
-			<div className='ml-3 flex shrink-0 items-center gap-3'>
-				<div className='text-right'>
-					<div className='tabular-nums font-bold'>{item.last}</div>
-					<Chip size='sm' color={isUp ? 'danger' : 'success'} variant='solid' className='min-w-20 text-center' radius='sm'>
-						{isUp ? '+' : ''}
-						{formatPercent(item.changePct)}
-					</Chip>
-				</div>
-				<button aria-label='星标' className={`rounded-lg p-2 hover:bg-content2/60 ${item.starred ? 'text-warning' : 'text-primary-foreground'}`} onClick={() => onStar?.(item.id, !item.starred)}>
-					<Icon icon={item.starred ? 'mdi:star' : 'mdi:star-outline'} width={20} />
-				</button>
-				{onRemove && (
-					<button aria-label='移除' className='rounded-lg p-2 hover:bg-content2/60 text-primary-foreground-400' onClick={() => onRemove(item.id)}>
-						<Icon icon='mdi:chevron-right' width={20} />
-					</button>
-				)}
-			</div>
-		</div>
 	);
 };
 

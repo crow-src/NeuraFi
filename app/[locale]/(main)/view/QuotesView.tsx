@@ -9,7 +9,7 @@ import {Icon} from '@iconify/react';
 import {useTranslations} from 'next-intl';
 import {TabsClass} from '@/components/class';
 import {QuoteCard, QuoteItem, QuoteCategory, NFT} from '../components';
-import {rawBlindBoxItems} from './data_test';
+import {data_list} from './data_test';
 
 // ===== 行情 主视图 =====
 export interface SortState {
@@ -61,7 +61,7 @@ export function QuotesView() {
 	const tCommon = useTranslations('common');
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const allQuotes = useMemo(() => deriveQuotes(rawBlindBoxItems), []);
+	const allQuotes = useMemo(() => deriveQuotes(data_list), []);
 	const quoteCategories = useMemo(() => BLIND_BOX_TYPES.filter(type => allQuotes.some(item => item.quoteCategory === type)), [allQuotes]);
 	const [activeCat, setActiveCat] = useState<QuoteCategory>(() => quoteCategories[0] ?? BLIND_BOX_TYPES[0]);
 	const [query, setQuery] = useState<string>('');
@@ -104,7 +104,7 @@ export function QuotesView() {
 				</div>
 				{/* 搜索和筛选区域 */}
 				<div className='flex items-center gap-2 w-full sm:w-auto min-w-0'>
-					<Input value={query} onValueChange={setQuery} startContent={<Icon icon='mdi:magnify' width={20} />} radius='sm' variant='bordered' placeholder={'Search'} className='flex-1 min-w-0' />
+					<Input value={query} onValueChange={setQuery} startContent={<Icon icon='mdi:magnify' width={20} />} radius='sm' variant='bordered' placeholder={t('search')} className='flex-1 min-w-0' />
 					<Button size='sm' variant={onlyUp ? 'solid' : 'bordered'} onPress={() => setOnlyUp(prev => !prev)} startContent={<Icon icon='mdi:trending-up' width={18} />}>
 						{t('only_up')}
 					</Button>
@@ -137,7 +137,7 @@ export function QuotesView() {
 						<Tab key={c} title={tCommon(c)} />
 					))}
 				</Tabs>
-				<div className='mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>{filtered.length === 0 ? <div className='col-span-full py-8 text-center text-primary-foreground'>{t('no_data')}</div> : filtered.map(it => <QuoteCard key={it.id} item={it} onClick={handleCardClick} />)}</div>
+				<div className='mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>{filtered.length === 0 ? <div className='col-span-full py-8 text-center text-primary-foreground-500'>{t('no_data')}</div> : filtered.map(it => <QuoteCard key={it.id} item={it} onClick={handleCardClick} />)}</div>
 			</CardBody>
 		</Card>
 	);

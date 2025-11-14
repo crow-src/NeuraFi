@@ -12,7 +12,7 @@ const DESCRIPTION_BY_TYPE: Record<BlindBoxType, string> = {
 	welfare: 'Community welfare reward that thanks loyal supporters with exclusive platform perks.'
 };
 
-export const rawBlindBoxItems: NFT[] = [
+export const data_list: NFT[] = [
 	{
 		id: 'rwa-1',
 		type: 'rwa',
@@ -655,7 +655,7 @@ export const rawBlindBoxItems: NFT[] = [
 	}
 ];
 
-export const blindBoxItems: NFT[] = rawBlindBoxItems.map(item => ({
+export const blindBoxItems: NFT[] = data_list.map(item => ({
 	...item,
 	status: item.status ?? 'mint'
 }));
