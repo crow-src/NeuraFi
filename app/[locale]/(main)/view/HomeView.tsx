@@ -24,7 +24,7 @@ export function HomeView() {
 			</section>
 			<section className='w-full'>
 				<HotNFTList title='🎁 Hot Box' nfts={blindBoxItems.slice(0, 8)} onPurchase={() => {}} showViewAll />
-				<HotPredictionList title='🔥 热门预测' markets={hotPredictionMarkets} showViewAll onViewAll={handleViewAllPredictions} onMarketClick={handleMarketClick} />
+				<HotPredictionList title='🔥 Hot Prediction' markets={hotPredictionMarkets} showViewAll onViewAll={handleViewAllPredictions} onMarketClick={handleMarketClick} />
 			</section>
 		</div>
 	);
