@@ -196,6 +196,164 @@
 			]
 		}
 	},
+	"promotion": {
+		"hero": {
+			"title": "Центр промоушена",
+			"subtitle": "Получайте вознаграждения, продвигая проекты NeuraFi и приглашая новых пользователей."
+		},
+		"summary_cards": {
+			"totalEarnings": {
+				"label": "Общий доход от промо",
+				"delta": "{value} за месяц"
+			},
+			"referrals": {
+				"label": "Приглашённые пользователи",
+				"delta": "{value} за месяц"
+			},
+			"projects": {
+				"label": "Продвигаемые проекты",
+				"delta": "{value} за месяц"
+			},
+			"pendingRewards": {
+				"label": "Ожидающие награды",
+				"delta": "Забрать сейчас"
+			}
+		},
+		"link": {
+			"title": "Промо-ссылка",
+			"subtitle": "Сгенерируйте персональную ссылку и делитесь ею, чтобы получать больше бонусов.",
+			"input_label": "Промо-ссылка платформы"
+		},
+		"buttons": {
+			"copy": "Копировать",
+			"share": "Поделиться",
+			"qr": "QR‑код",
+			"view_details": "Подробнее",
+			"close": "Закрыть"
+		},
+		"tabs": {
+			"overview": "Обзор",
+			"platform": "Платформенное продвижение",
+			"projects": "Продвижение проектов",
+			"rewards": "История наград"
+		},
+		"overview": {
+			"chart": {
+				"title": "Динамика промо",
+				"subtitle": "Результаты за последние 30 дней",
+				"placeholder": "График промоактивности",
+				"description": "Показывает дневной доход и прирост пользователей."
+			},
+			"activities": {
+				"title": "Последние действия",
+				"signup": {
+					"title": "Новая регистрация",
+					"description": "Пользователь зарегистрировался по вашей ссылке.",
+					"time": "2 часа назад"
+				},
+				"projectBonus": {
+					"title": "Бонус за продвижение проекта",
+					"description": "Бонус за продвижение Basketball Legends.",
+					"time": "5 часов назад"
+				},
+				"kycBonus": {
+					"title": "Бонус за KYC",
+					"description": "Приглашённый пользователь прошёл верификацию.",
+					"time": "1 день назад"
+				}
+			}
+		},
+		"platform": {
+			"level": {
+				"title": "Уровень промо",
+				"subtitle": "Лучшие результаты — выше уровень и привилегии",
+				"name": "Gold‑промоутер",
+				"tier_label": "Уровень {level}",
+				"progress_label": "Прогресс",
+				"progress_value": "{current} / {target} баллов",
+				"remaining": "До следующего уровня осталось {value} баллов"
+			},
+			"rewards_title": "Промо-награды платформы",
+			"benefits_title": "Привилегии уровня",
+			"rewards": {
+				"signup": "Регистрация нового пользователя",
+				"firstInvestment": "Первое инвестирование",
+				"kyc": "Прохождение KYC"
+			},
+			"benefits": {
+				"highCommission": "Повышенная комиссия",
+				"exclusiveTools": "Эксклюзивные инструменты",
+				"prioritySupport": "Приоритетная поддержка"
+			}
+		},
+		"projects": {
+			"labels": {
+				"reward": "Промо-награда",
+				"promoted": "Продвинуто",
+				"total_earnings": "Совокупный доход",
+				"times": "{count} раз"
+			},
+			"items": {
+				"basketball": {
+					"name": "Basketball Legends",
+					"description": "Коллекция легендарных баскетбольных карточек.",
+					"category": "Спорт"
+				},
+				"artGallery": {
+					"name": "Digital Art Gallery",
+					"description": "Подборка цифрового искусства.",
+					"category": "Искусство"
+				},
+				"rwaGold": {
+					"name": "RWA Gold Tokens",
+					"description": "Токенизированные коллекции, обеспеченные золотом.",
+					"category": "RWA"
+				}
+			}
+		},
+		"rewards": {
+			"summary": {
+				"total": "Всего наград",
+				"pending": "Ожидает",
+				"claimed": "Получено"
+			},
+			"records_title": "История наград",
+			"status": {
+				"claimed": "Получено",
+				"pending": "Ожидает"
+			},
+			"records": {
+				"signup": {
+					"title": "Бонус за нового пользователя",
+					"description": "Пользователь зарегистрировался по вашей ссылке."
+				},
+				"project": {
+					"title": "Бонус за продвижение проекта",
+					"description": "Бонус за продвижение Basketball Legends."
+				},
+				"kyc": {
+					"title": "Бонус за KYC",
+					"description": "Приглашённый пользователь прошёл проверку."
+				},
+				"investment": {
+					"title": "Бонус за инвестицию",
+					"description": "Приглашённый пользователь совершил первую инвестицию."
+				}
+			}
+		},
+		"modal": {
+			"title": "Детали проекта",
+			"link_title": "Промо-ссылка",
+			"stats_title": "Статистика промо",
+			"stats": {
+				"reward": "Награда за одно продвижение",
+				"total": "Совокупный доход",
+				"promoted": "Количество акций",
+				"conversion": "Конверсия",
+				"referrals": "Успешные приглашения"
+			}
+		}
+	},
 	"common": {
 		"about": "О нас",
 		"action": "Действие",

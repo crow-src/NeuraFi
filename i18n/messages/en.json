@@ -196,6 +196,164 @@
 			]
 		}
 	},
+	"promotion": {
+		"hero": {
+			"title": "Promotion Center",
+			"subtitle": "Earn rewards by sharing NeuraFi projects and onboarding new users."
+		},
+		"summary_cards": {
+			"totalEarnings": {
+				"label": "Total promotion earnings",
+				"delta": "{value} this month"
+			},
+			"referrals": {
+				"label": "Referred users",
+				"delta": "{value} this month"
+			},
+			"projects": {
+				"label": "Projects promoted",
+				"delta": "{value} this month"
+			},
+			"pendingRewards": {
+				"label": "Pending rewards",
+				"delta": "Claim now"
+			}
+		},
+		"link": {
+			"title": "Promotion link",
+			"subtitle": "Generate your exclusive link and share it to earn more rewards.",
+			"input_label": "Platform promotion link"
+		},
+		"buttons": {
+			"copy": "Copy",
+			"share": "Share",
+			"qr": "QR code",
+			"view_details": "View details",
+			"close": "Close"
+		},
+		"tabs": {
+			"overview": "Overview",
+			"platform": "Platform promotion",
+			"projects": "Project promotion",
+			"rewards": "Reward history"
+		},
+		"overview": {
+			"chart": {
+				"title": "Promotion trend",
+				"subtitle": "Performance over the last 30 days",
+				"placeholder": "Promotion trend chart",
+				"description": "Daily promotion earnings and user growth are displayed here."
+			},
+			"activities": {
+				"title": "Recent activity",
+				"signup": {
+					"title": "New user sign-up",
+					"description": "A user registered via your link.",
+					"time": "2 hours ago"
+				},
+				"projectBonus": {
+					"title": "Project promotion bonus",
+					"description": "Basketball Legends promotion bonus.",
+					"time": "5 hours ago"
+				},
+				"kycBonus": {
+					"title": "KYC completion bonus",
+					"description": "A referred user finished identity verification.",
+					"time": "1 day ago"
+				}
+			}
+		},
+		"platform": {
+			"level": {
+				"title": "Promotion tier",
+				"subtitle": "Earn higher tiers with better performance",
+				"name": "Gold promoter",
+				"tier_label": "Tier {level}",
+				"progress_label": "Promotion progress",
+				"progress_value": "{current} / {target} pts",
+				"remaining": "{value} pts until the next tier"
+			},
+			"rewards_title": "Platform promotion rewards",
+			"benefits_title": "Tier perks",
+			"rewards": {
+				"signup": "New user registration",
+				"firstInvestment": "First investment",
+				"kyc": "KYC completion"
+			},
+			"benefits": {
+				"highCommission": "Higher promotion commission",
+				"exclusiveTools": "Exclusive promotion tools",
+				"prioritySupport": "Priority support channel"
+			}
+		},
+		"projects": {
+			"labels": {
+				"reward": "Promotion reward",
+				"promoted": "Promoted",
+				"total_earnings": "Total earnings",
+				"times": "{count} times"
+			},
+			"items": {
+				"basketball": {
+					"name": "Basketball Legends",
+					"description": "Classic basketball highlight card collection.",
+					"category": "Sports"
+				},
+				"artGallery": {
+					"name": "Digital Art Gallery",
+					"description": "Curated digital art collectibles.",
+					"category": "Art"
+				},
+				"rwaGold": {
+					"name": "RWA Gold Tokens",
+					"description": "Tokenized gold-backed collectibles.",
+					"category": "RWA"
+				}
+			}
+		},
+		"rewards": {
+			"summary": {
+				"total": "Total rewards",
+				"pending": "Pending payouts",
+				"claimed": "Rewards claimed"
+			},
+			"records_title": "Reward history",
+			"status": {
+				"claimed": "Claimed",
+				"pending": "Pending"
+			},
+			"records": {
+				"signup": {
+					"title": "New user bonus",
+					"description": "A user registered via your link."
+				},
+				"project": {
+					"title": "Project promotion bonus",
+					"description": "Basketball Legends promotion."
+				},
+				"kyc": {
+					"title": "KYC completion bonus",
+					"description": "A referred user finished identity verification."
+				},
+				"investment": {
+					"title": "Investment bonus",
+					"description": "A referred user completed their first investment."
+				}
+			}
+		},
+		"modal": {
+			"title": "Project details",
+			"link_title": "Promotion link",
+			"stats_title": "Promotion stats",
+			"stats": {
+				"reward": "Reward per promotion",
+				"total": "Total earnings",
+				"promoted": "Promotions",
+				"conversion": "Conversion rate",
+				"referrals": "Successful referrals"
+			}
+		}
+	},
 	"common": {
 		"about": "About",
 		"action": "Action",

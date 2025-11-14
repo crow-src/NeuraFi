@@ -196,6 +196,164 @@
 			]
 		}
 	},
+	"promotion": {
+		"hero": {
+			"title": "Centre de promotion",
+			"subtitle": "Gagnez des récompenses en partageant les projets NeuraFi et en recrutant de nouveaux utilisateurs."
+		},
+		"summary_cards": {
+			"totalEarnings": {
+				"label": "Revenus promotionnels totaux",
+				"delta": "{value} ce mois-ci"
+			},
+			"referrals": {
+				"label": "Utilisateurs parrainés",
+				"delta": "{value} ce mois-ci"
+			},
+			"projects": {
+				"label": "Projets promus",
+				"delta": "{value} ce mois-ci"
+			},
+			"pendingRewards": {
+				"label": "Récompenses en attente",
+				"delta": "Réclamer maintenant"
+			}
+		},
+		"link": {
+			"title": "Lien de promotion",
+			"subtitle": "Générez votre lien exclusif et partagez-le pour obtenir davantage de récompenses.",
+			"input_label": "Lien promotionnel de la plateforme"
+		},
+		"buttons": {
+			"copy": "Copier",
+			"share": "Partager",
+			"qr": "Code QR",
+			"view_details": "Voir les détails",
+			"close": "Fermer"
+		},
+		"tabs": {
+			"overview": "Vue d'ensemble",
+			"platform": "Promotion plateforme",
+			"projects": "Promotion des projets",
+			"rewards": "Historique des récompenses"
+		},
+		"overview": {
+			"chart": {
+				"title": "Tendance des promotions",
+				"subtitle": "Performances des 30 derniers jours",
+				"placeholder": "Graphique des tendances promotionnelles",
+				"description": "Affiche les revenus quotidiens de promotion et la croissance des utilisateurs."
+			},
+			"activities": {
+				"title": "Activités récentes",
+				"signup": {
+					"title": "Nouvel inscrit",
+					"description": "Un utilisateur s'est inscrit via votre lien.",
+					"time": "Il y a 2 heures"
+				},
+				"projectBonus": {
+					"title": "Prime de promotion de projet",
+					"description": "Prime pour la promotion de Basketball Legends.",
+					"time": "Il y a 5 heures"
+				},
+				"kycBonus": {
+					"title": "Prime de KYC",
+					"description": "Un filleul a terminé la vérification d'identité.",
+					"time": "Il y a 1 jour"
+				}
+			}
+		},
+		"platform": {
+			"level": {
+				"title": "Niveau de promotion",
+				"subtitle": "De meilleures performances débloquent des niveaux et avantages supérieurs",
+				"name": "Promoteur or",
+				"tier_label": "Niveau {level}",
+				"progress_label": "Progression",
+				"progress_value": "{current} / {target} pts",
+				"remaining": "Encore {value} pts avant le prochain niveau"
+			},
+			"rewards_title": "Récompenses de la plateforme",
+			"benefits_title": "Avantages du niveau",
+			"rewards": {
+				"signup": "Inscription d'un nouvel utilisateur",
+				"firstInvestment": "Premier investissement",
+				"kyc": "Validation KYC"
+			},
+			"benefits": {
+				"highCommission": "Commission plus élevée",
+				"exclusiveTools": "Outils de promotion exclusifs",
+				"prioritySupport": "Support prioritaire"
+			}
+		},
+		"projects": {
+			"labels": {
+				"reward": "Récompense promotionnelle",
+				"promoted": "Promu",
+				"total_earnings": "Gain total",
+				"times": "{count} fois"
+			},
+			"items": {
+				"basketball": {
+					"name": "Basketball Legends",
+					"description": "Collection de cartes iconiques de basket.",
+					"category": "Sport"
+				},
+				"artGallery": {
+					"name": "Digital Art Gallery",
+					"description": "Collection d'art numérique sélectionnée.",
+					"category": "Art"
+				},
+				"rwaGold": {
+					"name": "RWA Gold Tokens",
+					"description": "Collection tokenisée adossée à l'or physique.",
+					"category": "RWA"
+				}
+			}
+		},
+		"rewards": {
+			"summary": {
+				"total": "Récompenses totales",
+				"pending": "Paiements en attente",
+				"claimed": "Récompenses réclamées"
+			},
+			"records_title": "Historique des récompenses",
+			"status": {
+				"claimed": "Réclamée",
+				"pending": "En attente"
+			},
+			"records": {
+				"signup": {
+					"title": "Prime nouvel utilisateur",
+					"description": "Un utilisateur s'est inscrit via votre lien."
+				},
+				"project": {
+					"title": "Prime de promotion de projet",
+					"description": "Prime pour Basketball Legends."
+				},
+				"kyc": {
+					"title": "Prime de KYC",
+					"description": "Un filleul a terminé la vérification d'identité."
+				},
+				"investment": {
+					"title": "Prime d'investissement",
+					"description": "Un filleul a réalisé son premier investissement."
+				}
+			}
+		},
+		"modal": {
+			"title": "Détails du projet",
+			"link_title": "Lien de promotion",
+			"stats_title": "Statistiques de promotion",
+			"stats": {
+				"reward": "Récompense par promotion",
+				"total": "Gain total",
+				"promoted": "Promotions",
+				"conversion": "Taux de conversion",
+				"referrals": "Parrainages réussis"
+			}
+		}
+	},
 	"common": {
 		"about": "À propos",
 		"action": "Action",

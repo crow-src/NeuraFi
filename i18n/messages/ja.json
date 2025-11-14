@@ -196,6 +196,164 @@
 			]
 		}
 	},
+	"promotion": {
+		"hero": {
+			"title": "プロモーションセンター",
+			"subtitle": "NeuraFi のプロジェクトを共有し、新規ユーザーを招待して報酬を獲得しましょう。"
+		},
+		"summary_cards": {
+			"totalEarnings": {
+				"label": "総プロモーション収益",
+				"delta": "今月 {value}"
+			},
+			"referrals": {
+				"label": "招待ユーザー数",
+				"delta": "今月 {value}"
+			},
+			"projects": {
+				"label": "推進プロジェクト数",
+				"delta": "今月 {value}"
+			},
+			"pendingRewards": {
+				"label": "未受け取り報酬",
+				"delta": "今すぐ受け取る"
+			}
+		},
+		"link": {
+			"title": "プロモーションリンク",
+			"subtitle": "専用リンクを生成してシェアすると、さらに多くの報酬が得られます。",
+			"input_label": "プラットフォームプロモーションリンク"
+		},
+		"buttons": {
+			"copy": "コピー",
+			"share": "共有",
+			"qr": "QRコード",
+			"view_details": "詳細を見る",
+			"close": "閉じる"
+		},
+		"tabs": {
+			"overview": "概要",
+			"platform": "プラットフォーム推進",
+			"projects": "プロジェクト推進",
+			"rewards": "報酬履歴"
+		},
+		"overview": {
+			"chart": {
+				"title": "プロモーション推移",
+				"subtitle": "直近30日のパフォーマンス",
+				"placeholder": "プロモーション推移グラフ",
+				"description": "日次の収益とユーザー増加を表示します。"
+			},
+			"activities": {
+				"title": "最新アクティビティ",
+				"signup": {
+					"title": "新規登録",
+					"description": "ユーザーがリンクから登録しました。",
+					"time": "2時間前"
+				},
+				"projectBonus": {
+					"title": "プロジェクト推進報酬",
+					"description": "Basketball Legends の推進ボーナス。",
+					"time": "5時間前"
+				},
+				"kycBonus": {
+					"title": "KYC完了報酬",
+					"description": "招待ユーザーが本人確認を完了しました。",
+					"time": "1日前"
+				}
+			}
+		},
+		"platform": {
+			"level": {
+				"title": "プロモーションレベル",
+				"subtitle": "成果が高いほどレベルと特典が向上します",
+				"name": "ゴールドプロモーター",
+				"tier_label": "レベル {level}",
+				"progress_label": "進捗",
+				"progress_value": "{current} / {target} pt",
+				"remaining": "次のレベルまで残り {value} pt"
+			},
+			"rewards_title": "プラットフォーム報酬",
+			"benefits_title": "レベル特典",
+			"rewards": {
+				"signup": "新規登録",
+				"firstInvestment": "初回投資",
+				"kyc": "KYC完了"
+			},
+			"benefits": {
+				"highCommission": "高いコミッション",
+				"exclusiveTools": "専用プロモーションツール",
+				"prioritySupport": "優先サポート"
+			}
+		},
+		"projects": {
+			"labels": {
+				"reward": "プロモーション報酬",
+				"promoted": "推進状況",
+				"total_earnings": "累計収益",
+				"times": "{count} 回"
+			},
+			"items": {
+				"basketball": {
+					"name": "Basketball Legends",
+					"description": "クラシックなバスケットボールカードのコレクション。",
+					"category": "スポーツ"
+				},
+				"artGallery": {
+					"name": "Digital Art Gallery",
+					"description": "厳選されたデジタルアートコレクション。",
+					"category": "アート"
+				},
+				"rwaGold": {
+					"name": "RWA Gold Tokens",
+					"description": "実物ゴールドに裏付けられたトークンコレクション。",
+					"category": "RWA"
+				}
+			}
+		},
+		"rewards": {
+			"summary": {
+				"total": "総報酬",
+				"pending": "保留中",
+				"claimed": "受け取り済み"
+			},
+			"records_title": "報酬履歴",
+			"status": {
+				"claimed": "受け取り済み",
+				"pending": "保留中"
+			},
+			"records": {
+				"signup": {
+					"title": "新規ユーザー報酬",
+					"description": "リンク経由でユーザーが登録しました。"
+				},
+				"project": {
+					"title": "プロジェクト推進報酬",
+					"description": "Basketball Legends の推進ボーナス。"
+				},
+				"kyc": {
+					"title": "KYC報酬",
+					"description": "招待ユーザーが本人確認を完了しました。"
+				},
+				"investment": {
+					"title": "投資報酬",
+					"description": "招待ユーザーが初めて投資しました。"
+				}
+			}
+		},
+		"modal": {
+			"title": "プロジェクト詳細",
+			"link_title": "プロモーションリンク",
+			"stats_title": "プロモーション統計",
+			"stats": {
+				"reward": "1回あたりの報酬",
+				"total": "総収益",
+				"promoted": "プロモーション数",
+				"conversion": "コンバージョン率",
+				"referrals": "成功した招待数"
+			}
+		}
+	},
 	"common": {
 		"about": "について",
 		"action": "アクション",

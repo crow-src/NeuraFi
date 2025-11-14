@@ -23,7 +23,7 @@ export const MAIN_CONFIG = {
 
 		// 用户相关
 		{label: 'Me', key: 'me', icon: 'carbon:user-avatar-filled', href: '?tab=me', new: false, category: 'user', order: 3},
-		{label: 'Collection', key: 'collection', icon: 'lucide:box', href: '?tab=collection', new: false, category: 'user', order: 3},
+		// {label: 'Collection', key: 'collection', icon: 'lucide:box', href: '?tab=collection', new: false, category: 'user', order: 3},
 		{label: 'Promotion', key: 'promotion', icon: 'hugeicons:promotion', href: '?tab=promotion', new: false, category: 'user', order: 3},
 		{label: 'Help', key: 'help', icon: 'material-symbols:help', href: '?tab=help', new: false, category: 'user', order: 3},
 		{label: 'Notifications', key: 'notifications', icon: 'material-symbols:notifications', href: '?tab=notifications', new: true, category: 'user', order: 3}

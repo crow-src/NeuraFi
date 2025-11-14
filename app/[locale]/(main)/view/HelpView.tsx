@@ -190,7 +190,7 @@ export function HelpView() {
 				<div className='absolute bottom-0 left-10 h-80 w-80 rounded-full bg-secondary/10 blur-[130px]' />
 			</div>
 
-			<div className='relative z-10 flex h-full w-full flex-col gap-4 px-4 py-4 lg:flex-row'>
+			<div className='relative z-10 flex h-full w-full flex-col gap-4  lg:flex-row'>
 				<div className='flex min-h-0 flex-1 flex-col rounded-2xl border border-primary-border/70 bg-background/80 shadow-xl backdrop-blur'>
 					<div className='rounded-t-2xl border-b border-primary-border/60 bg-background/70 px-6 py-4 backdrop-blur'>
 						<div className='flex items-center justify-between'>
@@ -242,7 +242,7 @@ export function HelpView() {
 												<Button
 													key={category.id}
 													variant='bordered'
-													className='text-primary-foreground'
+													className='text-primary'
 													size='sm'
 													onPress={() => {
 														setSelectedConversation(category.id);

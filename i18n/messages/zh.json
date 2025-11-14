@@ -196,6 +196,164 @@
 			]
 		}
 	},
+	"promotion": {
+		"hero": {
+			"title": "推广中心",
+			"subtitle": "通过分享 NeuraFi 项目并引导用户加入来赚取奖励。"
+		},
+		"summary_cards": {
+			"totalEarnings": {
+				"label": "总推广收益",
+				"delta": "本月 {value}"
+			},
+			"referrals": {
+				"label": "推荐用户数",
+				"delta": "本月 {value}"
+			},
+			"projects": {
+				"label": "推广项目数",
+				"delta": "本月 {value}"
+			},
+			"pendingRewards": {
+				"label": "待领取奖励",
+				"delta": "立即领取"
+			}
+		},
+		"link": {
+			"title": "推广链接",
+			"subtitle": "生成您的专属推广链接，分享即可获得更多奖励。",
+			"input_label": "平台推广链接"
+		},
+		"buttons": {
+			"copy": "复制",
+			"share": "分享",
+			"qr": "二维码",
+			"view_details": "查看详情",
+			"close": "关闭"
+		},
+		"tabs": {
+			"overview": "概览",
+			"platform": "平台推广",
+			"projects": "项目推广",
+			"rewards": "奖励记录"
+		},
+		"overview": {
+			"chart": {
+				"title": "推广趋势",
+				"subtitle": "最近30天的推广表现",
+				"placeholder": "推广趋势图表",
+				"description": "展示每日的推广收益与用户增长情况。"
+			},
+			"activities": {
+				"title": "最近活动",
+				"signup": {
+					"title": "新用户注册",
+					"description": "有用户通过您的链接注册。",
+					"time": "2小时前"
+				},
+				"projectBonus": {
+					"title": "项目推广奖励",
+					"description": "Basketball Legends 推广奖励。",
+					"time": "5小时前"
+				},
+				"kycBonus": {
+					"title": "KYC完成奖励",
+					"description": "推荐用户完成身份认证。",
+					"time": "1天前"
+				}
+			}
+		},
+		"platform": {
+			"level": {
+				"title": "推广等级",
+				"subtitle": "表现越好等级越高，收益越多",
+				"name": "黄金推广者",
+				"tier_label": "等级 {level}",
+				"progress_label": "推广进度",
+				"progress_value": "{current} / {target} 积分",
+				"remaining": "距离下一等级还差 {value} 积分"
+			},
+			"rewards_title": "平台推广奖励",
+			"benefits_title": "等级特权",
+			"rewards": {
+				"signup": "新用户注册",
+				"firstInvestment": "首次投资",
+				"kyc": "完成 KYC"
+			},
+			"benefits": {
+				"highCommission": "更高推广佣金",
+				"exclusiveTools": "专属推广工具",
+				"prioritySupport": "优先客服支持"
+			}
+		},
+		"projects": {
+			"labels": {
+				"reward": "推广奖励",
+				"promoted": "已推广",
+				"total_earnings": "总收益",
+				"times": "{count} 次"
+			},
+			"items": {
+				"basketball": {
+					"name": "Basketball Legends",
+					"description": "经典篮球高光卡收藏项目。",
+					"category": "体育"
+				},
+				"artGallery": {
+					"name": "Digital Art Gallery",
+					"description": "精选数字艺术藏品项目。",
+					"category": "艺术"
+				},
+				"rwaGold": {
+					"name": "RWA Gold Tokens",
+					"description": "实物黄金支持的代币收藏。",
+					"category": "RWA"
+				}
+			}
+		},
+		"rewards": {
+			"summary": {
+				"total": "累计奖励",
+				"pending": "待发放",
+				"claimed": "已领取"
+			},
+			"records_title": "奖励记录",
+			"status": {
+				"claimed": "已领取",
+				"pending": "待领取"
+			},
+			"records": {
+				"signup": {
+					"title": "新用户奖励",
+					"description": "有用户通过您的链接注册。"
+				},
+				"project": {
+					"title": "项目推广奖励",
+					"description": "Basketball Legends 推广奖励。"
+				},
+				"kyc": {
+					"title": "KYC完成奖励",
+					"description": "推荐用户完成身份认证。"
+				},
+				"investment": {
+					"title": "投资奖励",
+					"description": "推荐用户完成首次投资。"
+				}
+			}
+		},
+		"modal": {
+			"title": "项目详情",
+			"link_title": "推广链接",
+			"stats_title": "推广统计",
+			"stats": {
+				"reward": "单次推广奖励",
+				"total": "总收益",
+				"promoted": "推广次数",
+				"conversion": "转化率",
+				"referrals": "成功推荐"
+			}
+		}
+	},
 	"common": {
 		"about": "关于",
 		"action": "动作",

@@ -1,14 +1,218 @@
 'use client';
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import {Tabs, Tab, Chip, Avatar, Card, CardBody, CardHeader, Button, Input, Progress, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from '@heroui/react';
 import {Icon} from '@iconify/react';
+import {useTranslations} from 'next-intl';
 import {TabsClass} from '@/components/class';
-// ===== 推荐数据 主视图 =====
+// ===== Promotion View =====
+
+type SummaryCardKey = 'totalEarnings' | 'referrals' | 'projects' | 'pendingRewards';
+
+interface SummaryCardDefinition {
+	key: SummaryCardKey;
+	value: string;
+	deltaValue?: string;
+	deltaColor: 'text-success' | 'text-warning';
+	icon: string;
+	accent: string;
+}
+
+const SUMMARY_CARD_DEFINITIONS: SummaryCardDefinition[] = [
+	{key: 'totalEarnings', value: '$12,450', deltaValue: '+15.2%', deltaColor: 'text-success', icon: 'mdi:currency-usd', accent: 'from-primary/20 to-secondary/20'},
+	{key: 'referrals', value: '1,234', deltaValue: '+8.5%', deltaColor: 'text-success', icon: 'mdi:account-group', accent: 'from-success/20 to-primary/10'},
+	{key: 'projects', value: '89', deltaValue: '+12.3%', deltaColor: 'text-success', icon: 'mdi:rocket-launch', accent: 'from-secondary/20 to-primary/10'},
+	{key: 'pendingRewards', value: '$2,180', deltaColor: 'text-warning', icon: 'mdi:gift', accent: 'from-warning/20 to-secondary/10'}
+];
+
+type ActivityKey = 'signup' | 'projectBonus' | 'kycBonus';
+
+interface OverviewActivityDefinition {
+	key: ActivityKey;
+	icon: string;
+	amount: number;
+}
+
+const OVERVIEW_ACTIVITY_DEFINITIONS: OverviewActivityDefinition[] = [
+	{key: 'signup', icon: 'mdi:account-plus', amount: 10},
+	{key: 'projectBonus', icon: 'mdi:currency-usd', amount: 50},
+	{key: 'kycBonus', icon: 'mdi:check-circle', amount: 20}
+];
+
+const PLATFORM_PROFILE = {level: 3, points: 2450, nextLevelPoints: 5000};
+
+const PLATFORM_REWARD_DEFINITIONS = [
+	{key: 'signup', amount: '$10'},
+	{key: 'firstInvestment', amount: '$50'},
+	{key: 'kyc', amount: '$20'}
+] as const;
+
+const PLATFORM_BENEFIT_KEYS = ['highCommission', 'exclusiveTools', 'prioritySupport'] as const;
+
+type ProjectKey = 'basketball' | 'artGallery' | 'rwaGold';
+
+interface ProjectDefinition {
+	id: string;
+	key: ProjectKey;
+	logo: string;
+	reward: number;
+	promotedCount: number;
+	totalEarnings: number;
+	conversionRate: number;
+	successfulReferrals: number;
+}
+
+const PROJECT_DEFINITIONS: ProjectDefinition[] = [
+	{id: 'project-1', key: 'basketball', logo: '/images/token/erc-721/1.png', reward: 50, promotedCount: 23, totalEarnings: 1150, conversionRate: 15.2, successfulReferrals: 8},
+	{id: 'project-2', key: 'artGallery', logo: '/images/token/erc-721/2.png', reward: 30, promotedCount: 15, totalEarnings: 450, conversionRate: 12.8, successfulReferrals: 5},
+	{id: 'project-3', key: 'rwaGold', logo: '/images/token/erc-721/3.png', reward: 100, promotedCount: 8, totalEarnings: 800, conversionRate: 18.5, successfulReferrals: 6}
+];
+
+type RewardSummaryKey = 'total' | 'pending' | 'claimed';
+
+interface RewardSummaryDefinition {
+	key: RewardSummaryKey;
+	value: string;
+	icon: string;
+	color: string;
+}
+
+const REWARD_SUMMARY_DEFINITIONS: RewardSummaryDefinition[] = [
+	{key: 'total', value: '$12,450', icon: 'mdi:currency-usd', color: 'text-success'},
+	{key: 'pending', value: '$2,180', icon: 'mdi:gift', color: 'text-warning'},
+	{key: 'claimed', value: '156', icon: 'mdi:check-circle', color: 'text-primary'}
+];
+
+type RewardStatus = 'claimed' | 'pending';
+
+interface RewardRecordDefinition {
+	key: 'signup' | 'project' | 'kyc' | 'investment';
+	icon: string;
+	amount: number;
+	date: string;
+	status: RewardStatus;
+}
+
+const REWARD_RECORD_DEFINITIONS: RewardRecordDefinition[] = [
+	{key: 'signup', icon: 'mdi:account-plus', amount: 10, date: '2024-01-20', status: 'claimed'},
+	{key: 'project', icon: 'mdi:currency-usd', amount: 50, date: '2024-01-19', status: 'claimed'},
+	{key: 'kyc', icon: 'mdi:check-circle', amount: 20, date: '2024-01-18', status: 'pending'},
+	{key: 'investment', icon: 'mdi:rocket-launch', amount: 100, date: '2024-01-17', status: 'pending'}
+];
+
+interface RecentActivity {
+	icon: string;
+	amount: number;
+	title: string;
+	description: string;
+	time: string;
+}
+
+interface OverviewData {
+	recentActivities: RecentActivity[];
+}
+
+interface PlatformPromotionData {
+	level: number;
+	points: number;
+	nextLevelPoints: number;
+	levelName: string;
+	rewards: {label: string; amount: string}[];
+	benefits: string[];
+}
+
+interface PromotionProject extends ProjectDefinition {
+	name: string;
+	description: string;
+	category: string;
+}
+
+interface RewardSummaryCard extends RewardSummaryDefinition {
+	label: string;
+}
+
+interface RewardRecord extends RewardRecordDefinition {
+	title: string;
+	description: string;
+	statusLabel: string;
+}
+
+interface RewardsData {
+	summaryCards: RewardSummaryCard[];
+	records: RewardRecord[];
+}
 
 export function PromotionView() {
+	const t = useTranslations('promotion');
 	const [selectedTab, setSelectedTab] = useState('overview');
 	const [selectedProject, setSelectedProject] = useState<string | null>(null);
 	const {isOpen, onOpen, onClose} = useDisclosure();
+
+	const summaryCards = useMemo(
+		() =>
+			SUMMARY_CARD_DEFINITIONS.map(card => ({
+				...card,
+				label: t(`summary_cards.${card.key}.label`),
+				delta: card.deltaValue ? t(`summary_cards.${card.key}.delta`, {value: card.deltaValue}) : t(`summary_cards.${card.key}.delta`)
+			})),
+		[t]
+	);
+
+	const overviewData = useMemo<OverviewData>(
+		() => ({
+			recentActivities: OVERVIEW_ACTIVITY_DEFINITIONS.map(item => ({
+				icon: item.icon,
+				amount: item.amount,
+				title: t(`overview.activities.${item.key}.title`),
+				description: t(`overview.activities.${item.key}.description`),
+				time: t(`overview.activities.${item.key}.time`)
+			}))
+		}),
+		[t]
+	);
+
+	const platformData = useMemo<PlatformPromotionData>(
+		() => ({
+			level: PLATFORM_PROFILE.level,
+			points: PLATFORM_PROFILE.points,
+			nextLevelPoints: PLATFORM_PROFILE.nextLevelPoints,
+			levelName: t('platform.level.name'),
+			rewards: PLATFORM_REWARD_DEFINITIONS.map(reward => ({
+				label: t(`platform.rewards.${reward.key}`),
+				amount: reward.amount
+			})),
+			benefits: PLATFORM_BENEFIT_KEYS.map(key => t(`platform.benefits.${key}`))
+		}),
+		[t]
+	);
+
+	const projects = useMemo<PromotionProject[]>(
+		() =>
+			PROJECT_DEFINITIONS.map(project => ({
+				...project,
+				name: t(`projects.items.${project.key}.name`),
+				description: t(`projects.items.${project.key}.description`),
+				category: t(`projects.items.${project.key}.category`)
+			})),
+		[t]
+	);
+
+	const rewardsData = useMemo<RewardsData>(
+		() => ({
+			summaryCards: REWARD_SUMMARY_DEFINITIONS.map(card => ({
+				...card,
+				label: t(`rewards.summary.${card.key}`)
+			})),
+			records: REWARD_RECORD_DEFINITIONS.map(record => ({
+				...record,
+				title: t(`rewards.records.${record.key}.title`),
+				description: t(`rewards.records.${record.key}.description`),
+				statusLabel: t(`rewards.status.${record.status}`)
+			}))
+		}),
+		[t]
+	);
+
+	const selectedProjectData = useMemo(() => projects.find(project => project.id === selectedProject) ?? null, [projects, selectedProject]);
 
 	const handleTabChange = (key: React.Key) => {
 		setSelectedTab(key as string);
@@ -19,178 +223,141 @@ export function PromotionView() {
 		onOpen();
 	};
 
-	// 获取推广数据
-	const getPromotionData = (category: string) => {
-		switch (category) {
-			case 'overview':
-				return overviewData;
-			case 'platform':
-				return platformPromotionData;
-			case 'projects':
-				return projectPromotionData;
-			case 'rewards':
-				return rewardsData;
-			default:
-				return overviewData;
-		}
+	const handleCloseModal = () => {
+		onClose();
+		setSelectedProject(null);
 	};
 
-	const currentData = getPromotionData(selectedTab);
-
 	return (
-		<div className='h-full w-full flex flex-col p-6 overflow-y-auto'>
-			{/* 页面标题 */}
+		<div className='h-full w-full flex flex-col p-6 overflow-y-auto bg-linear-to-br from-background via-background/80 to-default-100/40'>
 			<div className='mb-6'>
-				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>推广中心</h1>
-				<p className='text-primary-foreground'>通过推广获得丰厚奖励，分享平台和项目给更多用户</p>
+				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>{t('hero.title')}</h1>
+				<p className='text-primary-foreground'>{t('hero.subtitle')}</p>
 			</div>
 
-			{/* 推广概览卡片 */}
-			<div className='grid grid-cols-1 md:grid-cols-4 gap-6 mb-6'>
-				<Card className='bg-gradient-to-r from-blue-500/50 to-blue-600/50 text-primary-foreground'>
-					<CardBody className='p-6'>
-						<div className='flex items-center justify-between'>
-							<div>
-								<p className='text-blue-100 text-sm'>总推广收益</p>
-								<p className='text-2xl font-bold'>$12,450</p>
-								<p className='text-blue-200 text-xs'>+15.2% 本月</p>
+			<div className='grid grid-cols-1 gap-6 mb-6 md:grid-cols-4'>
+				{summaryCards.map(card => (
+					<Card key={card.key} className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur p-4'>
+						<CardBody className='p-5'>
+							<div className='flex items-center gap-4'>
+								<div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br ${card.accent}`}>
+									<Icon icon={card.icon} className='h-6 w-6 text-primary' />
+								</div>
+								<div className='flex-1'>
+									<p className='text-xs font-semibold uppercase tracking-wide text-primary-foreground/70'>{card.label}</p>
+									<div className='mt-2 flex items-baseline gap-2'>
+										<span className='text-2xl font-bold text-primary-foreground'>{card.value}</span>
+										<span className={`text-xs font-medium ${card.deltaColor}`}>{card.delta}</span>
+									</div>
+								</div>
 							</div>
-							<Icon icon='mdi:currency-usd' className='w-8 h-8 text-blue-200' />
-						</div>
-					</CardBody>
-				</Card>
-
-				<Card className='bg-gradient-to-r from-green-500/50 to-green-600/50 text-primary-foreground'>
-					<CardBody className='p-6'>
-						<div className='flex items-center justify-between'>
-							<div>
-								<p className='text-green-100 text-sm'>推荐用户</p>
-								<p className='text-2xl font-bold'>1,234</p>
-								<p className='text-green-200 text-xs'>+8.5% 本月</p>
-							</div>
-							<Icon icon='mdi:account-group' className='w-8 h-8 text-green-200' />
-						</div>
-					</CardBody>
-				</Card>
-
-				<Card className='bg-gradient-to-r from-purple-500/50 to-purple-600/50 text-primary-foreground'>
-					<CardBody className='p-6'>
-						<div className='flex items-center justify-between'>
-							<div>
-								<p className='text-purple-100 text-sm'>项目推广</p>
-								<p className='text-2xl font-bold'>89</p>
-								<p className='text-purple-200 text-xs'>+12.3% 本月</p>
-							</div>
-							<Icon icon='mdi:rocket-launch' className='w-8 h-8 text-purple-200' />
-						</div>
-					</CardBody>
-				</Card>
-
-				<Card className='bg-gradient-to-r from-orange-500/50 to-orange-600/50 text-primary-foreground'>
-					<CardBody className='p-6'>
-						<div className='flex items-center justify-between'>
-							<div>
-								<p className='text-orange-100 text-sm'>待领取奖励</p>
-								<p className='text-2xl font-bold'>$2,180</p>
-								<p className='text-orange-200 text-xs'>立即领取</p>
-							</div>
-							<Icon icon='mdi:gift' className='w-8 h-8 text-orange-200' />
-						</div>
-					</CardBody>
-				</Card>
+						</CardBody>
+					</Card>
+				))}
 			</div>
 
-			{/* 推广链接生成 */}
-			<Card className='mb-6'>
+			<Card className='mb-6 rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
 				<CardHeader>
-					<h3 className='text-lg font-semibold'>推广链接</h3>
-					<p className='text-sm text-primary-foreground'>生成您的专属推广链接，分享给朋友获得奖励</p>
+					<h3 className='text-lg font-semibold'>{t('link.title')}</h3>
+					<p className='text-sm text-primary-foreground'>{t('link.subtitle')}</p>
 				</CardHeader>
 				<CardBody>
 					<div className='flex flex-col md:flex-row gap-4'>
 						<div className='flex-1'>
 							<Input
-								label='平台推广链接'
+								label={t('link.input_label')}
 								value='https://NeuraFi.com/ref/user123'
 								readOnly
-								startContent={<Icon icon='mdi:link' className='w-4 h-4 text-default-400' />}
+								variant='bordered'
+								startContent={<Icon icon='mdi:link' className='w-4 h-4 text-primary-foreground' />}
 								endContent={
 									<Button size='sm' variant='bordered' startContent={<Icon icon='mdi:content-copy' className='w-4 h-4' />}>
-										复制
+										{t('buttons.copy')}
 									</Button>
 								}
 							/>
 						</div>
 						<div className='flex gap-2'>
 							<Button color='primary' startContent={<Icon icon='mdi:share' className='w-4 h-4' />}>
-								分享
+								{t('buttons.share')}
 							</Button>
 							<Button variant='bordered' startContent={<Icon icon='mdi:qrcode' className='w-4 h-4' />}>
-								二维码
+								{t('buttons.qr')}
 							</Button>
 						</div>
 					</div>
 				</CardBody>
 			</Card>
 
-			{/* 分类标签页 */}
-			<div className='w-full'>
+			<div className='w-full rounded-2xl border border-default-200/50 bg-content1/70 p-4 shadow-lg backdrop-blur'>
 				<Tabs selectedKey={selectedTab} onSelectionChange={handleTabChange} variant='underlined' classNames={TabsClass}>
-					<Tab key='overview' title='概览'>
+					<Tab key='overview' title={t('tabs.overview')}>
 						<div className='py-4'>
-							<OverviewTab data={currentData} />
+							<OverviewTab data={overviewData} />
 						</div>
 					</Tab>
-					<Tab key='platform' title='平台推广'>
+					<Tab key='platform' title={t('tabs.platform')}>
 						<div className='py-4'>
-							<PlatformPromotionTab data={currentData} />
+							<PlatformPromotionTab data={platformData} />
 						</div>
 					</Tab>
-					<Tab key='projects' title='项目推广'>
+					<Tab key='projects' title={t('tabs.projects')}>
 						<div className='py-4'>
-							<ProjectPromotionTab data={currentData} onProjectSelect={handleProjectSelect} />
+							<ProjectPromotionTab projects={projects} onProjectSelect={handleProjectSelect} />
 						</div>
 					</Tab>
-					<Tab key='rewards' title='奖励记录'>
+					<Tab key='rewards' title={t('tabs.rewards')}>
 						<div className='py-4'>
-							<RewardsTab data={currentData} />
+							<RewardsTab data={rewardsData} />
 						</div>
 					</Tab>
 				</Tabs>
 			</div>
+
+			<Modal isOpen={isOpen && Boolean(selectedProjectData)} onClose={handleCloseModal} size='2xl'>
+				<ModalContent>
+					<ModalHeader>{t('modal.title')}</ModalHeader>
+					<ModalBody>{selectedProjectData ? <ProjectDetailModal project={selectedProjectData} /> : null}</ModalBody>
+					<ModalFooter>
+						<Button variant='ghost' onPress={handleCloseModal}>
+							{t('buttons.close')}
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</div>
 	);
 }
 
 // 概览标签页
-function OverviewTab({data}: {data: any}) {
+function OverviewTab({data}: {data: OverviewData}) {
+	const t = useTranslations('promotion');
+
 	return (
 		<div className='space-y-6'>
-			{/* 推广统计图表 */}
-			<Card>
+			<Card className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
 				<CardHeader>
-					<h3 className='text-lg font-semibold'>推广趋势</h3>
-					<p className='text-sm text-primary-foreground'>最近30天的推广数据</p>
+					<h3 className='text-lg font-semibold'>{t('overview.chart.title')}</h3>
+					<p className='text-sm text-primary-foreground'>{t('overview.chart.subtitle')}</p>
 				</CardHeader>
 				<CardBody>
 					<div className='h-64 flex items-center justify-center bg-background rounded-lg'>
 						<div className='text-center'>
 							<Icon icon='mdi:chart-line' className='w-16 h-16 text-default-400 mx-auto mb-4' />
-							<p className='text-default-600'>推广趋势图表</p>
-							<p className='text-sm text-primary-foreground'>显示每日推广收益和用户增长</p>
+							<p className='text-default-600'>{t('overview.chart.placeholder')}</p>
+							<p className='text-sm text-primary-foreground'>{t('overview.chart.description')}</p>
 						</div>
 					</div>
 				</CardBody>
 			</Card>
 
-			{/* 最近活动 */}
-			<Card>
+			<Card className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
 				<CardHeader>
-					<h3 className='text-lg font-semibold'>最近活动</h3>
+					<h3 className='text-lg font-semibold'>{t('overview.activities.title')}</h3>
 				</CardHeader>
 				<CardBody>
 					<div className='space-y-4'>
-						{data.recentActivities?.map((activity: any, index: number) => (
+						{data.recentActivities.map((activity, index) => (
 							<div key={index} className='flex items-center gap-4 p-3 bg-default-50 rounded-lg'>
 								<div className='w-10 h-10 bg-primary rounded-full flex items-center justify-center'>
 									<Icon icon={activity.icon} className='w-5 h-5 text-primary-foreground' />
@@ -213,75 +380,63 @@ function OverviewTab({data}: {data: any}) {
 }
 
 // 平台推广标签页
-function PlatformPromotionTab({data}: {data: any}) {
+function PlatformPromotionTab({data}: {data: PlatformPromotionData}) {
+	const t = useTranslations('promotion');
+	const remainingPoints = Math.max(data.nextLevelPoints - data.points, 0);
+
 	return (
 		<div className='space-y-6'>
-			{/* 推广等级 */}
-			<Card>
+			<Card className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
 				<CardHeader>
-					<h3 className='text-lg font-semibold'>推广等级</h3>
-					<p className='text-sm text-primary-foreground'>根据推广效果获得不同等级和奖励</p>
+					<h3 className='text-lg font-semibold'>{t('platform.level.title')}</h3>
+					<p className='text-sm text-primary-foreground'>{t('platform.level.subtitle')}</p>
 				</CardHeader>
 				<CardBody>
 					<div className='flex items-center gap-6'>
 						<div className='text-center'>
-							<div className='w-20 h-20 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mb-2'>
+							<div className='w-20 h-20 bg-linear-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mb-2'>
 								<Icon icon='mdi:crown' className='w-10 h-10 text-primary-foreground' />
 							</div>
-							<p className='font-semibold'>黄金推广者</p>
-							<p className='text-sm text-primary-foreground'>等级 3</p>
+							<p className='font-semibold'>{data.levelName}</p>
+							<p className='text-sm text-primary-foreground'>{t('platform.level.tier_label', {level: data.level})}</p>
 						</div>
 						<div className='flex-1'>
 							<div className='flex justify-between text-sm mb-2'>
-								<span>推广进度</span>
-								<span>2,450 / 5,000 积分</span>
+								<span>{t('platform.level.progress_label')}</span>
+								<span>{t('platform.level.progress_value', {current: data.points.toLocaleString(), target: data.nextLevelPoints.toLocaleString()})}</span>
 							</div>
-							<Progress value={49} color='warning' className='w-full' />
-							<p className='text-xs text-primary-foreground mt-2'>距离下一等级还需 2,550 积分</p>
+							<Progress value={(data.points / data.nextLevelPoints) * 100} color='warning' className='w-full' />
+							<p className='text-xs text-primary-foreground mt-2'>{t('platform.level.remaining', {value: remainingPoints.toLocaleString()})}</p>
 						</div>
 					</div>
 				</CardBody>
 			</Card>
 
-			{/* 推广规则 */}
-			<Card>
+			<Card className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
 				<CardHeader>
-					<h3 className='text-lg font-semibold'>推广规则</h3>
+					<h3 className='text-lg font-semibold'>{t('platform.rewards_title')}</h3>
 				</CardHeader>
 				<CardBody>
 					<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
 						<div>
-							<h4 className='font-semibold mb-3'>平台推广奖励</h4>
 							<div className='space-y-2'>
-								<div className='flex justify-between'>
-									<span className='text-sm'>新用户注册</span>
-									<span className='font-medium'>$10</span>
-								</div>
-								<div className='flex justify-between'>
-									<span className='text-sm'>用户首次投资</span>
-									<span className='font-medium'>$50</span>
-								</div>
-								<div className='flex justify-between'>
-									<span className='text-sm'>用户完成KYC</span>
-									<span className='font-medium'>$20</span>
-								</div>
+								{data.rewards.map(reward => (
+									<div key={reward.label} className='flex justify-between'>
+										<span className='text-sm'>{reward.label}</span>
+										<span className='font-medium'>{reward.amount}</span>
+									</div>
+								))}
 							</div>
 						</div>
 						<div>
-							<h4 className='font-semibold mb-3'>等级特权</h4>
+							<h4 className='font-semibold mb-3'>{t('platform.benefits_title')}</h4>
 							<div className='space-y-2'>
-								<div className='flex items-center gap-2'>
-									<Icon icon='mdi:check' className='w-4 h-4 text-success' />
-									<span className='text-sm'>更高推广佣金</span>
-								</div>
-								<div className='flex items-center gap-2'>
-									<Icon icon='mdi:check' className='w-4 h-4 text-success' />
-									<span className='text-sm'>专属推广工具</span>
-								</div>
-								<div className='flex items-center gap-2'>
-									<Icon icon='mdi:check' className='w-4 h-4 text-success' />
-									<span className='text-sm'>优先客服支持</span>
-								</div>
+								{data.benefits.map(benefit => (
+									<div key={benefit} className='flex items-center gap-2'>
+										<Icon icon='mdi:check' className='w-4 h-4 text-success' />
+										<span className='text-sm'>{benefit}</span>
+									</div>
+								))}
 							</div>
 						</div>
 					</div>
@@ -292,13 +447,14 @@ function PlatformPromotionTab({data}: {data: any}) {
 }
 
 // 项目推广标签页
-function ProjectPromotionTab({data, onProjectSelect}: {data: any; onProjectSelect: (projectId: string) => void}) {
+function ProjectPromotionTab({projects, onProjectSelect}: {projects: PromotionProject[]; onProjectSelect: (projectId: string) => void}) {
+	const t = useTranslations('promotion');
+
 	return (
 		<div className='space-y-6'>
-			{/* 项目推广列表 */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-				{data.projects?.map((project: any) => (
-					<Card key={project.id} className='hover:shadow-lg transition-shadow duration-300'>
+				{projects.map(project => (
+					<Card key={project.id} className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg transition-shadow duration-300 hover:shadow-2xl'>
 						<CardHeader className='pb-2'>
 							<div className='flex items-center gap-3'>
 								<Avatar src={project.logo} className='w-12 h-12' fallback={<Icon icon='mdi:folder' className='w-6 h-6' />} />
@@ -315,21 +471,21 @@ function ProjectPromotionTab({data, onProjectSelect}: {data: any; onProjectSelec
 
 							<div className='space-y-2 mb-4'>
 								<div className='flex justify-between text-sm'>
-									<span className='text-default-600'>推广奖励:</span>
+									<span className='text-default-600'>{t('projects.labels.reward')}</span>
 									<span className='font-medium text-success'>${project.reward}</span>
 								</div>
 								<div className='flex justify-between text-sm'>
-									<span className='text-default-600'>已推广:</span>
-									<span className='font-medium'>{project.promotedCount} 次</span>
+									<span className='text-default-600'>{t('projects.labels.promoted')}</span>
+									<span className='font-medium'>{t('projects.labels.times', {count: project.promotedCount})}</span>
 								</div>
 								<div className='flex justify-between text-sm'>
-									<span className='text-default-600'>总收益:</span>
+									<span className='text-default-600'>{t('projects.labels.total_earnings')}</span>
 									<span className='font-medium'>${project.totalEarnings}</span>
 								</div>
 							</div>
 
 							<Button color='primary' variant='flat' size='sm' className='w-full' onPress={() => onProjectSelect(project.id)} startContent={<Icon icon='mdi:eye' className='w-4 h-4' />}>
-								查看详情
+								{t('buttons.view_details')}
 							</Button>
 						</CardBody>
 					</Card>
@@ -340,57 +496,45 @@ function ProjectPromotionTab({data, onProjectSelect}: {data: any; onProjectSelec
 }
 
 // 奖励记录标签页
-function RewardsTab({data}: {data: any}) {
+function RewardsTab({data}: {data: RewardsData}) {
+	const t = useTranslations('promotion');
+
 	return (
 		<div className='space-y-6'>
-			{/* 奖励统计 */}
 			<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-				<Card>
-					<CardBody className='text-center'>
-						<Icon icon='mdi:currency-usd' className='w-12 h-12 text-success mx-auto mb-2' />
-						<p className='text-2xl font-bold text-success'>$12,450</p>
-						<p className='text-sm text-primary-foreground'>总奖励</p>
-					</CardBody>
-				</Card>
-				<Card>
-					<CardBody className='text-center'>
-						<Icon icon='mdi:gift' className='w-12 h-12 text-warning mx-auto mb-2' />
-						<p className='text-2xl font-bold text-warning'>$2,180</p>
-						<p className='text-sm text-primary-foreground'>待领取</p>
-					</CardBody>
-				</Card>
-				<Card>
-					<CardBody className='text-center'>
-						<Icon icon='mdi:check-circle' className='w-12 h-12 text-primary mx-auto mb-2' />
-						<p className='text-2xl font-bold text-primary'>156</p>
-						<p className='text-sm text-primary-foreground'>已领取</p>
-					</CardBody>
-				</Card>
+				{data.summaryCards.map(card => (
+					<Card key={card.key} className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
+						<CardBody className='text-center'>
+							<Icon icon={card.icon} className={`w-12 h-12 mx-auto mb-2 ${card.color}`} />
+							<p className={`text-2xl font-bold ${card.color}`}>{card.value}</p>
+							<p className='text-sm text-primary-foreground'>{card.label}</p>
+						</CardBody>
+					</Card>
+				))}
 			</div>
 
-			{/* 奖励记录列表 */}
-			<Card>
+			<Card className='rounded-2xl border border-default-200/50 bg-content1/80 shadow-lg backdrop-blur'>
 				<CardHeader>
-					<h3 className='text-lg font-semibold'>奖励记录</h3>
+					<h3 className='text-lg font-semibold'>{t('rewards.records_title')}</h3>
 				</CardHeader>
 				<CardBody>
 					<div className='space-y-4'>
-						{data.rewards?.map((reward: any, index: number) => (
-							<div key={index} className='flex items-center justify-between p-4 border border-primary-border rounded-lg'>
+						{data.records.map(record => (
+							<div key={record.key} className='flex items-center justify-between p-4 border border-default-200/60 rounded-lg'>
 								<div className='flex items-center gap-4'>
 									<div className='w-10 h-10 bg-success rounded-full flex items-center justify-center'>
-										<Icon icon={reward.icon} className='w-5 h-5 text-primary-foreground' />
+										<Icon icon={record.icon} className='w-5 h-5 text-primary-foreground' />
 									</div>
 									<div>
-										<p className='font-medium'>{reward.title}</p>
-										<p className='text-sm text-primary-foreground'>{reward.description}</p>
+										<p className='font-medium'>{record.title}</p>
+										<p className='text-sm text-primary-foreground'>{record.description}</p>
 									</div>
 								</div>
 								<div className='text-right'>
-									<p className='font-semibold text-success'>+${reward.amount}</p>
-									<p className='text-xs text-primary-foreground'>{reward.date}</p>
-									<Chip size='sm' color={reward.status === 'claimed' ? 'success' : 'warning'} variant='flat'>
-										{reward.status === 'claimed' ? '已领取' : '待领取'}
+									<p className='font-semibold text-success'>+${record.amount}</p>
+									<p className='text-xs text-primary-foreground'>{record.date}</p>
+									<Chip size='sm' color={record.status === 'claimed' ? 'success' : 'warning'} variant='flat'>
+										{record.statusLabel}
 									</Chip>
 								</div>
 							</div>
@@ -403,9 +547,8 @@ function RewardsTab({data}: {data: any}) {
 }
 
 // 项目详情弹窗
-function ProjectDetailModal({projectId}: {projectId: string}) {
-	const project = projectPromotionData.find(p => p.id === projectId);
-	if (!project) return null;
+function ProjectDetailModal({project}: {project: PromotionProject}) {
+	const t = useTranslations('promotion');
 
 	return (
 		<div className='space-y-6'>
@@ -420,155 +563,44 @@ function ProjectDetailModal({projectId}: {projectId: string}) {
 			<div className='grid grid-cols-2 gap-4'>
 				<div className='text-center p-4 bg-primary-50 rounded-lg'>
 					<p className='text-2xl font-bold text-primary'>${project.reward}</p>
-					<p className='text-sm text-default-600'>单次推广奖励</p>
+					<p className='text-sm text-default-600'>{t('modal.stats.reward')}</p>
 				</div>
 				<div className='text-center p-4 bg-success-50 rounded-lg'>
 					<p className='text-2xl font-bold text-success'>${project.totalEarnings}</p>
-					<p className='text-sm text-default-600'>总收益</p>
+					<p className='text-sm text-default-600'>{t('modal.stats.total')}</p>
 				</div>
 			</div>
 
 			<div>
-				<h4 className='font-semibold mb-3'>推广链接</h4>
+				<h4 className='font-semibold mb-3'>{t('modal.link_title')}</h4>
 				<Input
 					value={`https://NeuraFi.com/project/${project.id}/ref/user123`}
 					readOnly
 					endContent={
 						<Button size='sm' variant='bordered' startContent={<Icon icon='mdi:content-copy' className='w-4 h-4' />}>
-							复制
+							{t('buttons.copy')}
 						</Button>
 					}
 				/>
 			</div>
 
 			<div>
-				<h4 className='font-semibold mb-3'>推广统计</h4>
+				<h4 className='font-semibold mb-3'>{t('modal.stats_title')}</h4>
 				<div className='grid grid-cols-3 gap-4 text-center'>
 					<div>
 						<p className='text-lg font-semibold'>{project.promotedCount}</p>
-						<p className='text-sm text-default-600'>推广次数</p>
+						<p className='text-sm text-default-600'>{t('modal.stats.promoted')}</p>
 					</div>
 					<div>
 						<p className='text-lg font-semibold'>{project.conversionRate}%</p>
-						<p className='text-sm text-default-600'>转化率</p>
+						<p className='text-sm text-default-600'>{t('modal.stats.conversion')}</p>
 					</div>
 					<div>
 						<p className='text-lg font-semibold'>{project.successfulReferrals}</p>
-						<p className='text-sm text-default-600'>成功推荐</p>
+						<p className='text-sm text-default-600'>{t('modal.stats.referrals')}</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
 }
-
-// 测试数据
-const overviewData = {
-	recentActivities: [
-		{
-			icon: 'mdi:account-plus',
-			title: '新用户注册',
-			description: '用户通过您的链接注册',
-			amount: 10,
-			time: '2小时前'
-		},
-		{
-			icon: 'mdi:currency-usd',
-			title: '项目推广奖励',
-			description: 'Basketball Legends 项目推广',
-			amount: 50,
-			time: '5小时前'
-		},
-		{
-			icon: 'mdi:check-circle',
-			title: 'KYC完成奖励',
-			description: '推荐用户完成身份认证',
-			amount: 20,
-			time: '1天前'
-		}
-	]
-};
-
-const platformPromotionData = {
-	level: 3,
-	levelName: '黄金推广者',
-	points: 2450,
-	nextLevelPoints: 5000,
-	benefits: ['更高推广佣金', '专属推广工具', '优先客服支持']
-};
-
-const projectPromotionData = [
-	{
-		id: 'project-1',
-		name: 'Basketball Legends',
-		description: '经典篮球明星卡收藏项目',
-		logo: '/images/token/erc-721/1.png',
-		category: '体育',
-		reward: 50,
-		promotedCount: 23,
-		totalEarnings: 1150,
-		conversionRate: 15.2,
-		successfulReferrals: 8
-	},
-	{
-		id: 'project-2',
-		name: 'Digital Art Gallery',
-		description: '数字艺术收藏品项目',
-		logo: '/images/token/erc-721/2.png',
-		category: '艺术',
-		reward: 30,
-		promotedCount: 15,
-		totalEarnings: 450,
-		conversionRate: 12.8,
-		successfulReferrals: 5
-	},
-	{
-		id: 'project-3',
-		name: 'RWA Gold Tokens',
-		description: '实物黄金支持的代币项目',
-		logo: '/images/token/erc-721/3.png',
-		category: 'RWA',
-		reward: 100,
-		promotedCount: 8,
-		totalEarnings: 800,
-		conversionRate: 18.5,
-		successfulReferrals: 6
-	}
-];
-
-const rewardsData = {
-	rewards: [
-		{
-			icon: 'mdi:account-plus',
-			title: '新用户注册奖励',
-			description: '用户通过您的链接注册',
-			amount: 10,
-			date: '2024-01-20',
-			status: 'claimed'
-		},
-		{
-			icon: 'mdi:currency-usd',
-			title: '项目推广奖励',
-			description: 'Basketball Legends 项目推广',
-			amount: 50,
-			date: '2024-01-19',
-			status: 'claimed'
-		},
-		{
-			icon: 'mdi:check-circle',
-			title: 'KYC完成奖励',
-			description: '推荐用户完成身份认证',
-			amount: 20,
-			date: '2024-01-18',
-			status: 'pending'
-		},
-		{
-			icon: 'mdi:rocket-launch',
-			title: '项目投资奖励',
-			description: '推荐用户完成首次投资',
-			amount: 100,
-			date: '2024-01-17',
-			status: 'pending'
-		}
-	]
-};
