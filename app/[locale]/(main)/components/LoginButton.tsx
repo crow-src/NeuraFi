@@ -32,7 +32,7 @@ export function LoginButton() {
 
 	return address ? (
 		<Button className={cn(button({color: 'primary'}), 'flex gap-4 w-full rounded-md max-w-[160px] min-w-[134px] max-h-[30px] border-0')} isLoading={loading} onPress={() => open()}>
-			<Image src={getNetworkIcon(chainId as number)} alt='network' className='w-4 h-4 rounded-full flex-shrink-0' />
+			<Image src={getNetworkIcon(chainId as number)} alt='network' className='w-4 h-4 rounded-full shrink-0' />
 			<span className='text-sm'>{obsTxt(address, 4, 4)}</span>
 		</Button>
 	) : (

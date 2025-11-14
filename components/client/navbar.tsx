@@ -49,7 +49,7 @@ export const BottomNavbar = () => {
 				<div className='flex items-center h-16 px-2 gap-1 min-w-max'>
 					{MAIN_CONFIG.navItems.map((item, index) => (
 						<Badge key={item.key} content='' isDot color='success' placement='top-right' isInvisible={!item.new} showOutline={false}>
-							<Button onPress={() => handleTabChange(item.key)} className='flex flex-col items-center justify-center gap-0.5 bg-transparent min-w-[60px] flex-shrink-0 px-2'>
+							<Button onPress={() => handleTabChange(item.key)} className='flex flex-col items-center justify-center gap-0.5 bg-transparent min-w-[60px] shrink-0 px-2'>
 								<div className='w-5 h-5 flex items-center justify-center'>
 									<Icon icon={item.icon} className={`w-5 h-5 ${tab === item.key ? 'text-primary' : 'text-primary-foreground'}`} />
 								</div>

@@ -328,7 +328,21 @@
 		"wallet": "Portefeuille",
 		"website": "Site web",
 		"weekly": "Semaine",
-		"year": "année"
+		"year": "année",
+
+		"rwa": "RWA",
+		"cards": "Cartes",
+		"toys": "Jouets",
+		"sports": "Sports",
+		"art": "Art",
+		"welfare": "Bienfaisance",
+		"common": "Commun",
+		"rare": "Rare",
+		"epic": "Epique",
+		"legendary": "Légendaire",
+
+		"seller": "Vendeur",
+		"edit": "Modifier"
 	},
 	"tip": {
 		"action_cannot_undone": "Cette opération est irréversible !",
@@ -425,6 +439,14 @@
 		"view_all": "Voir tout",
 		"wallet_info": "Veuillez connecter un portefeuille pris en charge",
 		"wallet_list": "Liste des portefeuilles"
+	},
+	"quotes": {
+		"real_time_quotes": "Marché",
+		"only_up": "Montant uniquement",
+		"sort_by_change": "Par variation de prix",
+		"sort_by_name": "Par nom",
+		"sort_by_price": "Au dernier prix",
+		"sort_field": "Champ de tri"
 	},
 	"bank": {
 		"accruing_time": "Temps de calcul des intérêts",

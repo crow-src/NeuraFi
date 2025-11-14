@@ -1,6 +1,17 @@
 import {NFT} from '../components';
 import {type PredictionMarket} from '../components';
 
+type BlindBoxType = 'rwa' | 'cards' | 'toys' | 'sports' | 'art' | 'welfare';
+
+const DESCRIPTION_BY_TYPE: Record<BlindBoxType, string> = {
+	rwa: 'Tokenized real-world asset backed by audited custody and redeemable utility.',
+	cards: 'Basketball highlight card capturing heroic plays with animated stats for collectors.',
+	toys: 'Digital collectible toy crafted for metaverse showcases and AR-ready storytelling.',
+	sports: 'Sports memorabilia NFT preserving iconic competitive moments with immutable proof.',
+	art: 'Curated digital artwork featuring gallery-grade visuals and on-chain provenance.',
+	welfare: 'Community welfare reward that thanks loyal supporters with exclusive platform perks.'
+};
+
 export const rawBlindBoxItems: NFT[] = [
 	{
 		id: 'rwa-1',
@@ -9,7 +20,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (1).png',
 		price: 2500,
 		currency: 'USD',
-		description: '实物黄金支持的 NFT，1:1 对应真实黄金',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Legendary',
 		collection: 'RWA Assets'
 	},
@@ -20,7 +31,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (2).png',
 		price: 5000,
 		currency: 'USD',
-		description: '房地产代币化资产，享有租金收益',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Epic',
 		collection: 'RWA Assets'
 	},
@@ -31,7 +42,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (3).png',
 		price: 1200,
 		currency: 'USD',
-		description: '艺术品收藏份额，支持实物赎回',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Rare',
 		collection: 'RWA Assets'
 	},
@@ -42,7 +53,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (4).png',
 		price: 800,
 		currency: 'USD',
-		description: '实物白银硬币 NFT，可兑换真实银币',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Rare',
 		collection: 'RWA Assets'
 	},
@@ -53,7 +64,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (5).png',
 		price: 3200,
 		currency: 'USD',
-		description: '商业地产份额，每月获得分红收益',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Epic',
 		collection: 'RWA Assets'
 	},
@@ -64,7 +75,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (6).png',
 		price: 1800,
 		currency: 'USD',
-		description: '钻石认证 NFT，对应真实钻石所有权',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Legendary',
 		collection: 'RWA Assets'
 	},
@@ -75,7 +86,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (7).png',
 		price: 950,
 		currency: 'USD',
-		description: '名贵红酒代币，支持实物提货',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Rare',
 		collection: 'RWA Assets'
 	},
@@ -86,7 +97,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (8).png',
 		price: 2200,
 		currency: 'USD',
-		description: '奢侈品手表 NFT，对应真实手表',
+		description: DESCRIPTION_BY_TYPE.rwa,
 		rarity: 'Epic',
 		collection: 'RWA Assets'
 	},
@@ -98,7 +109,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (1).png',
 		price: 200,
 		currency: 'USD',
-		description: '全明星球员卡，具有特殊动画效果',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Epic',
 		collection: 'Basketball Legends'
 	},
@@ -109,7 +120,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (2).png',
 		price: 300,
 		currency: 'USD',
-		description: '总冠军纪念卡，附带夺冠时刻视频',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Legendary',
 		collection: 'Basketball Legends'
 	},
@@ -120,7 +131,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (3).png',
 		price: 180,
 		currency: 'USD',
-		description: 'MVP赛季纪念卡，记录辉煌时刻',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Epic',
 		collection: 'Basketball Legends'
 	},
@@ -131,7 +142,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (4).png',
 		price: 400,
 		currency: 'USD',
-		description: '名人堂球员卡，终极收藏品',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Legendary',
 		collection: 'Basketball Legends'
 	},
@@ -142,7 +153,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (5).png',
 		price: 75,
 		currency: 'USD',
-		description: '球队球衣卡，经典设计',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Rare',
 		collection: 'Basketball Legends'
 	},
@@ -153,7 +164,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (6).png',
 		price: 60,
 		currency: 'USD',
-		description: '选秀顺位卡，记录选秀历史',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Common',
 		collection: 'Basketball Legends'
 	},
@@ -164,7 +175,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (7).png',
 		price: 120,
 		currency: 'USD',
-		description: '复古经典卡，怀旧收藏',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Rare',
 		collection: 'Basketball Legends'
 	},
@@ -175,7 +186,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (8).png',
 		price: 250,
 		currency: 'USD',
-		description: '绝杀时刻卡，包含精彩回放',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Epic',
 		collection: 'Basketball Legends'
 	},
@@ -186,7 +197,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (9).png',
 		price: 250,
 		currency: 'USD',
-		description: '绝杀时刻卡，包含精彩回放',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Epic',
 		collection: 'Basketball Legends'
 	},
@@ -197,7 +208,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/b (10).png',
 		price: 250,
 		currency: 'USD',
-		description: '绝杀时刻卡，包含精彩回放',
+		description: DESCRIPTION_BY_TYPE.cards,
 		rarity: 'Epic',
 		collection: 'Basketball Legends'
 	},
@@ -209,7 +220,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/1.png',
 		price: 120,
 		currency: 'USD',
-		description: '复古动作人偶，经典收藏',
+		description: DESCRIPTION_BY_TYPE.toys,
 		rarity: 'Epic',
 		collection: 'Collectible Toys'
 	},
@@ -220,7 +231,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/2.png',
 		price: 95,
 		currency: 'USD',
-		description: '超级英雄收藏品，附带特效展示',
+		description: DESCRIPTION_BY_TYPE.toys,
 		rarity: 'Rare',
 		collection: 'Collectible Toys'
 	},
@@ -231,7 +242,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/3.png',
 		price: 35,
 		currency: 'USD',
-		description: '迷你模型套装，可组装收藏',
+		description: DESCRIPTION_BY_TYPE.toys,
 		rarity: 'Common',
 		collection: 'Collectible Toys'
 	},
@@ -242,7 +253,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/4.png',
 		price: 150,
 		currency: 'USD',
-		description: '动漫角色手办，精美制作',
+		description: DESCRIPTION_BY_TYPE.toys,
 		rarity: 'Epic',
 		collection: 'Collectible Toys'
 	},
@@ -253,7 +264,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/5.png',
 		price: 180,
 		currency: 'USD',
-		description: '变形金刚机器人，可变形设计',
+		description: DESCRIPTION_BY_TYPE.toys,
 		rarity: 'Legendary',
 		collection: 'Collectible Toys'
 	},
@@ -264,7 +275,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/6.png',
 		price: 45,
 		currency: 'USD',
-		description: '毛绒动物玩具，柔软可爱',
+		description: DESCRIPTION_BY_TYPE.toys,
 		rarity: 'Common',
 		collection: 'Collectible Toys'
 	},
@@ -275,7 +286,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (1).png',
 		price: 800,
 		currency: 'USD',
-		description: '总冠军戒指 NFT，纪念历史时刻',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Legendary',
 		collection: 'Sports Memorabilia'
 	},
@@ -286,7 +297,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (2).png',
 		price: 200,
 		currency: 'USD',
-		description: '球星签名球衣，数字收藏版本',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Rare',
 		collection: 'Sports Memorabilia'
 	},
@@ -297,7 +308,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (3).png',
 		price: 150,
 		currency: 'USD',
-		description: '经典比赛门票，记录历史比赛',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Epic',
 		collection: 'Sports Memorabilia'
 	},
@@ -308,7 +319,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (4).png',
 		price: 100,
 		currency: 'USD',
-		description: '专业训练装备 NFT，虚拟训练体验',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Common',
 		collection: 'Sports Memorabilia'
 	},
@@ -319,7 +330,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (5).png',
 		price: 1200,
 		currency: 'USD',
-		description: '奥运会奖牌 NFT，记录辉煌成就',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Legendary',
 		collection: 'Sports Memorabilia'
 	},
@@ -330,7 +341,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (6).png',
 		price: 1500,
 		currency: 'USD',
-		description: '世界杯奖杯 NFT，足球历史见证',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Legendary',
 		collection: 'Sports Memorabilia'
 	},
@@ -341,7 +352,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (7).png',
 		price: 180,
 		currency: 'USD',
-		description: '棒球卡收藏，经典球员卡',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Epic',
 		collection: 'Sports Memorabilia'
 	},
@@ -352,7 +363,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (8).png',
 		price: 250,
 		currency: 'USD',
-		description: '篮球场 NFT，虚拟篮球体验',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Rare',
 		collection: 'Sports Memorabilia'
 	},
@@ -363,7 +374,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (9).png',
 		price: 120,
 		currency: 'USD',
-		description: '足球鞋 NFT，球星同款',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Common',
 		collection: 'Sports Memorabilia'
 	},
@@ -374,7 +385,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/f (10).png',
 		price: 160,
 		currency: 'USD',
-		description: '网球拍 NFT，专业装备收藏',
+		description: DESCRIPTION_BY_TYPE.sports,
 		rarity: 'Rare',
 		collection: 'Sports Memorabilia'
 	},
@@ -385,7 +396,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (1).png',
 		price: 1000,
 		currency: 'USD',
-		description: '数字艺术作品，艺术家原创',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Legendary',
 		collection: 'Digital Art'
 	},
@@ -396,7 +407,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (2).png',
 		price: 300,
 		currency: 'USD',
-		description: '抽象艺术收藏，独特视觉体验',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Rare',
 		collection: 'Digital Art'
 	},
@@ -407,7 +418,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (3).png',
 		price: 150,
 		currency: 'USD',
-		description: '像素艺术系列，复古风格',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Common',
 		collection: 'Digital Art'
 	},
@@ -418,7 +429,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (4).png',
 		price: 450,
 		currency: 'USD',
-		description: '超现实主义梦境，奇幻视觉',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Epic',
 		collection: 'Digital Art'
 	},
@@ -429,7 +440,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (5).png',
 		price: 200,
 		currency: 'USD',
-		description: '极简几何艺术，简洁美感',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Rare',
 		collection: 'Digital Art'
 	},
@@ -440,7 +451,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (6).png',
 		price: 350,
 		currency: 'USD',
-		description: '赛博朋克霓虹，未来感十足',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Epic',
 		collection: 'Digital Art'
 	},
@@ -451,7 +462,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (7).png',
 		price: 180,
 		currency: 'USD',
-		description: '水彩奇幻画，温柔色彩',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Common',
 		collection: 'Digital Art'
 	},
@@ -462,7 +473,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (8).png',
 		price: 600,
 		currency: 'USD',
-		description: '3D 雕塑 NFT，立体艺术',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Legendary',
 		collection: 'Digital Art'
 	},
@@ -473,7 +484,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (9).png',
 		price: 120,
 		currency: 'USD',
-		description: '复古海报艺术，怀旧风格',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Common',
 		collection: 'Digital Art'
 	},
@@ -484,7 +495,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (10).png',
 		price: 800,
 		currency: 'USD',
-		description: '互动艺术作品，可交互体验',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Legendary',
 		collection: 'Digital Art'
 	},
@@ -495,7 +506,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (11).png',
 		price: 800,
 		currency: 'USD',
-		description: '互动艺术作品，可交互体验',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Legendary',
 		collection: 'Digital Art'
 	},
@@ -506,7 +517,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/a (12).png',
 		price: 800,
 		currency: 'USD',
-		description: '互动艺术作品，可交互体验',
+		description: DESCRIPTION_BY_TYPE.art,
 		rarity: 'Legendary',
 		collection: 'Digital Art'
 	},
@@ -517,7 +528,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (1).png',
 		price: 50,
 		currency: 'USD',
-		description: '社区福利奖励，感谢用户支持',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Special',
 		collection: 'Community Rewards'
 	},
@@ -528,7 +539,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (2).png',
 		price: 0,
 		currency: 'FREE',
-		description: '早期采用者徽章，免费领取',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Special',
 		collection: 'Community Rewards'
 	},
@@ -539,7 +550,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (3).png',
 		price: 30,
 		currency: 'USD',
-		description: '忠诚度代币，享受平台特权',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Rare',
 		collection: 'Community Rewards'
 	},
@@ -550,7 +561,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (4).png',
 		price: 20,
 		currency: 'USD',
-		description: '推荐奖励 NFT，邀请好友获得',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Common',
 		collection: 'Community Rewards'
 	},
@@ -561,7 +572,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (5).png',
 		price: 100,
 		currency: 'USD',
-		description: 'VIP 会员通行证，专属特权',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Epic',
 		collection: 'Community Rewards'
 	},
@@ -572,7 +583,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (6).png',
 		price: 0,
 		currency: 'FREE',
-		description: '创世收藏家徽章，限量发行',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Legendary',
 		collection: 'Community Rewards'
 	},
@@ -583,7 +594,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (7).png',
 		price: 75,
 		currency: 'USD',
-		description: '交易手续费折扣券，节省成本',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Rare',
 		collection: 'Community Rewards'
 	},
@@ -594,7 +605,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (8).png',
 		price: 0,
 		currency: 'FREE',
-		description: '平台周年纪念 NFT，历史见证',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Special',
 		collection: 'Community Rewards'
 	},
@@ -605,7 +616,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (9).png',
 		price: 15,
 		currency: 'USD',
-		description: '活动参与纪念 NFT，记录精彩时刻',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Common',
 		collection: 'Community Rewards'
 	},
@@ -616,7 +627,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (10).png',
 		price: 40,
 		currency: 'USD',
-		description: '开发者支持 NFT，技术贡献认可',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Rare',
 		collection: 'Community Rewards'
 	},
@@ -627,7 +638,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (11).png',
 		price: 0,
 		currency: 'FREE',
-		description: '社交媒体分享奖励，免费获得',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Common',
 		collection: 'Community Rewards'
 	},
@@ -638,7 +649,7 @@ export const rawBlindBoxItems: NFT[] = [
 		image: '/images/token/erc-721/j (12).png',
 		price: 0,
 		currency: 'FREE',
-		description: '内测用户徽章，感谢测试贡献',
+		description: DESCRIPTION_BY_TYPE.welfare,
 		rarity: 'Special',
 		collection: 'Community Rewards'
 	}

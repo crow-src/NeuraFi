@@ -328,7 +328,20 @@
 		"wallet": "钱包",
 		"website": "网站",
 		"weekly": "周",
-		"year": "年"
+		"year": "年",
+
+		"rwa": "RWA",
+		"cards": "卡牌",
+		"toys": "玩具",
+		"sports": "体育",
+		"art": "艺术",
+		"welfare": "福利",
+		"common": "普通",
+		"rare": "稀有",
+		"epic": "史诗",
+		"legendary": "传说",
+		"seller": "卖家",
+		"edit": "编辑"
 	},
 	"tip": {
 		"action_cannot_undone": "此操作不可恢复！",
@@ -426,6 +439,15 @@
 		"wallet_info": "请链接支持的钱包",
 		"wallet_list": "钱包列表"
 	},
+	"quotes": {
+		"real_time_quotes": "实时行情",
+		"only_up": "仅看涨幅",
+		"sort_by_change": "按涨跌幅",
+		"sort_by_name": "按名称",
+		"sort_by_price": "按最新价",
+		"sort_field": "排序字段"
+	},
+
 	"bank": {
 		"accruing_time": "计息时间",
 		"annual_yield": "年化收益率",

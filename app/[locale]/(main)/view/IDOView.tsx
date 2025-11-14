@@ -120,7 +120,6 @@ export function IDOView() {
 	// 确认购买
 	const handleConfirmPurchase = () => {
 		// TODO: 调用购买API
-		// 提示：需要被同意才能购买，未通过会惩罚性扣款2%
 		onPurchaseClose();
 	};
 
@@ -285,7 +284,7 @@ export function IDOView() {
 								{/* 警告提示 */}
 								<div className='p-4 bg-warning/10 border border-warning/30 rounded-lg'>
 									<div className='flex items-start gap-2'>
-										<Icon icon='mdi:alert-circle' className='w-5 h-5 text-warning flex-shrink-0 mt-0.5' />
+										<Icon icon='mdi:alert-circle' className='w-5 h-5 text-warning shrink-0 mt-0.5' />
 										<div className='text-sm text-warning-600'>
 											<p className='font-semibold mb-1'>重要提示：</p>
 											<p>购买前需要被同意才能购买。如果核对未通过而乱购买，将惩罚性扣款2%，余款原路退回。</p>
@@ -299,7 +298,7 @@ export function IDOView() {
 									<ul className='space-y-1 text-sm text-default-600'>
 										{selectedTierConfig.requirements.map((req, index) => (
 											<li key={index} className='flex items-start gap-2'>
-												<Icon icon='mdi:check-circle' className='w-4 h-4 text-success flex-shrink-0 mt-0.5' />
+												<Icon icon='mdi:check-circle' className='w-4 h-4 text-success shrink-0 mt-0.5' />
 												<span>{req}</span>
 											</li>
 										))}
@@ -449,7 +448,7 @@ function TierCard({tier, onPurchase, isReferralBound}: TierCardProps) {
 					</p>
 					{tier.requirements.map((req, index) => (
 						<div key={index} className={`flex items-start gap-2 text-xs p-2 rounded-lg transition-colors ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30 hover:bg-white/80 dark:hover:bg-content1 text-primary-foreground' : 'bg-default-50/50 hover:bg-default-100/50 text-default-600'}`}>
-							<Icon icon='mdi:check' className={`w-3 h-3 flex-shrink-0 mt-0.5 ${tier.id === 'community' ? 'text-cyan-600' : 'text-success'}`} />
+							<Icon icon='mdi:check' className={`w-3 h-3 shrink-0 mt-0.5 ${tier.id === 'community' ? 'text-cyan-600' : 'text-success'}`} />
 							<span className='leading-relaxed'>{req}</span>
 						</div>
 					))}

@@ -328,7 +328,21 @@
 		"wallet": "ウォレット",
 		"website": "ウェブサイト",
 		"weekly": "週",
-		"year": "年"
+		"year": "年",
+
+		"rwa": "RWA",
+		"cards": "カード",
+		"toys": "おもちゃ",
+		"sports": "スポーツ",
+		"art": "アート",
+		"welfare": "ウェルフェア",
+		"common": "普通",
+		"rare": "稀有",
+		"epic": "史诗",
+		"legendary": "传说",
+
+		"seller": "売り手",
+		"edit": "編集"
 	},
 	"tip": {
 		"action_cannot_undone": "この操作は元に戻せません！",
@@ -425,6 +439,14 @@
 		"view_all": "すべて表示",
 		"wallet_info": "対応しているウォレットを接続してください",
 		"wallet_list": "ウォレットリスト"
+	},
+	"quotes": {
+		"real_time_quotes": "リアルタイム相場",
+		"only_up": "上昇のみ",
+		"sort_by_change": "価格変動順",
+		"sort_by_name": "名前順",
+		"sort_by_price": "最新価格順",
+		"sort_field": "ソートフィールド"
 	},
 	"bank": {
 		"accruing_time": "利息計算期間",

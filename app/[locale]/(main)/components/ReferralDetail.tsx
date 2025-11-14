@@ -96,7 +96,7 @@ export const ReferralDetail = ({isSmall, onBack, token}: {isSmall: boolean; onBa
 						<span className='text-sm text-primary-foreground/60'>{t('team_name')}</span>
 						{teamData?.address === teamData?.leader && (
 							<Button size='sm' isIconOnly variant='light' className=' min-w-0' onPress={handleSetName}>
-								<Icon icon='jam:write' className='w-4 h-4 flex-shrink-0 text-primary' />
+								<Icon icon='jam:write' className='w-4 h-4 shrink-0 text-primary' />
 							</Button>
 						)}
 					</div>

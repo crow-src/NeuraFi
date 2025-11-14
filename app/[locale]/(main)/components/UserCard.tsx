@@ -103,18 +103,18 @@ export const UserCard = ({isInvite = false, token}: {isInvite?: boolean; token: 
 						<div className='flex items-center justify-between w-full overflow-hidden'>
 							<div className='flex items-center gap-3 w-full'>
 								<div className='size-11 rounded-full bg-content3/40 flex items-center justify-center'>
-									<Icon icon='fxemoji:dizzyface' width={28} className='flex-shrink-0' />
+									<Icon icon='fxemoji:dizzyface' width={28} className='shrink-0' />
 								</div>
 								<div className='flex flex-col'>
 									<div className='flex items-center gap-2 w-full'>
 										<div className='font-semibold'>{userData.name}</div>
-										<Button size='sm' isIconOnly variant='light' className='h-5 min-w-0 flex-shrink-0' onPress={() => handleSetName()}>
-											<Icon icon='jam:write' className='w-3 h-3 flex-shrink-0 text-black' />
+										<Button size='sm' isIconOnly variant='light' className='h-5 min-w-0 shrink-0' onPress={() => handleSetName()}>
+											<Icon icon='jam:write' className='w-3 h-3 shrink-0 text-black' />
 										</Button>
 									</div>
 									<div className='flex items-center gap-2 w-full'>
-										<span className='text-xs text-primary-foreground-500 whitespace-nowrap'>{tUser('user_contract')}:</span>
-										<span className='text-xs text-primary-foreground-500 whitespace-nowrap hidden md:block'>{masked ? '••••' : obsTxt(userData.account, 6, 6)}</span>
+										<span className='text-xs text-primary-foreground whitespace-nowrap'>{tUser('user_contract')}:</span>
+										<span className='text-xs text-primary-foreground whitespace-nowrap hidden md:block'>{masked ? '••••' : obsTxt(userData.account, 6, 6)}</span>
 										<CopyButton text={userData.account} iconClass='text-black' />
 									</div>
 								</div>
@@ -189,7 +189,7 @@ const ShareModal = ({url, title, text}: {url: string; title: string; text?: stri
 			<div className='flex items-center justify-between'>
 				<p>{t('share')}</p>
 				<Button isIconOnly size='sm' className='bg-transparent' onPress={onNativeShare}>
-					<Icon icon='weui:more-filled' className='w-6 h-6 flex-shrink-0 text-green-400' />
+					<Icon icon='weui:more-filled' className='w-6 h-6 shrink-0 text-green-400' />
 				</Button>
 			</div>
 			{/* 方案 B：直链回退（用 next-share 自带的图标按钮） */}

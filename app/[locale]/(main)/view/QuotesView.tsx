@@ -1,8 +1,10 @@
 'use client';
 
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useRouter, useSearchParams} from 'next/navigation';
-import {Card, CardHeader, CardBody, Tabs, Tab, Input, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@heroui/react';
+import {Card, CardHeader, CardBody, Tabs, Tab, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@heroui/react';
+import {Input} from '@heroui/react';
+
 import {Icon} from '@iconify/react';
 import {useTranslations} from 'next-intl';
 import {TabsClass} from '@/components/class';
@@ -26,9 +28,8 @@ const sortItems = (items: QuoteItem[], sort: SortState): QuoteItem[] => {
 	return copy;
 };
 
-const QUOTE_CATEGORIES: QuoteCategory[] = ['主流', 'DeFi', '稳定币', 'Layer2', '扩容', '预言机', 'Meme', 'AI', 'GameFi'];
-const QUOTE_EXCHANGES = ['OKX', 'Binance', 'Coinbase', 'Bybit', 'Gate', 'KuCoin'];
-const QUOTE_GROUPS = ['默认分组', '热门自选', '套利组合'];
+const BLIND_BOX_TYPES: QuoteCategory[] = ['rwa', 'cards', 'toys', 'sports', 'art', 'welfare'];
+const QUOTE_EXCHANGES = ['OKX', 'Binance', 'Coinbase', 'Bybit', 'Gate', 'KuCoin']; // 行情来源
 
 const buildSymbol = (name: string, index: number) => {
 	const letters = name
@@ -41,31 +42,38 @@ const buildSymbol = (name: string, index: number) => {
 
 const deriveQuotes = (items: NFT[]): QuoteItem[] =>
 	items.map((item, index) => {
-		const category = QUOTE_CATEGORIES[index % QUOTE_CATEGORIES.length];
 		const changePct = Number((((index % 17) - 8) / 100).toFixed(4));
 		const last = Number((item.price * (1 + changePct)).toFixed(2));
+		const fallbackCategory = BLIND_BOX_TYPES[index % BLIND_BOX_TYPES.length];
 		return {
 			...item,
 			symbol: buildSymbol(item.name, index),
 			exchange: QUOTE_EXCHANGES[index % QUOTE_EXCHANGES.length],
 			last,
 			changePct,
-			quoteCategory: category,
-			group: QUOTE_GROUPS[index % QUOTE_GROUPS.length],
+			quoteCategory: (item.type as QuoteCategory) ?? fallbackCategory,
 			starred: index % 5 === 0
 		};
 	});
 
 export function QuotesView() {
+	const t = useTranslations('quotes');
+	const tCommon = useTranslations('common');
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const t = useTranslations('common');
 	const allQuotes = useMemo(() => deriveQuotes(rawBlindBoxItems), []);
-	const quoteCategories = useMemo(() => Array.from(new Set(allQuotes.map(item => item.quoteCategory))) as QuoteCategory[], [allQuotes]);
-	const [activeCat, setActiveCat] = useState<QuoteCategory>(() => quoteCategories[0] ?? QUOTE_CATEGORIES[0]);
+	const quoteCategories = useMemo(() => BLIND_BOX_TYPES.filter(type => allQuotes.some(item => item.quoteCategory === type)), [allQuotes]);
+	const [activeCat, setActiveCat] = useState<QuoteCategory>(() => quoteCategories[0] ?? BLIND_BOX_TYPES[0]);
 	const [query, setQuery] = useState<string>('');
 	const [onlyUp, setOnlyUp] = useState<boolean>(false);
 	const [sort, setSort] = useState<SortState>({key: 'name', dir: 'asc'});
+
+	useEffect(() => {
+		if (quoteCategories.length === 0) return;
+		if (!quoteCategories.includes(activeCat)) {
+			setActiveCat(quoteCategories[0]);
+		}
+	}, [activeCat, quoteCategories]);
 
 	const filtered = useMemo(() => {
 		const q = query.trim();
@@ -90,15 +98,15 @@ export function QuotesView() {
 		<Card className='bg-background/60 backdrop-blur-xl border border-content3/30 shadow-lg w-full md:h-[93vh]'>
 			<CardHeader className='flex  gap-4 sm:flex-row sm:items-center sm:justify-between'>
 				{/* 标题区域 */}
-				<div className='flex items-center gap-3 flex-shrink-0'>
-					<Icon icon='material-symbols:trending-up' className='w-8 h-8 text-primary flex-shrink-0' />
-					<h2 className='text-xl font-bold tracking-tight flex-shrink-0'>{t('real_time_quotes')}</h2>
+				<div className='flex items-center gap-3 shrink-0'>
+					<Icon icon='material-symbols:trending-up' className='w-8 h-8 text-primary shrink-0' />
+					<h2 className='text-xl font-bold tracking-tight shrink-0'>{t('real_time_quotes')}</h2>
 				</div>
 				{/* 搜索和筛选区域 */}
 				<div className='flex items-center gap-2 w-full sm:w-auto min-w-0'>
-					<Input value={query} onValueChange={setQuery} startContent={<Icon icon='mdi:magnify' width={20} />} radius='sm' variant='bordered' placeholder={t('search')} className='flex-1 min-w-0' />
+					<Input value={query} onValueChange={setQuery} startContent={<Icon icon='mdi:magnify' width={20} />} radius='sm' variant='bordered' placeholder={'Search'} className='flex-1 min-w-0' />
 					<Button size='sm' variant={onlyUp ? 'solid' : 'bordered'} onPress={() => setOnlyUp(prev => !prev)} startContent={<Icon icon='mdi:trending-up' width={18} />}>
-						仅看涨幅
+						{t('only_up')}
 					</Button>
 					<Dropdown>
 						<DropdownTrigger>
@@ -126,10 +134,10 @@ export function QuotesView() {
 			<CardBody className='pt-0'>
 				<Tabs aria-label={t('category')} selectedKey={activeCat} onSelectionChange={k => setActiveCat(k as QuoteCategory)} variant='underlined' classNames={TabsClass}>
 					{quoteCategories.map(c => (
-						<Tab key={c} title={c} />
+						<Tab key={c} title={tCommon(c)} />
 					))}
 				</Tabs>
-				<div className='mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>{filtered.length === 0 ? <div className='col-span-full py-8 text-center text-primary-foreground-500'>{t('no_data')}</div> : filtered.map(it => <QuoteCard key={it.id} item={it} onClick={handleCardClick} />)}</div>
+				<div className='mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>{filtered.length === 0 ? <div className='col-span-full py-8 text-center text-primary-foreground'>{t('no_data')}</div> : filtered.map(it => <QuoteCard key={it.id} item={it} onClick={handleCardClick} />)}</div>
 			</CardBody>
 		</Card>
 	);

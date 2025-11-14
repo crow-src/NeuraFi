@@ -256,7 +256,7 @@ export function PredictView() {
 				<CardBody>
 					<div className='flex flex-col md:flex-row gap-4 items-center justify-between'>
 						{/* 标题区域 */}
-						<div className='flex-shrink-0 flex flex-col gap-1'>
+						<div className='shrink-0 flex flex-col gap-1'>
 							<h1 className='text-xl font-bold text-primary-foreground'>预测市场</h1>
 							<p className='text-primary-foreground text-xs hidden md:block'>参与预测市场，交易未来事件</p>
 						</div>
@@ -435,7 +435,7 @@ function OptionRow({option}: OptionRowProps) {
 	return (
 		<div className='flex items-center justify-between gap-2'>
 			<span className='text-xs font-medium text-primary-foreground flex-1 truncate'>{option.label}</span>
-			<div className='flex gap-1 flex-shrink-0'>
+			<div className='flex gap-1 shrink-0'>
 				<Button size='sm' color='success' variant='flat' className='min-w-[60px] h-7 text-xs font-semibold px-2' style={{backgroundColor: 'rgba(34, 197, 94, 0.1)'}}>
 					Yes {formatProbability(option.yesProbability)}
 				</Button>

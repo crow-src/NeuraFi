@@ -64,18 +64,9 @@ const rarityColorMap: Record<string, 'default' | 'primary' | 'secondary' | 'warn
 	Epic: 'secondary',
 	Legendary: 'warning'
 };
-// 稀有度文本映射
-const rarityTextMap: Record<string, string> = {
-	Common: '普通',
-	Rare: '稀有',
-	Epic: '史诗',
-	Legendary: '传说'
-};
 
 // ===== 行情类型与组件 =====
-
-export type QuoteCategory = '主流' | 'DeFi' | '稳定币' | 'Layer2' | '预言机' | '扩容' | 'Meme' | 'AI' | 'GameFi';
-
+export type QuoteCategory = 'rwa' | 'cards' | 'toys' | 'sports' | 'art' | 'welfare';
 export type QuoteItem = NFT & {
 	symbol: string;
 	exchange: string;
@@ -87,13 +78,21 @@ export type QuoteItem = NFT & {
 const formatPercent = (value: number) => `${(value * 100).toFixed(2)}%`;
 
 const NFTCardBase: React.FC<NFTCardBaseProps> = ({nft, mode, className, noShadow, isFavorited, onToggleFavorite, onImageClick, children}) => {
+	const t = useTranslations('common');
 	const rarityColor = rarityColorMap[nft.rarity ?? ''] ?? 'default';
-	const rarityText = rarityTextMap[nft.rarity ?? ''] ?? nft.rarity ?? '';
 	const isMarket = mode === 'market';
+	// 稀有度文本映射
+	const rarityTextMap: Record<string, string> = {
+		Common: t('common'),
+		Rare: t('rare'),
+		Epic: t('epic'),
+		Legendary: t('legendary')
+	};
+	const rarityText = rarityTextMap[nft.rarity ?? ''] ?? nft.rarity ?? '';
 
 	return (
 		<div className={cn('flex flex-col gap-4 p-4 transition-all duration-200 rounded-lg border border-divider/30 bg-background', noShadow ? '' : 'shadow-xl hover:shadow-2xl', className)}>
-			<div className={cn('relative w-full h-64 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-secondary/20', onImageClick && 'cursor-pointer')} onClick={onImageClick}>
+			<div className={cn('relative w-full h-64 rounded-lg overflow-hidden bg-linear-to-br from-primary/20 to-secondary/20', onImageClick && 'cursor-pointer')} onClick={onImageClick}>
 				<div className='absolute inset-0 z-0'>
 					<Image src={nft.image} alt={nft.name} className='w-full h-full object-cover transition-transform duration-300 hover:scale-105' fallbackSrc='/images/nft-placeholder.png' />
 				</div>
@@ -122,8 +121,8 @@ const NFTCardBase: React.FC<NFTCardBaseProps> = ({nft, mode, className, noShadow
 
 			<div className='flex flex-col gap-3'>
 				<div className='flex flex-col gap-1'>
-					<h3 className='text-lg font-bold text-priamry-foreground truncate'>{nft.name}</h3>
-					{nft.description && <p className='text-sm text-priamry-foreground/70 line-clamp-2'>{nft.description}</p>}
+					<h3 className='text-lg font-bold text-primary-foreground truncate'>{nft.name}</h3>
+					{nft.description && <p className='text-sm text-primary-foreground/70 line-clamp-2'>{nft.description}</p>}
 				</div>
 				{children}
 			</div>
@@ -164,13 +163,13 @@ const BlindboxNFTCard: React.FC<NFTCardProps> = ({nft, className, noShadow, onPu
 					/>
 				</div>
 
-				<Button color='primary' size='sm' onPress={handlePurchase} className='flex-shrink-0 px-6' startContent={<Icon icon='mdi:shopping-cart' className='w-4 h-4' />}>
+				<Button color='primary' size='sm' onPress={handlePurchase} className='shrink-0 px-6' startContent={<Icon icon='mdi:shopping-cart' className='w-4 h-4' />}>
 					{t('buy')}
 				</Button>
 			</div>
 
 			<div className='flex justify-between items-center text-sm'>
-				<span className='text-priamry-foreground/60'>{t('total_price')}</span>
+				<span className='text-primary-foreground/60'>{t('price')}</span>
 				<span className='font-semibold text-primary-foreground/60'>
 					{totalPrice} {nft.currency}
 				</span>
@@ -181,6 +180,7 @@ const BlindboxNFTCard: React.FC<NFTCardProps> = ({nft, className, noShadow, onPu
 
 // 市场挂单卡片组件
 const MarketNFTCard: React.FC<NFTCardProps> = ({nft, className, noShadow, onSelect, onEditListing, onCancelListing, onToggleFavorite}) => {
+	const t = useTranslations('common');
 	const [isFavorited, setIsFavorited] = useState(Boolean(nft.isFavorited));
 	const listedDate = nft.listedDate ? new Date(nft.listedDate).toLocaleDateString() : undefined;
 
@@ -193,29 +193,29 @@ const MarketNFTCard: React.FC<NFTCardProps> = ({nft, className, noShadow, onSele
 	return (
 		<NFTCardBase nft={nft} mode='market' className={className} noShadow={noShadow} isFavorited={isFavorited} onToggleFavorite={toggleFavorite} onImageClick={() => onSelect?.(nft)}>
 			<div className='flex items-center justify-between text-sm'>
-				<span className='text-default-600'>卖家</span>
+				<span className='text-default-600'>{t('seller')}</span>
 				<div className='flex items-center gap-2'>
 					{nft.sellerAvatar && <Avatar src={nft.sellerAvatar} size='sm' />}
 					<span className='font-medium'>{nft.sellerName ?? '--'}</span>
 				</div>
 			</div>
 			<div className='flex items-center justify-between text-sm'>
-				<span className='text-default-600'>挂单时间</span>
+				<span className='text-default-600'>{t('time')}</span>
 				<span className='text-primary-foreground'>{listedDate ?? '--'}</span>
 			</div>
 			<div className='flex gap-2 pt-2 border-t border-primary-border/30'>
 				{nft.isMyListing ? (
 					<>
 						<Button color='warning' variant='flat' size='sm' className='flex-1' startContent={<Icon icon='mdi:pencil' className='w-4 h-4' />} onPress={() => onEditListing?.(nft)}>
-							编辑
+							{t('edit')}
 						</Button>
 						<Button color='danger' variant='flat' size='sm' className='flex-1' startContent={<Icon icon='mdi:delete' className='w-4 h-4' />} onPress={() => onCancelListing?.(nft)}>
-							下架
+							{t('cancel')}
 						</Button>
 					</>
 				) : (
 					<Button color='primary' variant='flat' size='sm' className='w-full' startContent={<Icon icon='mdi:shopping' className='w-4 h-4' />} onPress={() => onSelect?.(nft)}>
-						立即购买
+						{t('buy')}
 					</Button>
 				)}
 			</div>
@@ -242,10 +242,10 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({item, onClick}) => {
 	return (
 		<button onClick={() => onClick?.(item)} className='group flex items-center justify-between border border-content3/20 bg-content1/40 p-4 text-left hover:bg-content2/40 transition-colors rounded-lg'>
 			<div className='flex min-w-0 items-center gap-3'>
-				<Image alt={item.name} src={item.image} className='w-10 h-10 rounded-md object-cover flex-shrink-0' fallbackSrc='/images/nft-placeholder.png' />
+				<Image alt={item.name} src={item.image} className='w-10 h-10 rounded-md object-cover shrink-0' fallbackSrc='/images/nft-placeholder.png' />
 				<div className='flex min-w-0 flex-col'>
 					<div className='truncate font-semibold'>{item.name}</div>
-					<div className='mt-1 flex items-center gap-2 text-xs text-priamry-foreground-500'>
+					<div className='mt-1 flex items-center gap-2 text-xs text-primary-foreground'>
 						<Chip size='sm' variant='flat' radius='sm' className='h-5'>
 							{item.exchange}
 						</Chip>
@@ -257,8 +257,8 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({item, onClick}) => {
 				<div className='text-right'>
 					<div className='tabular-nums font-bold'>{item.last}</div>
 				</div>
-				<Chip size='sm' color={isUp ? 'danger' : 'success'} variant='solid' className='min-w-20 text-center'>
-					{isUp ? '+' : ''}
+				<Chip size='sm' color={isUp ? 'success' : 'danger'} variant='solid' className='min-w-20 text-center'>
+					{isUp ? '+' : '-'}
 					{formatPercent(item.changePct)}
 				</Chip>
 				<Icon icon='mdi:chevron-right' width={20} className='text-primary-foreground' />
@@ -280,16 +280,16 @@ export const QuoteWatchCard: React.FC<QuoteWatchCardProps> = ({item, onOpen, onR
 	return (
 		<div className='group flex items-center justify-between rounded-lg border border-content3/20 bg-content1/40 p-4 hover:bg-content2/40 transition-colors'>
 			<button onClick={() => onOpen?.(item)} className='flex min-w-0 flex-1 items-center gap-3 text-left'>
-				<Image alt={item.name} src={item.image} className='w-10 h-10 rounded-md object-cover flex-shrink-0' fallbackSrc='/images/nft-placeholder.png' />
+				<Image alt={item.name} src={item.image} className='w-10 h-10 rounded-md object-cover shrink-0' fallbackSrc='/images/nft-placeholder.png' />
 				<div className='flex min-w-0 flex-col'>
 					<div className='flex items-center gap-2'>
 						<span className='truncate font-semibold'>{item.name}</span>
 						<Chip size='sm' variant='flat' radius='sm' className='h-5'>
 							{item.exchange}
 						</Chip>
-						<span className='text-xs text-priamry-foreground-500'>{item.symbol}</span>
+						<span className='text-xs text-primary-foreground'>{item.symbol}</span>
 					</div>
-					<div className='mt-1 text-xs text-priamry-foreground-500'>{item.group ?? '默认分组'}</div>
+					<div className='mt-1 text-xs text-primary-foreground'>{item.group ?? '默认分组'}</div>
 				</div>
 			</button>
 			<div className='ml-3 flex shrink-0 items-center gap-3'>
@@ -300,11 +300,11 @@ export const QuoteWatchCard: React.FC<QuoteWatchCardProps> = ({item, onOpen, onR
 						{formatPercent(item.changePct)}
 					</Chip>
 				</div>
-				<button aria-label='星标' className={`rounded-lg p-2 hover:bg-content2/60 ${item.starred ? 'text-warning' : 'text-priamry-foreground-500'}`} onClick={() => onStar?.(item.id, !item.starred)}>
+				<button aria-label='星标' className={`rounded-lg p-2 hover:bg-content2/60 ${item.starred ? 'text-warning' : 'text-primary-foreground'}`} onClick={() => onStar?.(item.id, !item.starred)}>
 					<Icon icon={item.starred ? 'mdi:star' : 'mdi:star-outline'} width={20} />
 				</button>
 				{onRemove && (
-					<button aria-label='移除' className='rounded-lg p-2 hover:bg-content2/60 text-priamry-foreground-400' onClick={() => onRemove(item.id)}>
+					<button aria-label='移除' className='rounded-lg p-2 hover:bg-content2/60 text-primary-foreground-400' onClick={() => onRemove(item.id)}>
 						<Icon icon='mdi:chevron-right' width={20} />
 					</button>
 				)}
@@ -348,9 +348,9 @@ export const NFTGrid: React.FC<NFTGridProps> = ({nfts, mode = 'blindbox', onPurc
 			{/* 空状态 */}
 			{nfts.length === 0 && !loading && (
 				<div className='flex flex-col items-center justify-center py-16 text-center'>
-					<Icon icon='mdi:image-off' className='w-16 h-16 text-priamry-foreground/30 mb-4' />
-					<h3 className='text-lg font-semibold text-priamry-foreground/60 mb-2'>No available</h3>
-					<p className='text-sm text-priamry-foreground/40'>No available</p>
+					<Icon icon='mdi:image-off' className='w-16 h-16 text-primary-foreground/30 mb-4' />
+					<h3 className='text-lg font-semibold text-primary-foreground/60 mb-2'>No available</h3>
+					<p className='text-sm text-primary-foreground/40'>No available</p>
 				</div>
 			)}
 		</div>
@@ -387,7 +387,7 @@ export const HotNFTList: React.FC<HotNFTListProps> = ({nfts, onPurchase, title =
 			<ScrollShadow orientation='horizontal' className='w-full' hideScrollBar>
 				<div className='flex gap-4'>
 					{nfts.map(nft => (
-						<NFTCard key={nft.id} nft={nft} className='w-80 flex-shrink-0' mode='blindbox' onPurchase={onPurchase} noShadow />
+						<NFTCard key={nft.id} nft={nft} className='w-80 shrink-0' mode='blindbox' onPurchase={onPurchase} noShadow />
 					))}
 				</div>
 			</ScrollShadow>
@@ -448,8 +448,8 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 			<CardBody className='p-4 space-y-3'>
 				{/* 标题和分类 */}
 				<div className='flex items-start justify-between gap-2'>
-					<h3 className='text-sm font-semibold text-priamry-foreground leading-tight line-clamp-2 flex-1'>{market.title}</h3>
-					{market.isTrending && <Icon icon='mdi:fire' className='w-4 h-4 text-warning flex-shrink-0' />}
+					<h3 className='text-sm font-semibold text-primary-foreground leading-tight line-clamp-2 flex-1'>{market.title}</h3>
+					{market.isTrending && <Icon icon='mdi:fire' className='w-4 h-4 text-warning shrink-0' />}
 				</div>
 
 				{/* Binary 类型：简单 Yes/No */}
@@ -463,7 +463,7 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 									<circle cx='32' cy='32' r='28' stroke='currentColor' strokeWidth='5' fill='none' strokeDasharray={`${2 * Math.PI * 28}`} strokeDashoffset={`${2 * Math.PI * 28 * (1 - market.yesProbability)}`} className='text-success transition-all' strokeLinecap='round' />
 								</svg>
 								<div className='absolute inset-0 flex items-center justify-center'>
-									<span className='text-base font-bold text-priamry-foreground'>{formatProbability(market.yesProbability)}</span>
+									<span className='text-base font-bold text-primary-foreground'>{formatProbability(market.yesProbability)}</span>
 								</div>
 							</div>
 						</div>
@@ -492,8 +492,8 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 							};
 							return (
 								<div key={option.id} className='flex items-center justify-between gap-2'>
-									<span className='text-xs font-medium text-priamry-foreground flex-1 truncate'>{option.label}</span>
-									<div className='flex gap-1 flex-shrink-0' onClick={e => e.stopPropagation()}>
+									<span className='text-xs font-medium text-primary-foreground flex-1 truncate'>{option.label}</span>
+									<div className='flex gap-1 shrink-0' onClick={e => e.stopPropagation()}>
 										<Button size='sm' color='success' variant='flat' className='min-w-[50px] h-6 text-xs font-semibold px-2' style={{backgroundColor: 'rgba(34, 197, 94, 0.1)'}}>
 											Yes {formatProb(option.yesProbability)}
 										</Button>
@@ -559,7 +559,7 @@ export const HotPredictionList: React.FC<HotPredictionListProps> = ({markets, ti
 			<ScrollShadow orientation='horizontal' className='w-full' hideScrollBar>
 				<div className='flex gap-4'>
 					{markets.map(market => (
-						<PredictionMarketCard key={market.id} market={market} className='w-80 flex-shrink-0' onClick={onMarketClick} />
+						<PredictionMarketCard key={market.id} market={market} className='w-80 shrink-0' onClick={onMarketClick} />
 					))}
 				</div>
 			</ScrollShadow>

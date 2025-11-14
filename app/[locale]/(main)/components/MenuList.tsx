@@ -412,7 +412,7 @@ export const MenuList = ({onMenuClick}: {onMenuClick: (key: string) => void}) =>
 						{menus.map(m => (
 							<button key={m.key} onClick={() => handleMenuClick(m.key)} className='w-full flex items-center justify-between px-4 py-4 hover:bg-content2/40 transition-colors'>
 								<div className='flex items-center gap-3'>
-									<Icon icon={m.icon} width={20} className='text-primary-foreground-500' />
+									<Icon icon={m.icon} width={20} className='text-primary-foreground' />
 									<span className='text-base'>{m.label}</span>
 								</div>
 								<Icon icon='mdi:chevron-right' width={22} className='text-primary-foreground-400' />

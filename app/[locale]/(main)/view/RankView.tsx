@@ -108,7 +108,7 @@ function RankingList({items}: {items: RankingItem[]}) {
 								{/* 排名 */}
 								<div className='flex items-center justify-center w-12 h-12 rounded-md bg-primary text-primary-foreground font-bold text-lg'>{index + 1}</div>
 								{/* 图片 */}
-								<Avatar src={item.image} radius='sm' className='w-12 h-12 flex-shrink-0' fallback={<Icon icon='mdi:image' className='w-6 h-6' />} />
+								<Avatar src={item.image} radius='sm' className='w-12 h-12 shrink-0' fallback={<Icon icon='mdi:image' className='w-6 h-6' />} />
 								{/* 信息 */}
 								<div className='flex-1 min-w-0'>
 									<div className='flex items-center gap-2 mb-1'>
@@ -120,7 +120,7 @@ function RankingList({items}: {items: RankingItem[]}) {
 									<p className='text-sm text-primary-foreground truncate'>{item.collection}</p>
 								</div>
 								{/* 价格和变化 */}
-								<div className='text-right flex-shrink-0'>
+								<div className='text-right shrink-0'>
 									<div className='font-bold text-primary-foreground'>${item.price.toLocaleString()}</div>
 									<div className={`text-sm flex items-center gap-1 ${item.change >= 0 ? 'text-success' : 'text-danger'}`}>
 										<Icon icon={item.change >= 0 ? 'mdi:trending-up' : 'mdi:trending-down'} className='w-4 h-4' />

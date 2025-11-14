@@ -99,7 +99,7 @@ export function TradingChart({header, onBack, onOpenBuy, onOpenSell, showBottomA
 							<Chip size='sm' radius='sm' variant='flat' className='tracking-wider'>
 								{header.exchange}
 							</Chip>
-							<span className='text-xs text-primary-foreground-500'>{header.code}</span>
+							<span className='text-xs text-primary-foreground'>{header.code}</span>
 						</div>
 					</div>
 				</div>
@@ -117,22 +117,22 @@ export function TradingChart({header, onBack, onOpenBuy, onOpenSell, showBottomA
 			<Card className='flex flex-row mb-3 w-full p-2 justify-between'>
 				<div className='flex flex-col'>
 					<div className={`text-3xl font-bold tabular-nums ${isUp ? 'text-success' : 'text-danger'}`}>{header.last}</div>
-					<div className='mt-1 text-sm tabular-nums text-primary-foreground-500'>
+					<div className='mt-1 text-sm tabular-nums text-primary-foreground'>
 						{header.change >= 0 ? '+' : ''}
 						{header.change.toFixed(1)} / {pct(header.changePct)}
 					</div>
 				</div>
 				<div className='flex flex-col gap-1'>
 					<div className='flex justify-between items-center gap-4'>
-						<div className='text-primary-foreground-500 text-sm'>{tSwap('buy')}</div>
+						<div className='text-primary-foreground text-sm'>{tSwap('buy')}</div>
 						<div className='tabular-nums font-medium'>{header.bid}</div>
 					</div>
 					<div className='flex justify-between items-center gap-4'>
-						<div className='text-primary-foreground-500 text-sm'>{tSwap('sell')}</div>
+						<div className='text-primary-foreground text-sm'>{tSwap('sell')}</div>
 						<div className='tabular-nums font-medium'>{header.ask}</div>
 					</div>
 					<div className='flex justify-between items-center gap-4'>
-						<div className='text-primary-foreground-500 text-sm'>{tSwap('position')}</div>
+						<div className='text-primary-foreground text-sm'>{tSwap('position')}</div>
 						<div className='tabular-nums font-medium'>{header.pos}</div>
 					</div>
 				</div>

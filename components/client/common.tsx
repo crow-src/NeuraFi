@@ -31,7 +31,7 @@ export const CopyCellValue: React.FC<CopyCellValueProps> = ({label, value, label
 		<span className={cn('text-sm', labelClassName)}>{label}</span>
 		<div className='flex items-center gap-1'>
 			<span className={cn('text-sm', valueClassName)}>{value}</span>
-			<CopyButton text={value.toString()} className='w-5 h-5' iconClass='text-primary h-4 w-4 flex-shrink-0' />
+			<CopyButton text={value.toString()} className='w-5 h-5' iconClass='text-primary h-4 w-4 shrink-0' />
 		</div>
 	</div>
 );
@@ -89,9 +89,9 @@ export const Snippet: React.FC<{
 	const variantClasses = variant === 'bordered' ? 'border border-primary/20' : '';
 	return (
 		<div className={`${baseClasses} ${variantClasses} ${className}`}>
-			{symbol && <span className='text-xs font-medium opacity-70 flex-shrink-0 flex items-center'>{symbol}</span>}
+			{symbol && <span className='text-xs font-medium opacity-70 shrink-0 flex items-center'>{symbol}</span>}
 			<div className='flex-1 min-w-0 flex items-center '>{children ?? <span className='text-xs font-mono break-all'>{codeString}</span>}</div>
-			<CopyButton text={codeString} className='w-5 h-5' iconClass='text-primary h-5 w-5 flex-shrink-0' />
+			<CopyButton text={codeString} className='w-5 h-5' iconClass='text-primary h-5 w-5 shrink-0' />
 		</div>
 	);
 };
@@ -116,8 +116,8 @@ export const CopyButton = ({text, className, iconClass = 'text-primary'}: {text:
 		}
 	};
 	return (
-		<Button isIconOnly variant='light' className={cn('h-5 w-5 min-w-0 flex-shrink-0', className)} onPress={handleCopy}>
-			<Icon icon={icon} className={cn('w-3 h-3 flex-shrink-0', iconClass)} />
+		<Button isIconOnly variant='light' className={cn('h-5 w-5 min-w-0 shrink-0', className)} onPress={handleCopy}>
+			<Icon icon={icon} className={cn('w-3 h-3 shrink-0', iconClass)} />
 		</Button>
 	);
 };

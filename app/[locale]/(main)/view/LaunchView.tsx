@@ -90,13 +90,13 @@ export function LaunchView() {
 	return (
 		<div className='h-full w-full flex flex-col p-6'>
 			{/* 页面标题 */}
-			<div className='mb-6 max-w-4xl mx-auto w-full flex-shrink-0'>
+			<div className='mb-6 max-w-4xl mx-auto w-full shrink-0'>
 				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>发布新项目</h1>
 				<p className='text-primary-foreground'>创建您的代币项目并通过盲盒进行募资</p>
 			</div>
 
 			{/* 步骤指示器 */}
-			<Card className='mb-6 max-w-4xl mx-auto w-full flex-shrink-0'>
+			<Card className='mb-6 max-w-4xl mx-auto w-full shrink-0'>
 				<CardBody>
 					<div className='flex items-center justify-between'>
 						{steps.map((step, index) => (
@@ -123,7 +123,7 @@ export function LaunchView() {
 			</div>
 
 			{/* 底部操作按钮 - 固定位置 */}
-			<Card className='mt-6 max-w-4xl mx-auto w-full flex-shrink-0'>
+			<Card className='mt-6 max-w-4xl mx-auto w-full shrink-0'>
 				<CardBody>
 					<div className='flex justify-between items-center'>
 						<Button variant='ghost' onPress={handlePrevious} isDisabled={currentStep === 1} startContent={<Icon icon='mdi:chevron-left' className='w-4 h-4' />}>

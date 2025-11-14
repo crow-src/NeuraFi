@@ -2,6 +2,7 @@
 
 import {useState} from 'react';
 import {Tabs, Tab} from '@heroui/react';
+import {useTranslations} from 'next-intl';
 import {TabsClass} from '@/components/class';
 import {NFTGrid} from '../components';
 import {blindBoxItems} from './data_test';
@@ -11,18 +12,19 @@ export type BlindBoxCategory = {
 	label: string;
 };
 
-export const blindBoxCategories: BlindBoxCategory[] = [
-	{type: 'rwa', label: 'RWA'},
-	{type: 'cards', label: '卡牌'},
-	{type: 'toys', label: '玩具'},
-	{type: 'sports', label: '体育'},
-	{type: 'art', label: '艺术'},
-	{type: 'welfare', label: '福利'}
-];
-
 // ===== 主视图 【盲盒列表】=====
 export function BlindBoxView() {
-	const [selectedTab, setSelectedTab] = useState<string>(blindBoxCategories[0]?.type ?? 'rwa');
+	const t = useTranslations('common');
+	const [selectedTab, setSelectedTab] = useState<string>('rwa');
+
+	const blindBoxCategories: BlindBoxCategory[] = [
+		{type: 'rwa', label: t('rwa')},
+		{type: 'cards', label: t('cards')},
+		{type: 'toys', label: t('toys')},
+		{type: 'sports', label: t('sports')},
+		{type: 'art', label: t('art')},
+		{type: 'welfare', label: t('welfare')}
+	];
 
 	return (
 		<div className='w-full flex flex-col p-4 pt-0 border-b border-primary-border/30 '>

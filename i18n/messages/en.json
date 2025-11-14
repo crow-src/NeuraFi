@@ -328,7 +328,21 @@
 		"wallet": "Wallet",
 		"website": "Website",
 		"weekly": "Week",
-		"year": "Year"
+		"year": "Year",
+
+		"rwa": "RWA",
+		"cards": "Cards",
+		"toys": "Toys",
+		"sports": "Sports",
+		"art": "Art",
+		"welfare": "Welfare",
+		"common": "Common",
+		"rare": "Rare",
+		"epic": "Epic",
+		"legendary": "Legendary",
+
+		"seller": "Seller",
+		"edit": "Edit"
 	},
 	"tip": {
 		"action_cannot_undone": "This action is irreversible!",
@@ -425,6 +439,14 @@
 		"view_all": "View All",
 		"wallet_info": "Please connect a supported wallet",
 		"wallet_list": "Wallet List"
+	},
+	"quotes": {
+		"real_time_quotes": "Real-time Quotes",
+		"only_up": "Only Up",
+		"sort_by_change": "By Price Change",
+		"sort_by_name": "By Name",
+		"sort_by_price": "By Latest Price",
+		"sort_field": "Sorting Field"
 	},
 	"bank": {
 		"accruing_time": "Interest Accrual Period",

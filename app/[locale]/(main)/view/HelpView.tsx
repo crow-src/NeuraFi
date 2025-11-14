@@ -114,7 +114,7 @@ export function HelpView() {
 			{/* 主对话区域 */}
 			<div className='flex-1 flex flex-col h-full min-h-0'>
 				{/* 对话头部 */}
-				<div className='flex items-center justify-between p-4 border-b border-default-200 flex-shrink-0'>
+				<div className='flex items-center justify-between p-4 border-b border-default-200 shrink-0'>
 					<div className='flex items-center gap-3'>
 						<div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center'>
 							<Icon icon='mdi:robot' className='w-6 h-6 text-primary-foreground' />
@@ -183,7 +183,7 @@ export function HelpView() {
 				</div>
 
 				{/* 输入区域 */}
-				<div className='border-t border-default-200 p-4 flex-shrink-0'>
+				<div className='border-t border-default-200 p-4 shrink-0'>
 					<div className='flex gap-2'>
 						<Textarea placeholder='输入您的问题...' value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyPress} className='flex-1' minRows={1} maxRows={4} disabled={isLoading} />
 						<Button color='primary' onPress={handleSendMessage} disabled={!inputValue.trim() || isLoading} isLoading={isLoading} className='px-6'>
@@ -198,7 +198,7 @@ export function HelpView() {
 			</div>
 
 			{/* 对话分类侧边栏 - 大屏幕显示 */}
-			<div className='hidden lg:block w-80 border-l border-default-200 bg-default-50 flex-shrink-0'>
+			<div className='hidden lg:block w-80 border-l border-default-200 bg-default-50 shrink-0'>
 				<div className='p-4'>
 					<h3 className='text-lg font-semibold mb-4'>对话分类</h3>
 					<div className='space-y-2'>
