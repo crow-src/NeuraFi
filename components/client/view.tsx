@@ -41,7 +41,7 @@ export const HexView = ({tx}: {tx: string}) => {
 					<Image alt='Send image' width={380} className='w-full' src='/images/gif/money.gif' />
 				)}
 			</div>
-			<div className='break-words'>
+			<div className='wrap-break-words'>
 				<p>
 					Awaiting pending...{' '}
 					<a href={`https://bscscan.com/tx/${tx}`} className='text-blue-600 hover:underline' target='_blank' rel='noopener noreferrer'>
@@ -112,88 +112,3 @@ export const SidebarDrawer = React.forwardRef<HTMLDivElement, ModalProps>(({chil
 ));
 
 SidebarDrawer.displayName = 'SidebarDrawer';
-
-// // 交易状态组件 主要用于BTC项目 其他项目使用HexView
-// export const TransactionStateView = () => {
-// 	const {wallet} = useWalletStore();
-// 	const {allTransactions} = useTransactionHistory({
-// 		limit: 1 // 只获取最新的1条交易
-// 	});
-// 	const [isProcessing, setIsProcessing] = React.useState(true);
-// 	const [timeLeft, setTimeLeft] = React.useState(5);
-
-// 	const latestTx = allTransactions[0]; // 获取最新的交易
-
-// 	// 倒计时，然后显示成功
-// 	useEffect(() => {
-// 		const timer = setInterval(() => {
-// 			setTimeLeft(prev => {
-// 				if (prev <= 1) {
-// 					setIsProcessing(false);
-// 					clearInterval(timer);
-// 					return 0;
-// 				}
-// 				return prev - 1;
-// 			});
-// 		}, 1000);
-
-// 		return () => clearInterval(timer);
-// 	}, []);
-
-// 	// 如果没有交易记录，不渲染组件
-// 	if (!latestTx) return null;
-// 	return (
-// 		<div className='flex flex-col w-full gap-2 h-max-screen/2'>
-// 			<div className='flex items-center justify-center w-full'>
-// 				<Card className='w-full h-full border-none bg-linear-to-br from-primary to-primary-secondary'>
-// 					<CardBody className='items-center justify-center pb-0 min-h-[144px] overflow-hidden'>
-// 						{isProcessing ? (
-// 							<div className='flex flex-col items-center justify-center h-36 w-full'>
-// 								<div className='relative w-36 h-36'>
-// 									<CircularProgress
-// 										aria-label='Loading...'
-// 										classNames={{
-// 											svg: 'w-36 h-36 drop-shadow-md',
-// 											indicator: 'stroke-white',
-// 											track: 'stroke-white/10',
-// 											value: 'text-3xl font-semibold text-primary-foreground'
-// 										}}
-// 										strokeWidth={4}
-// 									/>
-// 									<div className='absolute inset-0 flex items-center justify-center'>
-// 										<span className='text-primary-foreground text-2xl font-bold'>{timeLeft}s</span>
-// 									</div>
-// 								</div>
-// 							</div>
-// 						) : (
-// 							<div className='flex flex-col items-center justify-center h-36 w-full'>
-// 								<p className='text-primary-foreground text-xl font-semibold'>Push Successful</p>
-// 								<p className='text-primary-foreground/80 text-sm mt-2'>Please check in browse</p>
-// 							</div>
-// 						)}
-// 					</CardBody>
-// 					<CardFooter className='items-center justify-center pt-0'>
-// 						<Chip classNames={{base: 'border-1 border-white/30', content: 'text-primary-foreground/90 text-small font-semibold'}} variant='bordered'>
-// 							{latestTx.status === 'pending' ? 'Pending...' : latestTx.status === 'success' ? 'Success' : 'Failed'}
-// 						</Chip>
-// 					</CardFooter>
-// 				</Card>
-// 			</div>
-// 			<div className='break-words'>
-// 				<p>
-// 					{isProcessing ? `Processing transaction, ${timeLeft}s remaining...` : 'Transaction completed'}{' '}
-// 					{!isProcessing && (
-// 						<a href={`${wallet.chain.explorerUrl}/tx/${latestTx.hash}`} className='text-blue-600 hover:underline' target='_blank' rel='noopener noreferrer'>
-// 							view transactions
-// 						</a>
-// 					)}
-// 				</p>
-// 			</div>
-// 			<Snippet symbol='TX' variant='bordered' size='sm' codeString={latestTx.hash}>
-// 				<span className='text-sm md:text-sm'>{obsTxt(latestTx.hash, 12, 12)}</span>
-// 			</Snippet>
-// 		</div>
-// 	);
-// };
-
-//TransactionStateView.displayName = 'TransactionStateView';

@@ -1,4 +1,4 @@
-import {NFT} from '../components';
+import {NFT, type QuoteCategory} from '../components';
 import {type PredictionMarket} from '../components';
 
 type BlindBoxType = 'rwa' | 'cards' | 'toys' | 'sports' | 'art' | 'welfare';
@@ -12,7 +12,18 @@ const DESCRIPTION_BY_TYPE: Record<BlindBoxType, string> = {
 	welfare: 'Community welfare reward that thanks loyal supporters with exclusive platform perks.'
 };
 
-export const data_list: NFT[] = [
+const QUOTE_EXCHANGES = ['OKX', 'Binance', 'Coinbase', 'Bybit', 'Gate', 'KuCoin'];
+
+const buildSymbol = (name: string, index: number) => {
+	const letters = name
+		.replace(/[^a-zA-Z]/g, '')
+		.slice(0, 3)
+		.toUpperCase();
+	const suffix = String.fromCharCode(65 + (index % 26));
+	return `${letters || 'NFT'}-${suffix}`;
+};
+
+const BASE_NFT_ITEMS: NFT[] = [
 	{
 		id: 'rwa-1',
 		type: 'rwa',
@@ -654,6 +665,21 @@ export const data_list: NFT[] = [
 		collection: 'Community Rewards'
 	}
 ];
+//行情数据
+export const data_list: NFT[] = BASE_NFT_ITEMS.map((item, index) => {
+	const changePct = Number((((index % 17) - 8) / 100).toFixed(4));
+	const last = Number((item.price * (1 + changePct)).toFixed(2));
+	const quoteCategory = (item.type as QuoteCategory) ?? 'rwa';
+	return {
+		...item,
+		quoteCategory,
+		symbol: item.symbol ?? buildSymbol(item.name, index),
+		exchange: item.exchange ?? QUOTE_EXCHANGES[index % QUOTE_EXCHANGES.length],
+		last: item.last ?? last,
+		changePct: item.changePct ?? changePct,
+		starred: item.starred ?? index % 5 === 0
+	};
+});
 
 export const blindBoxItems: NFT[] = data_list.map(item => ({
 	...item,

@@ -10,5 +10,6 @@ export * from './HotScroll';
 export * from './TradingChart';
 export * from './FundingList';
 export * from './Card';
+export * from './Common';
 
 export {TabContent} from './TabContent';

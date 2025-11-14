@@ -8,7 +8,7 @@ import {Input} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useTranslations} from 'next-intl';
 import {TabsClass} from '@/components/class';
-import {QuoteCard, QuoteItem, QuoteCategory, NFT} from '../components';
+import {QuoteCard, QuoteItem, QuoteCategory} from '../components';
 import {data_list} from './data_test';
 
 // ===== 行情 主视图 =====
@@ -29,39 +29,13 @@ const sortItems = (items: QuoteItem[], sort: SortState): QuoteItem[] => {
 };
 
 const BLIND_BOX_TYPES: QuoteCategory[] = ['rwa', 'cards', 'toys', 'sports', 'art', 'welfare'];
-const QUOTE_EXCHANGES = ['OKX', 'Binance', 'Coinbase', 'Bybit', 'Gate', 'KuCoin']; // 行情来源
-
-const buildSymbol = (name: string, index: number) => {
-	const letters = name
-		.replace(/[^a-zA-Z]/g, '')
-		.slice(0, 3)
-		.toUpperCase();
-	const suffix = String.fromCharCode(65 + (index % 26));
-	return `${letters || 'NFT'}-${suffix}`;
-};
-
-const deriveQuotes = (items: NFT[]): QuoteItem[] =>
-	items.map((item, index) => {
-		const changePct = Number((((index % 17) - 8) / 100).toFixed(4));
-		const last = Number((item.price * (1 + changePct)).toFixed(2));
-		const fallbackCategory = BLIND_BOX_TYPES[index % BLIND_BOX_TYPES.length];
-		return {
-			...item,
-			symbol: buildSymbol(item.name, index),
-			exchange: QUOTE_EXCHANGES[index % QUOTE_EXCHANGES.length],
-			last,
-			changePct,
-			quoteCategory: (item.type as QuoteCategory) ?? fallbackCategory,
-			starred: index % 5 === 0
-		};
-	});
 
 export function QuotesView() {
 	const t = useTranslations('quotes');
 	const tCommon = useTranslations('common');
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const allQuotes = useMemo(() => deriveQuotes(data_list), []);
+	const allQuotes = useMemo(() => data_list as QuoteItem[], []);
 	const quoteCategories = useMemo(() => BLIND_BOX_TYPES.filter(type => allQuotes.some(item => item.quoteCategory === type)), [allQuotes]);
 	const [activeCat, setActiveCat] = useState<QuoteCategory>(() => quoteCategories[0] ?? BLIND_BOX_TYPES[0]);
 	const [query, setQuery] = useState<string>('');

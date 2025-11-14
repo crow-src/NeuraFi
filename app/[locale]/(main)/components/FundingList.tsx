@@ -31,7 +31,7 @@ export const FundingProviderCard = ({fund, isSelected, onToggle}: {fund: Funding
 	const t = useTranslations('swap');
 
 	return (
-		<div key={fund.id} className={`p-4 border rounded-lg transition-all cursor-pointer w-full ${isSelected ? 'border-primary bg-primary/10' : 'border-primary/20 hover:bg-primary/5'}`} onClick={onToggle}>
+		<div key={fund.id} className={`p-4 border rounded-lg transition-all cursor-pointer w-full ${isSelected ? 'border-primary bg-primary/10' : 'border-primary hover:bg-primary/5'}`} onClick={onToggle}>
 			<div className='flex justify-between items-start w-full'>
 				<div className='flex items-center gap-3'>
 					<Avatar size='md' src={fund.avatar} />
@@ -214,7 +214,7 @@ export const FundingList = ({selectedFunds, onSelection}: {selectedFunds: Set<st
 
 			{/* 资金统计 */}
 			{selectedFunds.size > 0 && (
-				<Card className='p-3 border-primary/20 bg-primary/5 w-full'>
+				<Card className='p-3 border-primary bg-primary/5 w-full'>
 					<div className='flex justify-between items-center w-full'>
 						<div>
 							<p className='text-sm text-primary-foreground/70'>{t('total_available_funding')}</p>

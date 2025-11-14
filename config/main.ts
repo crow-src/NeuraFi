@@ -11,14 +11,14 @@ export const MAIN_CONFIG = {
 		{label: 'Home', key: 'home', icon: 'fluent:home-32-filled', href: '?tab=home', new: false, category: 'main', order: 1},
 		{label: 'IDO', key: 'ido', icon: 'material-symbols:storefront', href: '?tab=ido', new: true, category: 'main', order: 1}, //募资
 		{label: 'Box', key: 'box', icon: 'fluent:box-32-regular', href: '?tab=box', new: false, category: 'main', order: 1},
-		{label: 'Quotes', key: 'quotes', icon: 'material-symbols:trending-up', href: '?tab=quotes', new: false, category: 'main', order: 1}, //盲盒游戏
-		{label: 'Rank', key: 'rank', icon: 'material-symbols:leaderboard', href: '?tab=rank', new: false, category: 'main', order: 1},
+		{label: 'Predict', key: 'predict', icon: 'game-icons:perspective-dice-six-faces-random', href: '?tab=predict', new: true, category: 'main', order: 1}, //预测市场
 		{label: 'Launch', key: 'launch', icon: 'material-symbols:rocket-launch', href: '?tab=launch', new: false, category: 'main', order: 1}, //发布发射
 
 		// 市场相关
-		{label: 'Predict', key: 'predict', icon: 'material-symbols:storefront', href: '?tab=predict', new: true, category: 'market', order: 2}, //预测市场
 		{label: 'Market', key: 'market', icon: 'material-symbols:storefront', href: '?tab=market', new: true, category: 'market', order: 2},
 		{label: 'Swap', key: 'trading', icon: 'icon-park-outline:transaction', href: '?tab=trading', new: false, category: 'market', order: 2},
+		{label: 'Quotes', key: 'quotes', icon: 'material-symbols:trending-up', href: '?tab=quotes', new: false, category: 'market', order: 2}, //盲盒游戏
+		{label: 'Rank', key: 'rank', icon: 'material-symbols:leaderboard', href: '?tab=rank', new: false, category: 'market', order: 2},
 		// {label: 'Bank', key: 'bank', icon: 'mdi:bank', href: '?tab=bank', new: false, category: 'market', order: 2},
 
 		// 用户相关

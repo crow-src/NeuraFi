@@ -86,7 +86,7 @@ export const Snippet: React.FC<{
 	children?: React.ReactNode;
 }> = ({variant = 'flat', symbol, className = '', codeString, children}) => {
 	const baseClasses = 'flex items-center gap-3 p-3 rounded-lg bg-primary-background text-primary';
-	const variantClasses = variant === 'bordered' ? 'border border-primary/20' : '';
+	const variantClasses = variant === 'bordered' ? 'border border-primary' : '';
 	return (
 		<div className={`${baseClasses} ${variantClasses} ${className}`}>
 			{symbol && <span className='text-xs font-medium opacity-70 shrink-0 flex items-center'>{symbol}</span>}
