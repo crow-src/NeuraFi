@@ -7,17 +7,12 @@ import {TabsClass} from '@/components/class';
 import {NFTGrid} from '../components';
 import {blindBoxItems} from './data_test';
 
-export type BlindBoxCategory = {
-	type: string;
-	label: string;
-};
-
 // ===== 主视图 【盲盒列表】=====
 export function BlindBoxView() {
 	const t = useTranslations('common');
 	const [selectedTab, setSelectedTab] = useState<string>('rwa');
 
-	const blindBoxCategories: BlindBoxCategory[] = [
+	const blindBoxCategories: {type: string; label: string}[] = [
 		{type: 'rwa', label: t('rwa')},
 		{type: 'cards', label: t('cards')},
 		{type: 'toys', label: t('toys')},

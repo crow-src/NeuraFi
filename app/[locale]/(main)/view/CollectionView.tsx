@@ -5,7 +5,7 @@ import {Tabs, Tab, Chip, Avatar, Card, CardBody, CardHeader, Button, Input, Badg
 import {Icon} from '@iconify/react';
 import {TabsClass} from '@/components/class';
 
-// ===== 主视图 【收藏列表】=====
+// ===== Collection view =====
 
 export function CollectionView() {
 	const [selectedTab, setSelectedTab] = useState('all');
@@ -24,7 +24,7 @@ export function CollectionView() {
 		setSortBy(key as string);
 	};
 
-	// 获取收藏项目数据
+	// filter collections by tab
 	const getCollectionData = (category: string) => {
 		switch (category) {
 			case 'all':
@@ -42,25 +42,25 @@ export function CollectionView() {
 
 	const currentCollections = getCollectionData(selectedTab);
 
-	// 搜索和排序
+	// search + sort
 	const filteredCollections = useMemo(() => {
 		let filtered = currentCollections;
 
-		// 搜索过滤
+		// search filter
 		if (searchQuery) {
 			filtered = filtered.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.description.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase()));
 		}
 
-		// 排序
+		// sorting rules
 		switch (sortBy) {
 			case 'recent':
 				return filtered.sort((a, b) => new Date(b.addedDate).getTime() - new Date(a.addedDate).getTime());
 			case 'name':
 				return filtered.sort((a, b) => a.name.localeCompare(b.name));
 			case 'progress':
-				return filtered.sort((a, b) => b.progress - a.progress);
+				return filtered.sort((a, b) => (b.progress ?? 0) - (a.progress ?? 0));
 			case 'price':
-				return filtered.sort((a, b) => b.price - a.price);
+				return filtered.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
 			default:
 				return filtered;
 		}
@@ -68,79 +68,79 @@ export function CollectionView() {
 
 	return (
 		<div className='h-full w-full flex flex-col p-6 overflow-y-auto'>
-			{/* 页面标题 */}
+			{/* Header */}
 			<div className='mb-6'>
-				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>我的收藏</h1>
-				<p className='text-primary-foreground'>管理您收藏的项目和投资组合</p>
+				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>My Collections</h1>
+				<p className='text-primary-foreground'>Manage the blind box and prediction projects you follow</p>
 			</div>
 
-			{/* 搜索和筛选 */}
+			{/* Search + sorting */}
 			<Card className='mb-6'>
 				<CardBody>
 					<div className='flex flex-col md:flex-row gap-4'>
 						<div className='flex-1'>
-							<Input placeholder='搜索项目名称、描述或分类...' value={searchQuery} onChange={e => handleSearch(e.target.value)} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='max-w-md' />
+							<Input placeholder='Search by name, description or category...' value={searchQuery} onChange={e => handleSearch(e.target.value)} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='max-w-md' />
 						</div>
 						<div className='flex gap-2'>
 							<Button variant={sortBy === 'recent' ? 'solid' : 'bordered'} size='sm' onPress={() => handleSortChange('recent')} startContent={<Icon icon='mdi:clock' className='w-4 h-4' />}>
-								最近添加
+								Recently added
 							</Button>
 							<Button variant={sortBy === 'name' ? 'solid' : 'bordered'} size='sm' onPress={() => handleSortChange('name')} startContent={<Icon icon='mdi:sort-alphabetical' className='w-4 h-4' />}>
-								按名称
+								Name
 							</Button>
 							<Button variant={sortBy === 'progress' ? 'solid' : 'bordered'} size='sm' onPress={() => handleSortChange('progress')} startContent={<Icon icon='mdi:chart-line' className='w-4 h-4' />}>
-								按进度
+								Progress
 							</Button>
 							<Button variant={sortBy === 'price' ? 'solid' : 'bordered'} size='sm' onPress={() => handleSortChange('price')} startContent={<Icon icon='mdi:currency-usd' className='w-4 h-4' />}>
-								按价格
+								Price
 							</Button>
 						</div>
 					</div>
 				</CardBody>
 			</Card>
 
-			{/* 分类标签页 */}
+			{/* Tabs */}
 			<div className='w-full mb-6'>
 				<Tabs selectedKey={selectedTab} onSelectionChange={handleTabChange} variant='underlined' classNames={TabsClass}>
-					<Tab key='all' title='全部'>
+					<Tab key='all' title='All'>
 						<div className='flex flex-col gap-4 py-4'>
 							<div className='flex items-center justify-between'>
-								<h3 className='text-lg font-semibold'>所有收藏项目</h3>
+								<h3 className='text-lg font-semibold'>All favorites</h3>
 								<Badge content={filteredCollections.length} color='primary'>
-									<span className='text-sm text-primary-foreground'>共 {filteredCollections.length} 个项目</span>
+									<span className='text-sm text-primary-foreground'>{filteredCollections.length} items</span>
 								</Badge>
 							</div>
 							<CollectionGrid collections={filteredCollections} />
 						</div>
 					</Tab>
-					<Tab key='active' title='进行中'>
+					<Tab key='active' title='Active'>
 						<div className='flex flex-col gap-4 py-4'>
 							<div className='flex items-center justify-between'>
-								<h3 className='text-lg font-semibold'>进行中的项目</h3>
+								<h3 className='text-lg font-semibold'>In progress</h3>
 								<Badge content={filteredCollections.length} color='success'>
-									<span className='text-sm text-primary-foreground'>共 {filteredCollections.length} 个项目</span>
+									<span className='text-sm text-primary-foreground'>{filteredCollections.length} items</span>
 								</Badge>
 							</div>
 							<CollectionGrid collections={filteredCollections} />
 						</div>
 					</Tab>
-					<Tab key='completed' title='已完成'>
+					<Tab key='completed' title='Completed'>
 						<div className='flex flex-col gap-4 py-4'>
 							<div className='flex items-center justify-between'>
-								<h3 className='text-lg font-semibold'>已完成的项目</h3>
+								<h3 className='text-lg font-semibold'>Completed projects</h3>
 								<Badge content={filteredCollections.length} color='default'>
-									<span className='text-sm text-primary-foreground'>共 {filteredCollections.length} 个项目</span>
+									<span className='text-sm text-primary-foreground'>{filteredCollections.length} items</span>
 								</Badge>
 							</div>
 							<CollectionGrid collections={filteredCollections} />
 						</div>
 					</Tab>
-					<Tab key='upcoming' title='即将开始'>
+					<Tab key='upcoming' title='Upcoming'>
 						<div className='flex flex-col gap-4 py-4'>
 							<div className='flex items-center justify-between'>
-								<h3 className='text-lg font-semibold'>即将开始的项目</h3>
+								<h3 className='text-lg font-semibold'>Upcoming projects</h3>
 								<Badge content={filteredCollections.length} color='warning'>
-									<span className='text-sm text-primary-foreground'>共 {filteredCollections.length} 个项目</span>
+									<span className='text-sm text-primary-foreground'>{filteredCollections.length} items</span>
 								</Badge>
 							</div>
 							<CollectionGrid collections={filteredCollections} />
@@ -152,15 +152,15 @@ export function CollectionView() {
 	);
 }
 
-// 收藏项目网格组件
+// grid renderer
 function CollectionGrid({collections}: {collections: CollectionItem[]}) {
 	if (collections.length === 0) {
 		return (
 			<Card className='bg-default-50 border-primary-border'>
 				<CardBody className='text-center py-12'>
 					<Icon icon='mdi:heart-outline' className='w-16 h-16 text-default-400 mx-auto mb-4' />
-					<h3 className='text-lg font-semibold text-default-600 mb-2'>暂无收藏项目</h3>
-					<p className='text-primary-foreground'>开始收藏您感兴趣的项目吧！</p>
+					<h3 className='text-lg font-semibold text-default-600 mb-2'>No favorites yet</h3>
+					<p className='text-primary-foreground'>Start bookmarking the projects you love.</p>
 				</CardBody>
 			</Card>
 		);
@@ -175,13 +175,13 @@ function CollectionGrid({collections}: {collections: CollectionItem[]}) {
 	);
 }
 
-// 收藏项目卡片组件
+// collection card
 function CollectionCard({item}: {item: CollectionItem}) {
 	const [isFavorited, setIsFavorited] = useState(true);
 
 	const handleToggleFavorite = () => {
 		setIsFavorited(!isFavorited);
-		// 这里可以添加实际的收藏/取消收藏逻辑
+		// TODO integrate favorite mutation
 	};
 
 	const getStatusColor = (status: string) => {
@@ -200,15 +200,17 @@ function CollectionCard({item}: {item: CollectionItem}) {
 	const getStatusText = (status: string) => {
 		switch (status) {
 			case 'active':
-				return '进行中';
+				return 'Active';
 			case 'completed':
-				return '已完成';
+				return 'Completed';
 			case 'upcoming':
-				return '即将开始';
+				return 'Upcoming';
 			default:
-				return '未知';
+				return 'Unknown';
 		}
 	};
+
+	const isBlindBox = item.type === 'blindbox';
 
 	return (
 		<Card className='hover:shadow-lg transition-shadow duration-300'>
@@ -229,44 +231,14 @@ function CollectionCard({item}: {item: CollectionItem}) {
 			<CardBody className='pt-0'>
 				<p className='text-sm text-default-600 mb-4 line-clamp-2'>{item.description}</p>
 
-				{/* 进度条 */}
-				<div className='mb-4'>
-					<div className='flex justify-between text-sm mb-2'>
-						<span className='text-default-600'>募资进度</span>
-						<span className='font-medium'>{item.progress}%</span>
-					</div>
-					<Progress value={item.progress} color='primary' className='w-full' />
-					<div className='flex justify-between text-xs text-primary-foreground mt-1'>
-						<span>已募集: ${item.raisedAmount.toLocaleString()}</span>
-						<span>目标: ${item.targetAmount.toLocaleString()}</span>
-					</div>
-				</div>
+				{isBlindBox ? <BlindBoxDetails item={item} /> : <PredictionDetails item={item} />}
 
-				{/* 项目信息 */}
-				<div className='space-y-2 mb-4'>
-					<div className='flex justify-between text-sm'>
-						<span className='text-default-600'>盲盒价格:</span>
-						<span className='font-medium'>${item.price}</span>
-					</div>
-					<div className='flex justify-between text-sm'>
-						<span className='text-default-600'>分类:</span>
-						<Chip size='sm' variant='flat'>
-							{item.category}
-						</Chip>
-					</div>
-					<div className='flex justify-between text-sm'>
-						<span className='text-default-600'>收藏时间:</span>
-						<span className='text-primary-foreground'>{new Date(item.addedDate).toLocaleDateString()}</span>
-					</div>
-				</div>
-
-				{/* 操作按钮 */}
 				<div className='flex gap-2'>
 					<Button color='primary' variant='flat' size='sm' className='flex-1' startContent={<Icon icon='mdi:eye' className='w-4 h-4' />}>
-						查看详情
+						View details
 					</Button>
 					<Button variant='bordered' size='sm' startContent={<Icon icon='mdi:share' className='w-4 h-4' />}>
-						分享
+						Share
 					</Button>
 				</div>
 			</CardBody>
@@ -274,7 +246,79 @@ function CollectionCard({item}: {item: CollectionItem}) {
 	);
 }
 
-// 类型定义
+function BlindBoxDetails({item}: {item: CollectionItem}) {
+	return (
+		<>
+			<div className='mb-4'>
+				<div className='flex justify-between text-sm mb-2'>
+					<span className='text-default-600'>Funding progress</span>
+					<span className='font-medium'>{item.progress ?? 0}%</span>
+				</div>
+				<Progress value={item.progress ?? 0} color='primary' className='w-full' />
+				<div className='flex justify-between text-xs text-primary-foreground mt-1'>
+					<span>Raised: ${item.raisedAmount?.toLocaleString()}</span>
+					<span>Target: ${item.targetAmount?.toLocaleString()}</span>
+				</div>
+			</div>
+
+			<div className='space-y-2 mb-4'>
+				<div className='flex justify-between text-sm'>
+					<span className='text-default-600'>Box price:</span>
+					<span className='font-medium'>${item.price}</span>
+				</div>
+				<div className='flex justify-between text-sm'>
+					<span className='text-default-600'>Category:</span>
+					<Chip size='sm' variant='flat'>
+						{item.category}
+					</Chip>
+				</div>
+				<div className='flex justify-between text-sm'>
+					<span className='text-default-600'>Favorited on:</span>
+					<span className='text-primary-foreground'>{new Date(item.addedDate).toLocaleDateString()}</span>
+				</div>
+			</div>
+		</>
+	);
+}
+
+function PredictionDetails({item}: {item: CollectionItem}) {
+	return (
+		<div className='space-y-3 mb-4'>
+			<div className='flex items-center gap-2 text-xs text-default-600'>
+				<Chip size='sm' variant='flat' startContent={<Icon icon='mdi:poll' className='w-3 h-3' />}>
+					{item.marketCategory ?? item.category}
+				</Chip>
+				<Chip size='sm' color='secondary' variant='flat'>
+					{item.marketType === 'binary' ? 'Binary' : 'Multiple choice'}
+				</Chip>
+			</div>
+			{item.yesProbability !== undefined ? (
+				<div className='flex justify-between items-center bg-default-100/60 rounded-xl p-3'>
+					<div>
+						<p className='text-xs text-default-500'>Yes probability</p>
+						<p className='text-lg font-semibold text-primary-foreground'>{Math.round(item.yesProbability * 100)}%</p>
+					</div>
+					<div>
+						<p className='text-xs text-default-500'>Volume (24h)</p>
+						<p className='text-lg font-semibold text-primary-foreground'>${(item.totalVolume ?? 0).toLocaleString()}</p>
+					</div>
+				</div>
+			) : null}
+			{item.options && item.options.length > 0 && (
+				<div className='space-y-2'>
+					{item.options.slice(0, 3).map(option => (
+						<div key={option.label} className='flex items-center justify-between text-xs'>
+							<span className='text-default-600'>{option.label}</span>
+							<span className='font-medium text-primary-foreground'>{Math.round(option.probability * 100)}%</span>
+						</div>
+					))}
+				</div>
+			)}
+		</div>
+	);
+}
+
+// types
 interface CollectionItem {
 	id: string;
 	name: string;
@@ -282,22 +326,29 @@ interface CollectionItem {
 	logo: string;
 	category: string;
 	status: 'active' | 'completed' | 'upcoming';
-	price: number;
-	targetAmount: number;
-	raisedAmount: number;
-	progress: number;
+	type: 'blindbox' | 'prediction';
+	price?: number;
+	targetAmount?: number;
+	raisedAmount?: number;
+	progress?: number;
+	totalVolume?: number;
+	yesProbability?: number;
+	marketCategory?: string;
+	marketType?: 'binary' | 'multiple';
+	options?: {label: string; probability: number}[];
 	addedDate: string;
 }
 
-// 测试数据
+// mock data
 const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-1',
 		name: 'Basketball Legends',
-		description: '经典篮球明星卡收藏，包含传奇球员的限量版卡片',
+		description: 'Limited-edition blind boxes featuring iconic basketball stars.',
 		logo: '/images/token/erc-721/1.png',
-		category: '体育',
+		category: 'Sports',
 		status: 'active',
+		type: 'blindbox',
 		price: 150,
 		targetAmount: 1000000,
 		raisedAmount: 750000,
@@ -307,10 +358,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-2',
 		name: 'Digital Art Gallery',
-		description: '数字艺术收藏品，展示当代艺术家的创新作品',
+		description: 'Digital art collectibles featuring contemporary creators.',
 		logo: '/images/token/erc-721/2.png',
-		category: '艺术',
+		category: 'Art',
 		status: 'completed',
+		type: 'blindbox',
 		price: 200,
 		targetAmount: 500000,
 		raisedAmount: 500000,
@@ -320,10 +372,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-3',
 		name: 'RWA Gold Tokens',
-		description: '实物黄金支持的代币，1:1对应真实黄金资产',
+		description: 'Gold-backed blind boxes redeemable 1:1 for real bullion.',
 		logo: '/images/token/erc-721/3.png',
 		category: 'RWA',
 		status: 'upcoming',
+		type: 'blindbox',
 		price: 2500,
 		targetAmount: 2000000,
 		raisedAmount: 0,
@@ -333,10 +386,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-4',
 		name: 'Gaming Universe',
-		description: '游戏世界NFT收藏，包含角色、装备和虚拟土地',
+		description: 'Game-themed blind boxes covering characters, gear and virtual land.',
 		logo: '/images/token/erc-721/4.png',
-		category: '游戏',
+		category: 'Gaming',
 		status: 'active',
+		type: 'blindbox',
 		price: 80,
 		targetAmount: 800000,
 		raisedAmount: 320000,
@@ -346,10 +400,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-5',
 		name: 'DeFi Protocol',
-		description: '去中心化金融协议代币，支持流动性挖矿和治理',
+		description: 'Blind boxes with DeFi protocol tokens for LP and governance.',
 		logo: '/images/token/erc-721/5.png',
 		category: 'DeFi',
 		status: 'active',
+		type: 'blindbox',
 		price: 50,
 		targetAmount: 1500000,
 		raisedAmount: 900000,
@@ -359,10 +414,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-6',
 		name: 'Vintage Cars',
-		description: '经典汽车收藏品，包含历史悠久的跑车和概念车',
+		description: 'Vintage car memorabilia captured inside blind boxes.',
 		logo: '/images/token/erc-721/6.png',
-		category: '收藏品',
+		category: 'Collectibles',
 		status: 'completed',
+		type: 'blindbox',
 		price: 500,
 		targetAmount: 300000,
 		raisedAmount: 300000,
@@ -372,10 +428,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-7',
 		name: 'Space Exploration',
-		description: '太空探索主题NFT，纪念人类航天历史的重要时刻',
+		description: 'Space exploration NFTs celebrating historic missions.',
 		logo: '/images/token/erc-721/1.png',
-		category: '科技',
+		category: 'Tech',
 		status: 'upcoming',
+		type: 'blindbox',
 		price: 300,
 		targetAmount: 1200000,
 		raisedAmount: 0,
@@ -385,10 +442,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-8',
 		name: 'Music Legends',
-		description: '音乐传奇人物收藏，包含经典专辑和演唱会纪念品',
+		description: 'Music legends blind boxes with albums and memorabilia.',
 		logo: '/images/token/erc-721/2.png',
-		category: '音乐',
+		category: 'Music',
 		status: 'active',
+		type: 'blindbox',
 		price: 120,
 		targetAmount: 600000,
 		raisedAmount: 480000,
@@ -398,10 +456,11 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-9',
 		name: 'Fashion Week',
-		description: '时尚周限定NFT，展示顶级设计师的创意作品',
+		description: 'Fashion Week exclusives from top designers.',
 		logo: '/images/token/erc-721/3.png',
-		category: '时尚',
+		category: 'Fashion',
 		status: 'completed',
+		type: 'blindbox',
 		price: 180,
 		targetAmount: 400000,
 		raisedAmount: 400000,
@@ -411,14 +470,51 @@ const allCollections: CollectionItem[] = [
 	{
 		id: 'collection-10',
 		name: 'Nature Conservation',
-		description: '自然保护主题NFT，支持环保事业和野生动物保护',
+		description: 'Eco-friendly blind boxes funding conservation efforts.',
 		logo: '/images/token/erc-721/4.png',
-		category: '环保',
+		category: 'Environment',
 		status: 'active',
+		type: 'blindbox',
 		price: 100,
 		targetAmount: 800000,
 		raisedAmount: 240000,
 		progress: 30,
 		addedDate: '2024-01-16'
+	},
+	{
+		id: 'collection-11',
+		name: 'Bitcoin above 80k?',
+		description: 'Prediction market on whether BTC closes above $80k this quarter.',
+		logo: '/images/token/erc-721/bitcoin.png',
+		category: 'Crypto',
+		marketCategory: 'Crypto',
+		status: 'active',
+		type: 'prediction',
+		marketType: 'binary',
+		yesProbability: 0.62,
+		totalVolume: 3200000,
+		options: [
+			{label: 'Yes', probability: 0.62},
+			{label: 'No', probability: 0.38}
+		],
+		addedDate: '2024-01-13'
+	},
+	{
+		id: 'collection-12',
+		name: 'Top NBA seed 2025',
+		description: 'Multi-outcome market on the regular-season #1 seed.',
+		logo: '/images/token/erc-721/nba.png',
+		category: 'Sports',
+		marketCategory: 'Sports',
+		status: 'active',
+		type: 'prediction',
+		marketType: 'multiple',
+		totalVolume: 780000,
+		options: [
+			{label: 'Boston', probability: 0.34},
+			{label: 'Denver', probability: 0.22},
+			{label: 'Milwaukee', probability: 0.18}
+		],
+		addedDate: '2024-01-11'
 	}
 ];
