@@ -106,7 +106,7 @@ export function LaunchView() {
 			</div>
 
 			{/* 步骤指示器 */}
-			<Card className='mb-6 max-w-5xl mx-auto w-full shrink-0'>
+			<Card className='mb-6 max-w-6xl mx-auto w-full shrink-0'>
 				<CardBody>
 					<div className='flex items-center justify-between'>
 						{steps.map((step, index) => (
