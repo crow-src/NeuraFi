@@ -156,7 +156,7 @@ export function CollectionView() {
 function CollectionGrid({collections}: {collections: CollectionItem[]}) {
 	if (collections.length === 0) {
 		return (
-			<Card className='bg-default-50 border-default-200'>
+			<Card className='bg-default-50 border-primary-border'>
 				<CardBody className='text-center py-12'>
 					<Icon icon='mdi:heart-outline' className='w-16 h-16 text-default-400 mx-auto mb-4' />
 					<h3 className='text-lg font-semibold text-default-600 mb-2'>暂无收藏项目</h3>

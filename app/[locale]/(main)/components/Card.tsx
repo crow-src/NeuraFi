@@ -397,7 +397,7 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 	};
 
 	return (
-		<Card className={cn('hover:shadow-lg transition-all border border-default-200 bg-content1 cursor-pointer', className)} onClick={() => onClick?.(market)}>
+		<Card className={cn('hover:shadow-lg transition-all border border-primary-border bg-content1 cursor-pointer', className)} onClick={() => onClick?.(market)}>
 			<CardBody className='p-4 space-y-3'>
 				{/* 标题和分类 */}
 				<div className='flex items-start justify-between gap-2'>
@@ -462,7 +462,7 @@ const PredictionMarketCard: React.FC<PredictionMarketCardProps> = ({market, onCl
 				)}
 
 				{/* 底部：交易量和状态 */}
-				<div className='flex items-center justify-between pt-2 border-t border-default-200'>
+				<div className='flex items-center justify-between pt-2 border-t border-primary-border'>
 					<span className='text-xs text-primary-foreground font-medium'>{formatVolume(market.totalVolume)} Vol.</span>
 					<div className='flex items-center gap-1.5'>
 						{market.status === 'live' && (

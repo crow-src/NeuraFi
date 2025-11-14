@@ -376,7 +376,7 @@ function RewardsTab({data}: {data: any}) {
 				<CardBody>
 					<div className='space-y-4'>
 						{data.rewards?.map((reward: any, index: number) => (
-							<div key={index} className='flex items-center justify-between p-4 border border-default-200 rounded-lg'>
+							<div key={index} className='flex items-center justify-between p-4 border border-primary-border rounded-lg'>
 								<div className='flex items-center gap-4'>
 									<div className='w-10 h-10 bg-success rounded-full flex items-center justify-center'>
 										<Icon icon={reward.icon} className='w-5 h-5 text-primary-foreground' />

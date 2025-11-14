@@ -354,7 +354,7 @@ function MarketCard({market}: MarketCardProps) {
 	};
 
 	return (
-		<Card className='hover:shadow-lg transition-all border border-default-200 bg-content1'>
+		<Card className='hover:shadow-lg transition-all border border-primary-border bg-content1'>
 			<CardBody className='p-4 space-y-3'>
 				{/* 标题 */}
 				<h3 className='text-sm font-semibold text-primary-foreground leading-tight line-clamp-2'>{market.title}</h3>
@@ -397,7 +397,7 @@ function MarketCard({market}: MarketCardProps) {
 				)}
 
 				{/* 底部：交易量和图标 */}
-				<div className='flex items-center justify-between pt-2 border-t border-default-200'>
+				<div className='flex items-center justify-between pt-2 border-t border-primary-border'>
 					<span className='text-xs text-primary-foreground font-medium'>{formatVolume(market.totalVolume)} Vol.</span>
 					<div className='flex items-center gap-2'>
 						{market.status === 'live' && (

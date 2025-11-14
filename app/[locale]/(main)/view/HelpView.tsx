@@ -2,11 +2,11 @@
 
 import React, {useState, useEffect, useRef} from 'react';
 import Image from 'next/image';
-import {Button, Input, Card, CardBody, Avatar, Chip, Divider, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Textarea} from '@heroui/react';
+import {Button, Input, Card, CardBody, Avatar, Chip, Divider, Textarea} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useTranslations} from 'next-intl';
+import {useModalStore} from '@/app/store/useModalStore';
 
-const LOGO_SRC = '/favicon-256x256.png';
 type CategoryColor = 'primary' | 'success' | 'warning' | 'danger' | 'secondary';
 
 const CATEGORY_STYLES: Record<CategoryColor, {icon: string; text: string; card: string; ring: string}> = {
@@ -40,7 +40,7 @@ export function HelpView() {
 	const [inputValue, setInputValue] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
-	const {isOpen, onOpen, onClose} = useDisclosure();
+	const {showModal, closeModal} = useModalStore();
 
 	const quickPrompts = (t.raw('prompts') as string[]) ?? [];
 
@@ -139,6 +139,50 @@ export function HelpView() {
 		setInputValue(prompt);
 	};
 
+	const openSettingsModal = () => {
+		const body = (
+			<div className='space-y-4'>
+				<div>
+					<h4 className='font-semibold mb-2'>{t('settings.categories')}</h4>
+					<div className='grid grid-cols-1 gap-2'>
+						{conversationCategories.map(category => (
+							<Button
+								key={category.id}
+								variant={selectedConversation === category.id ? 'solid' : 'bordered'}
+								color={category.color as any}
+								size='sm'
+								onPress={() => {
+									setSelectedConversation(category.id);
+									closeModal();
+								}}
+								startContent={<Icon icon={category.icon} className='w-4 h-4' />}
+								className='justify-start'>
+								{getCategoryName(category.id)}
+							</Button>
+						))}
+					</div>
+				</div>
+				<Divider />
+				<div>
+					<h4 className='font-semibold mb-2'>{t('settings.other')}</h4>
+					<div className='space-y-2'>
+						<Button variant='bordered' size='sm' onPress={clearConversation} startContent={<Icon icon='mdi:delete-sweep' className='w-4 h-4' />} className='w-full justify-start'>
+							{t('buttons.clear_all')}
+						</Button>
+						<Button variant='bordered' size='sm' startContent={<Icon icon='mdi:download' className='w-4 h-4' />} className='w-full justify-start'>
+							{t('buttons.export')}
+						</Button>
+					</div>
+				</div>
+				<Button variant='ghost' onPress={closeModal} className='text-primary-foreground w-full'>
+					{t('buttons.close')}
+				</Button>
+			</div>
+		);
+
+		showModal({label: t('settings.title'), body});
+	};
+
 	return (
 		<div className='relative flex h-screen w-full flex-col overflow-hidden bg-linear-to-br from-background via-background/80 to-default-100/40'>
 			<div className='pointer-events-none absolute inset-0 opacity-70'>
@@ -147,14 +191,14 @@ export function HelpView() {
 			</div>
 
 			<div className='relative z-10 flex h-full w-full flex-col gap-4 px-4 py-4 lg:flex-row'>
-				<div className='flex min-h-0 flex-1 flex-col rounded-2xl border border-default-200/70 bg-background/80 shadow-xl backdrop-blur'>
-					<div className='rounded-t-2xl border-b border-default-200/60 bg-background/70 px-6 py-4 backdrop-blur'>
+				<div className='flex min-h-0 flex-1 flex-col rounded-2xl border border-primary-border/70 bg-background/80 shadow-xl backdrop-blur'>
+					<div className='rounded-t-2xl border-b border-primary-border/60 bg-background/70 px-6 py-4 backdrop-blur'>
 						<div className='flex items-center justify-between'>
 							<div className='flex items-center gap-4'>
 								<div className='relative h-14 w-14'>
 									<div className='absolute inset-0 rounded-2xl bg-linear-to-br from-primary/30 to-secondary/20 blur-lg' />
 									<div className='relative h-full w-full rounded-2xl border border-primary/30 bg-content1/60 p-2'>
-										<Image src={LOGO_SRC} alt='NeuraFi Logo' fill sizes='56px' className='rounded-xl object-contain' />
+										<Image src='/favicon-256x256.png' alt='NeuraFi Logo' fill sizes='56px' className='rounded-xl object-contain' />
 									</div>
 								</div>
 								<div>
@@ -170,11 +214,11 @@ export function HelpView() {
 									<p className='text-sm text-primary-foreground'>{t('hero.features')}</p>
 								</div>
 							</div>
-							<div className='flex items-center gap-2'>
+							<div className='flex items-center gap-2 text-primary-foreground'>
 								<Button variant='flat' size='sm' onPress={clearConversation} startContent={<Icon icon='mdi:refresh' className='w-4 h-4' />}>
 									{t('buttons.clear')}
 								</Button>
-								<Button variant='light' size='sm' onPress={onOpen} startContent={<Icon icon='mdi:tune' className='w-4 h-4' />}>
+								<Button variant='light' size='sm' onPress={openSettingsModal} startContent={<Icon icon='mdi:tune' className='w-4 h-4' />}>
 									{t('buttons.settings')}
 								</Button>
 							</div>
@@ -184,13 +228,13 @@ export function HelpView() {
 					<div className='custom-scrollbar flex-1 min-h-0 space-y-4 overflow-y-auto px-6 py-6'>
 						{messages.length === 0 ? (
 							<div className='flex h-full items-center justify-center'>
-								<Card className='max-w-xl border border-default-200/60 bg-content1/80 p-6 text-center shadow-lg backdrop-blur'>
+								<Card className='max-w-xl border border-primary-border/60 bg-content1/80 p-6 text-center shadow-lg backdrop-blur'>
 									<CardBody className='space-y-4'>
 										<div className='mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-lg'>
 											<Icon icon='mdi:robot-excited' className='h-8 w-8' />
 										</div>
 										<div>
-											<h3 className='mb-1 text-xl font-semibold'>{t('empty.title')}</h3>
+											<h3 className='mb-1 text-xl font-semibold text-primary'>{t('empty.title')}</h3>
 											<p className='text-sm text-primary-foreground/80'>{t('empty.subtitle')}</p>
 										</div>
 										<div className='flex flex-wrap justify-center gap-2'>
@@ -198,6 +242,7 @@ export function HelpView() {
 												<Button
 													key={category.id}
 													variant='bordered'
+													className='text-primary-foreground'
 													size='sm'
 													onPress={() => {
 														setSelectedConversation(category.id);
@@ -234,7 +279,7 @@ export function HelpView() {
 						<div ref={messagesEndRef} />
 					</div>
 
-					<div className='rounded-b-2xl border-t border-default-200/60 bg-background/80 px-6 py-4 backdrop-blur'>
+					<div className='rounded-b-2xl border-t border-primary-border/60 bg-background/80 px-6 py-4 backdrop-blur'>
 						<div className='mb-3 flex flex-wrap gap-2'>
 							{quickPrompts.map(prompt => (
 								<Chip key={prompt} size='sm' variant='flat' className='cursor-pointer' onClick={() => handleQuickPrompt(prompt)}>
@@ -242,7 +287,7 @@ export function HelpView() {
 								</Chip>
 							))}
 						</div>
-						<Card className='border border-default-200/70 bg-content1/80 shadow-lg backdrop-blur'>
+						<Card className='border border-primary-border/70 bg-content1/80 shadow-lg backdrop-blur'>
 							<CardBody className='space-y-3'>
 								<div className='flex gap-2'>
 									<Textarea placeholder={t('input.placeholder')} value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyPress} className='flex-1' minRows={1} maxRows={4} disabled={isLoading} />
@@ -259,20 +304,20 @@ export function HelpView() {
 					</div>
 				</div>
 
-				<div className='hidden w-80 shrink-0 flex-col rounded-2xl border border-default-200/70 bg-background/80 px-4 py-6 shadow-xl backdrop-blur lg:flex'>
+				<div className='hidden w-80 shrink-0 flex-col rounded-2xl border border-primary-border/70 bg-background/80 px-4 py-6 shadow-xl backdrop-blur lg:flex'>
 					<div className='mb-4 flex items-center justify-between'>
 						<h3 className='text-lg font-semibold'>{t('sections.categories')}</h3>
 						<Chip size='sm' variant='flat'>
 							{t('sections.count', {count: conversationCategories.length})}
 						</Chip>
 					</div>
-					<Input size='sm' placeholder={t('search.placeholder')} value={categoryQuery} onChange={e => setCategoryQuery(e.target.value)} startContent={<Icon icon='mdi:magnify' className='h-4 w-4 text-default-400' />} className='mb-4' />
+					<Input size='sm' placeholder={t('search.placeholder')} value={categoryQuery} onChange={e => setCategoryQuery(e.target.value)} startContent={<Icon icon='mdi:magnify' className='h-4 w-4 text-primary-foreground' />} className='mb-4' />
 					<div className='custom-scrollbar space-y-3 overflow-y-auto pr-1'>
 						{filteredCategories.map(category => {
 							const styles = CATEGORY_STYLES[category.color];
 							const active = selectedConversation === category.id;
 							return (
-								<Card key={category.id} className={`cursor-pointer border border-default-200/60 bg-content1/70 transition-all duration-200 ${styles.card} ${active ? `ring-2 ${styles.ring} shadow-lg` : ''}`} onPress={() => setSelectedConversation(category.id)}>
+								<Card key={category.id} className={`cursor-pointer border border-primary-border/60 bg-content1/70 transition-all duration-200 ${styles.card} ${active ? `ring-2 ${styles.ring} shadow-lg` : ''}`} onPress={() => setSelectedConversation(category.id)}>
 									<CardBody className='p-3'>
 										<div className='flex items-center gap-3'>
 											<div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${styles.icon}`}>
@@ -294,53 +339,6 @@ export function HelpView() {
 					</div>
 				</div>
 			</div>
-
-			<Modal isOpen={isOpen} onClose={onClose} size='md'>
-				<ModalContent>
-					<ModalHeader>{t('settings.title')}</ModalHeader>
-					<ModalBody>
-						<div className='space-y-4'>
-							<div>
-								<h4 className='font-semibold mb-2'>{t('settings.categories')}</h4>
-								<div className='grid grid-cols-1 gap-2'>
-									{conversationCategories.map(category => (
-										<Button
-											key={category.id}
-											variant={selectedConversation === category.id ? 'solid' : 'bordered'}
-											color={category.color as any}
-											size='sm'
-											onPress={() => {
-												setSelectedConversation(category.id);
-												onClose();
-											}}
-											startContent={<Icon icon={category.icon} className='w-4 h-4' />}
-											className='justify-start'>
-											{getCategoryName(category.id)}
-										</Button>
-									))}
-								</div>
-							</div>
-							<Divider />
-							<div>
-								<h4 className='font-semibold mb-2'>{t('settings.other')}</h4>
-								<div className='space-y-2'>
-									<Button variant='bordered' size='sm' onPress={clearConversation} startContent={<Icon icon='mdi:delete-sweep' className='w-4 h-4' />} className='w-full justify-start'>
-										{t('buttons.clear_all')}
-									</Button>
-									<Button variant='bordered' size='sm' startContent={<Icon icon='mdi:download' className='w-4 h-4' />} className='w-full justify-start'>
-										{t('buttons.export')}
-									</Button>
-								</div>
-							</div>
-						</div>
-					</ModalBody>
-					<ModalFooter>
-						<Button variant='ghost' onPress={onClose}>
-							{t('buttons.close')}
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
 		</div>
 	);
 }

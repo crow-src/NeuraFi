@@ -110,7 +110,7 @@ export function IDOView() {
 					<div className='flex flex-col md:flex-row gap-4 items-center justify-between relative z-10'>
 						<div className='flex-1'>
 							<div className='flex items-center gap-3 mb-3'>
-								<div className='p-3 rounded-xl bg-content1 border border-default-200 shadow-md'>
+								<div className='p-3 rounded-xl bg-content1 border border-primary-border shadow-md'>
 									<Icon icon='mdi:rocket-launch' className='w-8 h-8 text-primary' />
 								</div>
 								<div>
@@ -252,20 +252,20 @@ function TierCard({tier, onPurchase}: TierCardProps) {
 			</CardHeader>
 			<CardBody className='space-y-4 relative z-10'>
 				<p className={`text-sm leading-relaxed ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-default-600'}`}>{tier.description}</p>
-				{tier.benefits && <div className='p-3 rounded-lg bg-content1/60 border border-default-200/60 text-sm text-primary-foreground'>{tier.benefits}</div>}
+				{tier.benefits && <div className='p-3 rounded-lg bg-content1/60 border border-primary-border/60 text-sm text-primary-foreground'>{tier.benefits}</div>}
 
 				<Divider className='bg-default-200' />
 
 				{/* 关键信息 - 使用卡片样式 */}
 				<div className='space-y-3'>
-					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-default-200/50 hover:bg-content1'}`}>
+					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-primary-border/50 hover:bg-content1'}`}>
 						<div className='flex items-center gap-2'>
 							<Icon icon='mdi:currency-usd' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : 'text-default-400'}`} />
 							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>{donationLabel}</span>
 						</div>
 						<span className='font-bold text-xl text-primary-foreground'>${tier.donationAmount}</span>
 					</div>
-					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-default-200/50 hover:bg-content1'}`}>
+					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-primary-border/50 hover:bg-content1'}`}>
 						<div className='flex items-center gap-2'>
 							<Icon icon='mdi:coin' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : 'text-default-400'}`} />
 							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>{tokenLabel}</span>

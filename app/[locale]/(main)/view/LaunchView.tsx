@@ -351,7 +351,7 @@ function BlindBoxStep({data, onChange}: {data: BlindBoxInfo; onChange: (field: s
 					<h3 className='text-lg font-semibold mb-4'>{t('blindbox.rewards.title')}</h3>
 					<div className='space-y-4'>
 						{rewards.map((reward, index) => (
-							<Card key={reward.id} className='border border-default-200'>
+							<Card key={reward.id} className='border border-primary-border'>
 								<CardBody>
 									<div className='flex items-center justify-between mb-4'>
 										<h4 className='font-medium'>{t('blindbox.rewards.card_title', {index: index + 1})}</h4>
@@ -509,7 +509,7 @@ function LaunchStep({data, onChange}: {data: LaunchInfo; onChange: (field: strin
 					<h3 className='text-lg font-semibold'>{t('launchStep.requirements.title')}</h3>
 
 					<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-						<div className='flex items-center justify-between p-4 border border-default-200 rounded-lg'>
+						<div className='flex items-center justify-between p-4 border border-primary-border rounded-lg'>
 							<div>
 								<h4 className='font-medium'>{t('launchStep.requirements.whitelist.title')}</h4>
 								<p className='text-sm text-primary-foreground'>{t('launchStep.requirements.whitelist.description')}</p>
@@ -517,7 +517,7 @@ function LaunchStep({data, onChange}: {data: LaunchInfo; onChange: (field: strin
 							<Switch isSelected={data.whitelistRequired} onValueChange={value => onChange('whitelistRequired', value)} />
 						</div>
 
-						<div className='flex items-center justify-between p-4 border border-default-200 rounded-lg'>
+						<div className='flex items-center justify-between p-4 border border-primary-border rounded-lg'>
 							<div>
 								<h4 className='font-medium'>{t('launchStep.requirements.kyc.title')}</h4>
 								<p className='text-sm text-primary-foreground'>{t('launchStep.requirements.kyc.description')}</p>
@@ -530,7 +530,7 @@ function LaunchStep({data, onChange}: {data: LaunchInfo; onChange: (field: strin
 				<div className='space-y-4'>
 					<h3 className='text-lg font-semibold'>{t('launchStep.legal.title')}</h3>
 
-					<Card className='bg-default-50 border-default-200'>
+					<Card className='bg-default-50 border-primary-border'>
 						<CardBody>
 							<div className='space-y-3'>
 								<div className='flex items-start gap-3'>
