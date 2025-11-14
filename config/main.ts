@@ -15,7 +15,7 @@ export const MAIN_CONFIG = {
 		{label: 'Launch', key: 'launch', icon: 'material-symbols:rocket-launch', href: '?tab=launch', new: false, category: 'main', order: 1}, //发布发射
 
 		// 市场相关
-		{label: 'Market', key: 'market', icon: 'material-symbols:storefront', href: '?tab=market', new: true, category: 'market', order: 2},
+		{label: 'Market', key: 'market', icon: 'material-symbols:storefront', href: '?tab=market', new: false, category: 'market', order: 2},
 		{label: 'Swap', key: 'trading', icon: 'icon-park-outline:transaction', href: '?tab=trading', new: false, category: 'market', order: 2},
 		{label: 'Quotes', key: 'quotes', icon: 'material-symbols:trending-up', href: '?tab=quotes', new: false, category: 'market', order: 2}, //盲盒游戏
 		// {label: 'Rank', key: 'rank', icon: 'material-symbols:leaderboard', href: '?tab=rank', new: false, category: 'market', order: 2},
@@ -25,8 +25,8 @@ export const MAIN_CONFIG = {
 		{label: 'Me', key: 'me', icon: 'carbon:user-avatar-filled', href: '?tab=me', new: false, category: 'user', order: 3},
 		{label: 'Help', key: 'help', icon: 'material-symbols:help', href: '?tab=help', new: false, category: 'user', order: 3},
 		{label: 'Collection', key: 'collection', icon: 'lucide:box', href: '?tab=collection', new: false, category: 'user', order: 3},
-		{label: 'Promotion', key: 'promotion', icon: 'hugeicons:promotion', href: '?tab=promotion', new: false, category: 'user', order: 3},
-		{label: 'Notifications', key: 'notifications', icon: 'material-symbols:notifications', href: '?tab=notifications', new: true, category: 'user', order: 3}
+		{label: 'Promotion', key: 'promotion', icon: 'hugeicons:promotion', href: '?tab=promotion', new: false, category: 'user', order: 3}
+		// {label: 'Notifications', key: 'notifications', icon: 'material-symbols:notifications', href: '?tab=notifications', new: true, category: 'user', order: 3}
 	],
 
 	// 分类配置
