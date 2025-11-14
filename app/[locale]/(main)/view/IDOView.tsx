@@ -42,7 +42,7 @@ export function IDOView() {
 				releaseMonths: 10,
 				feeShare: 0.5,
 				level: 'V4',
-				requirements: [tIdo('tiers.super.requirements.r1'), tIdo('tiers.super.requirements.r2'), tIdo('tiers.super.requirements.r3'), tIdo('tiers.super.requirements.r4')],
+				requirements: [tIdo('tiers.super.requirements.r1'), tIdo('tiers.super.requirements.r3')],
 				icon: 'mdi:crown',
 				color: 'warning'
 			},
@@ -57,7 +57,7 @@ export function IDOView() {
 				releaseMonths: 6,
 				feeShare: 0.5,
 				level: 'V3',
-				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.regional.requirements.r2'), tIdo('tiers.regional.requirements.r3')],
+				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.community.requirements.r1')],
 				icon: 'mdi:star',
 				color: 'secondary'
 			},

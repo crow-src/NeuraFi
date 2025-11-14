@@ -18,7 +18,7 @@ export const MAIN_CONFIG = {
 		{label: 'Market', key: 'market', icon: 'material-symbols:storefront', href: '?tab=market', new: true, category: 'market', order: 2},
 		{label: 'Swap', key: 'trading', icon: 'icon-park-outline:transaction', href: '?tab=trading', new: false, category: 'market', order: 2},
 		{label: 'Quotes', key: 'quotes', icon: 'material-symbols:trending-up', href: '?tab=quotes', new: false, category: 'market', order: 2}, //盲盒游戏
-		{label: 'Rank', key: 'rank', icon: 'material-symbols:leaderboard', href: '?tab=rank', new: false, category: 'market', order: 2},
+		// {label: 'Rank', key: 'rank', icon: 'material-symbols:leaderboard', href: '?tab=rank', new: false, category: 'market', order: 2},
 		// {label: 'Bank', key: 'bank', icon: 'mdi:bank', href: '?tab=bank', new: false, category: 'market', order: 2},
 
 		// 用户相关
