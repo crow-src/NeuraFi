@@ -8,18 +8,18 @@ import {blindBoxItems} from './data_test';
 const SELLER_NAMES = ['BoxTrader', 'LuckyDealer', 'ChainHunter', 'CryptoBoxer', 'MetaCollector', 'RareVault', 'MysteryGuru', 'BlindBoxer'];
 const SELLER_AVATARS = ['/images/avatar/1.png', '/images/avatar/2.png', '/images/avatar/3.png', '/images/avatar/4.png', '/images/avatar/5.png', '/images/avatar/6.png', '/images/avatar/7.png', '/images/avatar/8.png'];
 const CATEGORY_MAP: Record<string, string> = {
-	rwa: '收藏品',
-	cards: '体育',
-	toys: '收藏品',
-	sports: '体育',
-	art: '艺术',
-	welfare: '社区'
+	rwa: 'Collectibles',
+	cards: 'Sports',
+	toys: 'Collectibles',
+	sports: 'Sports',
+	art: 'Art',
+	welfare: 'Community'
 };
 
 export const blindBoxListings: NFT[] = blindBoxItems.slice(0, 24).map((item, index) => ({
 	...item,
 	status: 'listed',
-	category: CATEGORY_MAP[item.type] ?? item.category ?? '收藏品',
+	category: CATEGORY_MAP[item.type] ?? item.category ?? 'Collectibles',
 	sellerName: SELLER_NAMES[index % SELLER_NAMES.length],
 	sellerAvatar: SELLER_AVATARS[index % SELLER_AVATARS.length],
 	listedDate: new Date(Date.now() - index * 86400000).toISOString(),
@@ -28,44 +28,44 @@ export const blindBoxListings: NFT[] = blindBoxItems.slice(0, 24).map((item, ind
 	isFavorited: index % 3 === 0
 }));
 
-// ====== 常量定义 ======
-type MarketTabKey = 'all' | 'my-listings' | 'my-purchases' | 'favorites'; //市场标签
-type SortKey = 'recent' | 'price-low' | 'price-high' | 'rarity'; //排序方式
+// ====== Constant definitions ======
+type MarketTabKey = 'all' | 'my-listings' | 'my-purchases' | 'favorites'; // market tabs
+type SortKey = 'recent' | 'price-low' | 'price-high' | 'rarity'; // sort keys
 
-type Option<T extends string> = {key: T; label: string}; //选项
+type Option<T extends string> = {key: T; label: string}; // generic option
 
-type SortOption = Option<SortKey> & {icon: string}; //排序选项
+type SortOption = Option<SortKey> & {icon: string}; // sort option
 
-type TabOption = Option<MarketTabKey>; //市场标签选项
+type TabOption = Option<MarketTabKey>; // tab option
 
-type RarityOption = Option<'all' | 'Common' | 'Rare' | 'Epic' | 'Legendary'>; //稀有度选项
+type RarityOption = Option<'all' | 'Common' | 'Rare' | 'Epic' | 'Legendary'>; // rarity option
 
-//市场标签数据
+// tabs configuration
 const TABS: TabOption[] = [
-	{key: 'all', label: '全部'},
-	{key: 'my-listings', label: '我的挂单'},
-	{key: 'my-purchases', label: '我的购买'},
-	{key: 'favorites', label: '我的收藏'}
+	{key: 'all', label: 'All'},
+	{key: 'my-listings', label: 'My Listings'},
+	{key: 'my-purchases', label: 'My Purchases'},
+	{key: 'favorites', label: 'Favorites'}
 ];
-//排序选项数据
+// sort option configuration
 const SORT_OPTIONS: SortOption[] = [
-	{key: 'recent', label: '最新', icon: 'mdi:clock'},
-	{key: 'price-low', label: '价格低', icon: 'mdi:sort-ascending'},
-	{key: 'price-high', label: '价格高', icon: 'mdi:sort-descending'},
-	{key: 'rarity', label: '稀有度', icon: 'mdi:star'}
+	{key: 'recent', label: 'Newest', icon: 'mdi:clock'},
+	{key: 'price-low', label: 'Price: Low', icon: 'mdi:sort-ascending'},
+	{key: 'price-high', label: 'Price: High', icon: 'mdi:sort-descending'},
+	{key: 'rarity', label: 'Rarity', icon: 'mdi:star'}
 ];
 
 const RARITY_OPTIONS: RarityOption[] = [
-	{key: 'all', label: '全部稀有度'},
-	{key: 'Common', label: '普通'},
-	{key: 'Rare', label: '稀有'},
-	{key: 'Epic', label: '史诗'},
-	{key: 'Legendary', label: '传说'}
+	{key: 'all', label: 'All rarities'},
+	{key: 'Common', label: 'Common'},
+	{key: 'Rare', label: 'Rare'},
+	{key: 'Epic', label: 'Epic'},
+	{key: 'Legendary', label: 'Legendary'}
 ];
 
-const rarityOrder: Record<string, number> = {Common: 1, Rare: 2, Epic: 3, Legendary: 4}; //稀有度排序
+const rarityOrder: Record<string, number> = {Common: 1, Rare: 2, Epic: 3, Legendary: 4}; // rarity order
 
-//排序器
+// sorters
 const SORTERS: Record<SortKey, (a: NFT, b: NFT) => number> = {
 	recent: (a, b) => (b.listedDate ? Date.parse(b.listedDate) : 0) - (a.listedDate ? Date.parse(a.listedDate) : 0),
 	'price-low': (a, b) => a.price - b.price,
@@ -73,31 +73,31 @@ const SORTERS: Record<SortKey, (a: NFT, b: NFT) => number> = {
 	rarity: (a, b) => (rarityOrder[b.rarity ?? ''] || 0) - (rarityOrder[a.rarity ?? ''] || 0)
 };
 
-// ====== 市场组件 ======
+// ====== Market component ======
 export function MarketView() {
-	const [marketItems, setMarketItems] = useState<NFT[]>(blindBoxListings); // 市场数据
-	const [selectedTab, setSelectedTab] = useState<MarketTabKey>('all'); // 当前标签
-	const [searchQuery, setSearchQuery] = useState(''); // 搜索关键词
-	const [sortBy, setSortBy] = useState<SortKey>('recent'); // 排序方式
-	const [selectedCategory, setSelectedCategory] = useState('all'); // 分类
-	const [selectedRarity, setSelectedRarity] = useState<'all' | 'Common' | 'Rare' | 'Epic' | 'Legendary'>('all'); // 稀有度
+	const [marketItems, setMarketItems] = useState<NFT[]>(blindBoxListings); // market dataset
+	const [selectedTab, setSelectedTab] = useState<MarketTabKey>('all'); // active tab
+	const [searchQuery, setSearchQuery] = useState(''); // search keyword
+	const [sortBy, setSortBy] = useState<SortKey>('recent'); // sorting key
+	const [selectedCategory, setSelectedCategory] = useState('all'); // category filter
+	const [selectedRarity, setSelectedRarity] = useState<'all' | 'Common' | 'Rare' | 'Epic' | 'Legendary'>('all'); // rarity filter
 
-	// 切换收藏状态
+	// toggle favorite flag
 	const toggleFavorite = useCallback((target: NFT, next: boolean) => {
 		setMarketItems(items => items.map(item => (item.id === target.id ? {...item, isFavorited: next} : item)));
 	}, []);
 
-	// 下架挂单
+	// cancel listing
 	const cancelListing = useCallback((target: NFT) => {
 		setMarketItems(items => items.filter(item => item.id !== target.id));
 	}, []);
 
-	// 编辑挂单（占位）
+	// edit listing (placeholder)
 	const editListing = useCallback((target: NFT) => {
-		console.info('编辑挂单', target.id);
+		console.info('Edit listing', target.id);
 	}, []);
 
-	// 标签数据桶：根据身份拆分数据
+	// build tab buckets
 	const tabBuckets = useMemo(() => {
 		const buckets: Record<MarketTabKey, NFT[]> = {
 			all: marketItems.filter(item => !item.isMyListing),
@@ -108,7 +108,7 @@ export function MarketView() {
 		return buckets;
 	}, [marketItems]);
 
-	// 组合筛选 + 排序
+	// compose filters + sorting
 	const applyFilters = useCallback(
 		(items: NFT[]) => {
 			const keyword = searchQuery.trim().toLowerCase();
@@ -123,7 +123,7 @@ export function MarketView() {
 		[searchQuery, selectedCategory, selectedRarity, sortBy]
 	);
 
-	// 各标签过滤后的数据
+	// filtered list per tab
 	const filteredPerTab = useMemo(() => {
 		return (Object.keys(tabBuckets) as MarketTabKey[]).reduce<Record<MarketTabKey, NFT[]>>(
 			(acc, key) => {
@@ -134,17 +134,17 @@ export function MarketView() {
 		);
 	}, [tabBuckets, applyFilters]);
 
-	// 分类选项
-	const categoryOptions = useMemo(() => ['all', ...new Set(marketItems.map(item => item.category ?? '其他'))], [marketItems]);
+	// category dropdown options
+	const categoryOptions = useMemo(() => ['all', ...new Set(marketItems.map(item => item.category ?? 'Other'))], [marketItems]);
 
-	// 选中卡片
+	// card selection handler
 	const handleSelect = useCallback(
 		(tab: MarketTabKey, nft: NFT) => {
 			if (tab === 'my-listings') {
 				editListing(nft);
 				return;
 			}
-			console.info('查看NFT', nft.id);
+			console.info('View NFT', nft.id);
 		},
 		[editListing]
 	);
@@ -154,17 +154,17 @@ export function MarketView() {
 			<Card>
 				<CardBody>
 					<div className='flex flex-col lg:flex-row gap-4 items-center justify-between'>
-						{/* 标题区域 */}
+						{/* Header */}
 						<div className='w-full flex flex-col gap-1'>
-							<h1 className='text-xl font-bold text-primary-foreground'>NFT盲盒市场</h1>
-							<p className='text-primary-foreground text-xs'>交易您的NFT盲盒，发现稀有收藏品</p>
+							<h1 className='text-xl font-bold text-primary-foreground'>NFT Blind Box Marketplace</h1>
+							<p className='text-primary-foreground text-xs'>Trade your NFTs and discover rare collectibles</p>
 						</div>
-						{/* 筛选器 */}
+						{/* Filters */}
 						<div className='flex gap-2 items-center'>
-							<Input placeholder='搜索NFT名称、描述或分类...' value={searchQuery} onChange={e => setSearchQuery(e.target.value)} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='max-w-md' />
+							<Input placeholder='Search NFT name, description or category...' value={searchQuery} onChange={e => setSearchQuery(e.target.value)} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='max-w-md' />
 							<Select selectedKeys={[selectedCategory]} onSelectionChange={keys => setSelectedCategory(Array.from(keys)[0] as string)} className='w-32' size='sm'>
 								{categoryOptions.map(option => (
-									<SelectItem key={option}>{option === 'all' ? '全部分类' : option}</SelectItem>
+									<SelectItem key={option}>{option === 'all' ? 'All categories' : option}</SelectItem>
 								))}
 							</Select>
 							<Select selectedKeys={[selectedRarity]} onSelectionChange={keys => setSelectedRarity(Array.from(keys)[0] as typeof selectedRarity)} className='w-32' size='sm'>
@@ -182,7 +182,7 @@ export function MarketView() {
 				</CardBody>
 			</Card>
 
-			{/* 标签页内容 */}
+			{/* Tabs content */}
 			<div className='w-full'>
 				<Tabs selectedKey={selectedTab} onSelectionChange={key => setSelectedTab(key as MarketTabKey)} variant='underlined' classNames={TabsClass}>
 					{TABS.map(tab => (

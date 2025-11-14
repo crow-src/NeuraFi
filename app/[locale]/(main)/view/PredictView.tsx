@@ -3,12 +3,12 @@ import {useMemo, useState} from 'react';
 import {Card, CardBody, Chip, Button, Input, Select, SelectItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from '@heroui/react';
 import {Icon} from '@iconify/react';
 
-// ===== 类型定义 =====
+// ===== Type definitions =====
 interface MarketOption {
 	id: string;
 	label: string;
-	yesProbability: number; // 0-1, Yes 的概率
-	noProbability: number; // 0-1, No 的概率 (通常 = 1 - yesProbability)
+	yesProbability: number; // 0-1 probability for “Yes”
+	noProbability: number; // 0-1 probability for “No” (usually = 1 - yesProbability)
 	volume?: number;
 }
 
@@ -16,17 +16,17 @@ interface PredictionMarket {
 	id: string;
 	title: string;
 	category: string;
-	type: 'binary' | 'multiple'; // binary: 简单 Yes/No, multiple: 多个选项
-	options?: MarketOption[]; // multiple 类型时使用
-	yesProbability?: number; // binary 类型时使用
-	noProbability?: number; // binary 类型时使用
+	type: 'binary' | 'multiple'; // binary: yes/no, multiple: several options
+	options?: MarketOption[]; // used for multiple
+	yesProbability?: number; // used for binary
+	noProbability?: number; // used for binary
 	totalVolume: number;
 	status: 'active' | 'ending_soon' | 'live';
 	isTrending?: boolean;
 	endDate?: string;
 }
 
-// ===== 预测市场数据 =====
+// ===== Mock market data =====
 const mockMarkets: PredictionMarket[] = [
 	{
 		id: '1',
@@ -206,27 +206,27 @@ const sortOptions = [
 	{key: 'ending', label: 'Ending Soon', icon: 'mdi:clock-alert'}
 ];
 
-// ===== 主组件 =====
+// ===== Main component =====
 export function PredictView() {
 	const [selectedCategory, setSelectedCategory] = useState('All');
 	const [sortBy, setSortBy] = useState('volume');
 	const [searchQuery, setSearchQuery] = useState('');
 
-	// 筛选和排序市场
+	// Filter + sort markets
 	const filteredMarkets = useMemo(() => {
 		let filtered = mockMarkets;
 
-		// 按分类筛选
+		// category filter
 		if (selectedCategory !== 'All') {
 			filtered = filtered.filter(market => market.category === selectedCategory);
 		}
 
-		// 搜索筛选
+		// search filter
 		if (searchQuery) {
 			filtered = filtered.filter(market => market.title.toLowerCase().includes(searchQuery.toLowerCase()));
 		}
 
-		// 排序
+		// sorting
 		filtered = [...filtered].sort((a, b) => {
 			switch (sortBy) {
 				case 'volume':
@@ -251,21 +251,21 @@ export function PredictView() {
 
 	return (
 		<div className='h-full w-full flex flex-col p-6 pt-0 overflow-y-auto custom-scrollbar'>
-			{/* 头部筛选区域 */}
+			{/* Filter header */}
 			<Card>
 				<CardBody>
 					<div className='flex flex-col md:flex-row gap-4 items-center justify-between'>
-						{/* 标题区域 */}
+						{/* Header */}
 						<div className='shrink-0 flex flex-col gap-1'>
-							<h1 className='text-xl font-bold text-primary-foreground'>预测市场</h1>
-							<p className='text-primary-foreground text-xs hidden md:block'>参与预测市场，交易未来事件</p>
+							<h1 className='text-xl font-bold text-primary-foreground'>Prediction Markets</h1>
+							<p className='text-primary-foreground text-xs hidden md:block'>Join prediction markets and trade on future outcomes</p>
 						</div>
-						{/* 筛选器 - 宽屏横向排列 */}
+						{/* Filters - desktop layout */}
 						<div className='hidden md:flex gap-2 items-center flex-1 justify-end'>
-							<Input placeholder='搜索预测市场...' value={searchQuery} onValueChange={setSearchQuery} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='max-w-md' size='sm' />
+							<Input placeholder='Search markets...' value={searchQuery} onValueChange={setSearchQuery} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='max-w-md' size='sm' />
 							<Select selectedKeys={[selectedCategory]} onSelectionChange={keys => setSelectedCategory(Array.from(keys)[0] as string)} className='w-32' size='sm'>
 								{categories.map(category => (
-									<SelectItem key={category}>{category === 'All' ? '全部分类' : category}</SelectItem>
+									<SelectItem key={category}>{category === 'All' ? 'All categories' : category}</SelectItem>
 								))}
 							</Select>
 							{sortOptions.map(option => (
@@ -274,19 +274,19 @@ export function PredictView() {
 								</Button>
 							))}
 						</div>
-						{/* 筛选器 - 小屏下拉菜单 */}
+						{/* Filters - mobile layout */}
 						<div className='md:hidden w-full flex gap-2 items-center'>
-							<Input placeholder='搜索...' value={searchQuery} onValueChange={setSearchQuery} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='flex-1' size='sm' />
+							<Input placeholder='Search...' value={searchQuery} onValueChange={setSearchQuery} startContent={<Icon icon='mdi:magnify' className='w-4 h-4 text-default-400' />} className='flex-1' size='sm' />
 							<Dropdown>
 								<DropdownTrigger>
 									<Button isIconOnly variant='flat' size='sm'>
 										<Icon icon='mdi:tag' className='w-5 h-5' />
 									</Button>
 								</DropdownTrigger>
-								<DropdownMenu aria-label='分类筛选' selectedKeys={[selectedCategory]} onSelectionChange={keys => setSelectedCategory(Array.from(keys)[0] as string)} selectionMode='single' disallowEmptySelection>
+								<DropdownMenu aria-label='Category filter' selectedKeys={[selectedCategory]} onSelectionChange={keys => setSelectedCategory(Array.from(keys)[0] as string)} selectionMode='single' disallowEmptySelection>
 									{categories.map(category => (
 										<DropdownItem key={category} textValue={category}>
-											{category === 'All' ? '全部分类' : category}
+											{category === 'All' ? 'All categories' : category}
 										</DropdownItem>
 									))}
 								</DropdownMenu>
@@ -297,7 +297,7 @@ export function PredictView() {
 										<Icon icon='mdi:sort' className='w-5 h-5' />
 									</Button>
 								</DropdownTrigger>
-								<DropdownMenu aria-label='排序选项' selectedKeys={[sortBy]} onSelectionChange={keys => setSortBy(Array.from(keys)[0] as string)} selectionMode='single' disallowEmptySelection>
+								<DropdownMenu aria-label='Sort options' selectedKeys={[sortBy]} onSelectionChange={keys => setSortBy(Array.from(keys)[0] as string)} selectionMode='single' disallowEmptySelection>
 									{sortOptions.map(option => (
 										<DropdownItem key={option.key} startContent={<Icon icon={option.icon} className='w-4 h-4' />} textValue={option.label}>
 											{option.label}
@@ -310,7 +310,7 @@ export function PredictView() {
 				</CardBody>
 			</Card>
 
-			{/* 市场卡片列表 */}
+			{/* Market list */}
 			<div className='w-full py-4'>
 				{filteredMarkets.length > 0 ? (
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
@@ -321,8 +321,8 @@ export function PredictView() {
 				) : (
 					<div className='flex flex-col items-center justify-center py-16 text-center'>
 						<Icon icon='mdi:chart-line-variant' className='w-16 h-16 text-default-300 mb-4' />
-						<h3 className='text-lg font-semibold text-default-600 mb-2'>未找到预测市场</h3>
-						<p className='text-sm text-default-400'>尝试调整筛选条件</p>
+						<h3 className='text-lg font-semibold text-default-600 mb-2'>No markets found</h3>
+						<p className='text-sm text-default-400'>Try adjusting your filters</p>
 					</div>
 				)}
 			</div>
@@ -330,7 +330,7 @@ export function PredictView() {
 	);
 }
 
-// ===== 市场卡片组件 =====
+// ===== Market card =====
 interface MarketCardProps {
 	market: PredictionMarket;
 }
@@ -356,13 +356,13 @@ function MarketCard({market}: MarketCardProps) {
 	return (
 		<Card className='hover:shadow-lg transition-all border border-primary-border bg-content1'>
 			<CardBody className='p-4 space-y-3'>
-				{/* 标题 */}
+				{/* Title */}
 				<h3 className='text-sm font-semibold text-primary-foreground leading-tight line-clamp-2'>{market.title}</h3>
 
-				{/* Binary 类型：简单 Yes/No */}
+				{/* Binary market */}
 				{market.type === 'binary' && market.yesProbability !== undefined && (
 					<div className='space-y-3'>
-						{/* 圆形进度条显示概率 */}
+						{/* Circular indicator */}
 						<div className='flex justify-center'>
 							<div className='relative w-20 h-20'>
 								<svg className='w-20 h-20 transform -rotate-90'>
@@ -375,7 +375,7 @@ function MarketCard({market}: MarketCardProps) {
 							</div>
 						</div>
 						<div className='text-center text-xs text-primary-foreground mb-2'>chance</div>
-						{/* Yes/No 按钮 */}
+						{/* Yes/No actions */}
 						<div className='flex gap-2'>
 							<Button size='sm' color='success' className='flex-1 font-semibold' variant='solid'>
 								Yes
@@ -387,7 +387,7 @@ function MarketCard({market}: MarketCardProps) {
 					</div>
 				)}
 
-				{/* Multiple 类型：多个选项 */}
+				{/* Multiple-choice market */}
 				{market.type === 'multiple' && market.options && (
 					<div className='space-y-2'>
 						{market.options.map(option => (
@@ -396,7 +396,7 @@ function MarketCard({market}: MarketCardProps) {
 					</div>
 				)}
 
-				{/* 底部：交易量和图标 */}
+				{/* Footer: volume + meta */}
 				<div className='flex items-center justify-between pt-2 border-t border-primary-border'>
 					<span className='text-xs text-primary-foreground font-medium'>{formatVolume(market.totalVolume)} Vol.</span>
 					<div className='flex items-center gap-2'>
@@ -419,7 +419,7 @@ function MarketCard({market}: MarketCardProps) {
 	);
 }
 
-// ===== 选项行组件 =====
+// ===== Option row =====
 interface OptionRowProps {
 	option: MarketOption;
 }

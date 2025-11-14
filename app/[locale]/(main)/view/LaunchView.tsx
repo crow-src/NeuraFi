@@ -98,15 +98,15 @@ export function LaunchView() {
 	};
 
 	return (
-		<div className='h-full w-full flex flex-col p-6'>
+		<div className='h-full w-full flex flex-col p-6 '>
 			{/* 页面标题 */}
-			<div className='mb-6 max-w-4xl mx-auto w-full shrink-0'>
+			<div className='mb-6 max-w-6xl mx-auto w-full shrink-0'>
 				<h1 className='text-3xl font-bold text-primary-foreground mb-2'>{t('hero.title')}</h1>
 				<p className='text-primary-foreground'>{t('hero.subtitle')}</p>
 			</div>
 
 			{/* 步骤指示器 */}
-			<Card className='mb-6 max-w-4xl mx-auto w-full shrink-0'>
+			<Card className='mb-6 max-w-5xl mx-auto w-full shrink-0'>
 				<CardBody>
 					<div className='flex items-center justify-between'>
 						{steps.map((step, index) => (
