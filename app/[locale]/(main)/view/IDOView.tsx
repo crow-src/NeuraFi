@@ -345,7 +345,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: T
 				<Divider className='bg-default-200' />
 
 				{/* 要求列表 */}
-				<div className='space-y-2'>
+				{/* <div className='space-y-2'>
 					<p className={`text-xs font-semibold mb-2 flex items-center gap-2 ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>
 						<Icon icon='mdi:check-circle-outline' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : ''}`} />
 						{requirementsLabel}
@@ -356,7 +356,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: T
 							<span className='leading-relaxed'>{req}</span>
 						</div>
 					))}
-				</div>
+				</div> */}
 
 				{/* 购买按钮 */}
 				<Button
