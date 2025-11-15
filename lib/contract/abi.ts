@@ -363,3 +363,127 @@ export const ITeam = [
 	// Events
 	'event Bound(address indexed child, address indexed parent)'
 ];
+
+// export const ITeam = [
+// 	...IOwnable,
+// 	...IPausable,
+// 	...IReentrancyGuard,
+
+// ];
+
+// /// 团队合约 只用来记录 团队人员信息
+// contract Team is Ownable {
+// 	using SafeERC20 for IERC20;
+// 	using EnumerableSet for EnumerableSet.AddressSet; // 去重 + 可遍历
+// 	address feeTo; //支付费用去处
+// 	address token; //usdt
+
+// 	string public name; //团队名称
+// 	address[] public allAddresses; //加入团队的所有地址
+// 	// 捐赠可获得等级和相应价格
+// 	struct Donate {
+// 		uint8 level;
+// 		uint256 price;
+// 	}
+// 	mapping(uint8 => Donate) public donateInfo;
+// 	//mapping(address => Donate) public user; //用户的等级和已经支付
+
+// 	mapping(address => address) public parentOf; // child => parent 上下级关系
+// 	mapping(address => EnumerableSet.AddressSet) private _children; // parent => children
+// 	mapping(address => uint256) public group; // 用户伞下推广总人数
+
+// 	//必须根调用者的上线用户是0 才可以绑定
+// 	modifier onlyBinder() {
+// 		require(parentOf[msg.sender] == address(0), 'Team: not binder'); //根调用者上线必须是0 才可以绑定
+// 		_;
+// 	}
+
+// 	constructor() Ownable(msg.sender) {
+// 		//写入基础捐赠信息
+// 		donateInfo[2] = Donate(2, 200e18); //2级
+// 		donateInfo[3] = Donate(3, 100e18); //3级
+// 		donateInfo[4] = Donate(4, 5000e18); //4级
+// 	}
+
+// 	//捐赠购买
+// 	function donate(address parent, uint8 level) external {
+// 		require(donateInfo[level].price > 0, 'Team: invalid level'); //等级价格不能为0
+// 		bind(parent); //绑定用户关系
+// 		IERC20(token).safeTransferFrom(msg.sender, feeTo, donateInfo[level].price); //转移代币给手续费地址
+// 	}
+
+// 	/// @notice 绑定一次，不可修改；禁止自荐并做简易防环（最多向上追溯 32 层）
+// 	function bind(address parent) private onlyBinder {
+// 		require(parent != address(0), 'Team: zero addr'); //要绑定的父地址不能为0
+
+// 		parentOf[msg.sender] = parent;
+// 		_children[parent].add(msg.sender); //增加该用户的下线列表
+
+// 		allAddresses.push(msg.sender); //增加记录总用户
+
+// 		//循环增加 父地址的伞下人数 最多33层 ？？？
+// 		address p = parent;
+// 		for (uint256 i = 0; i < 33; i++) {
+// 			if (p == address(this)) break; //如果父地址为当前合约地址 则退出
+// 			group[p]++; //增加小组人数
+// 			p = parentOf[p]; //获取父地址
+// 		}
+// 	}
+
+// 	// 获取直接下线列表
+// 	function getChildren(address parent) external view returns (address[] memory out) {
+// 		uint256 n = _children[parent].length();
+// 		out = new address[](n);
+// 		for (uint256 i = 0; i < n; ++i) {
+// 			out[i] = _children[parent].at(i);
+// 		}
+// 	}
+// 	//获取团队所有人数
+// 	function getTeamCount() external view returns (uint256) {
+// 		return allAddresses.length;
+// 	}
+
+// 	//设置收币地址
+// 	function setFeeTO(address _to) external onlyOwner {
+// 		feeTo = _to;
+// 	}
+
+// 	//设置代币地址
+// 	function setToken(address _token) external onlyOwner {
+// 		token = _token;
+// 	}
+
+// 	function setDonateInfo(uint8 level, uint256 price) external onlyOwner {
+// 		donateInfo[level] = Donate(level, price);
+// 	}
+
+// 	//解绑拥有者可以解绑 不解决业绩 等逻辑
+// 	function unbind(address _user) external onlyOwner {
+// 		parentOf[_user] = address(0);
+// 		//删除下线
+// 		for (uint256 i = 0; i < _children[msg.sender].length(); i++) {
+// 			_children[msg.sender].remove(_children[msg.sender].at(i));
+// 		}
+// 	}
+
+// 	//提取合约内各种代币
+// 	function withdraw(address tokenAddr, uint256 amount) external onlyOwner {
+// 		uint256 _balance; //初始余额为0
+// 		uint256 _withdrawAmount; //获取额度为0
+// 		if (tokenAddr == address(0)) {
+// 			// 提取ETH的逻辑
+// 			_balance = address(this).balance;
+// 			_withdrawAmount = amount == 0 ? _balance : amount; // 如果_amount为0，则提取全部余额，否则提取_amount指定的数量
+// 			require(_withdrawAmount <= _balance, 'Insufficient ETH balance');
+// 			(bool _success, ) = owner().call{value: _withdrawAmount}('');
+// 			require(_success, 'ETH transfer failed');
+// 		} else {
+// 			// 提取ERC20代币的逻辑
+// 			IERC20 _token = IERC20(tokenAddr);
+// 			_balance = _token.balanceOf(address(this));
+// 			_withdrawAmount = amount == 0 ? _balance : amount; // 如果_amount为0，则提取全部余额，否则提取_amount指定的数量
+// 			require(_withdrawAmount <= _balance, 'Insufficient token balance');
+// 			_token.transfer(owner(), _withdrawAmount);
+// 		}
+// 	}
+// }

@@ -11,7 +11,7 @@ import {useTransactionStore, Transaction, TransactionType, TransactionStatus} fr
 import {button} from '@/components';
 // import {TransactionStateView} from '@/components/client';
 import {PROJECT_CONFIG} from '@/config/main';
-import {IMulticall} from '@/lib/contract/abi';
+import {IMulticall, IERC20} from '@/lib/contract/abi';
 import {useBrowserWallet} from '@/lib/hooks';
 import {withError} from '@/lib/utils';
 
@@ -90,6 +90,30 @@ export function useMulticall(signer?: Signer | null) {
 	return {multicall, multicallAddr: PROJECT_CONFIG.multicallAddr, call};
 }
 
+//hook
+export function useERC20(tokenAddress: string) {
+	const [loading, setLoading] = useState(false);
+	const {signer, provider} = useBrowserWallet();
+	const erc20 = useContract(tokenAddress, IERC20, signer);
+	const {addTransaction} = useTransactionManager();
+	//transfer
+	const _transfer = async (to: string, amount: string) => {
+		if (erc20) {
+			return erc20.transfer(to, parseUnits(amount, 18)).then(tx => addTransaction({...tx, type: 'Transfer'}));
+		}
+	};
+	//授权
+	const _approve = async (spender: string, amount: string) => {
+		if (erc20) {
+			return erc20.approve(spender, amount).then(tx => addTransaction({...tx, type: 'Approve'}));
+		}
+	};
+	const transfer = withError({title: 'transfer', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_transfer);
+	const approve = withError({title: 'approve', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_approve);
+
+	return {transfer, approve, loading};
+}
+
 interface TransactionHistoryOptions {
 	walletAddress?: string; // 指定钱包地址
 	type?: TransactionType;
@@ -118,19 +142,6 @@ export function useTransactionManager(options: {onComplete?: () => void} = {}) {
 
 		// 添加交易到store
 		const newTx = await addTransaction(tx);
-
-		// 显示模态框
-		// if (shouldShowModal) {
-		// 	showModal({
-		// 		label: 'Transaction State',
-		// 		body: <TransactionStateView />,
-		// 		footer: (
-		// 			<Button key='close' className={button()} onPress={() => closeModal()}>
-		// 				Close
-		// 			</Button>
-		// 		)
-		// 	});
-		// }
 
 		// 自动模拟交易成功（实际项目中应该通过轮询或WebSocket来更新真实状态）
 		if (autoSimulate) {

@@ -4,6 +4,7 @@ import {Card, CardBody, CardHeader, Button, Chip, Divider} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useAppKitAccount} from '@reown/appkit/react';
 import {useTranslations} from 'next-intl';
+import {useERC20} from '@/lib/hooks/evm/common';
 
 // ===== 类型定义 =====
 type WhitelistTier = 'global' | 'regional' | 'community';
@@ -25,9 +26,14 @@ interface WhitelistTierConfig {
 }
 
 // ===== 募资视图 =====
+const DONATION_TOKEN = '0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe'; //0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe、、0x55d398326f99059fF775485246999027B3197955
+const TREASURY_ADDRESS = '0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d'; //0x97674cb1fa28d64f2b8775f89265a10f6d9e19c2    0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d
+const TOKEN_DECIMALS = 18;
+
 export function IDOView() {
 	const tIdo = useTranslations('ido');
 	const {address, isConnected} = useAppKitAccount();
+	const {transfer, loading} = useERC20(DONATION_TOKEN);
 
 	const tierConfigs = React.useMemo<WhitelistTierConfig[]>(
 		() => [
@@ -83,14 +89,14 @@ export function IDOView() {
 	const importantNotes = React.useMemo(() => [tIdo('notes.note1'), tIdo('notes.note2'), tIdo('notes.note3')], [tIdo]);
 
 	// 处理购买
-	const handlePurchase = (tier: WhitelistTier) => {
-		if (!isConnected) {
-			// TODO: 提示连接钱包
-			console.info('Please connect wallet before purchasing');
-		}
+	const handlePurchase = async (tier: WhitelistTier) => {
 		const tierConfig = tierConfigs.find(t => t.id === tier);
-		if (tierConfig) {
-			console.info('Purchase requested', {tier: tierConfig.id, donation: tierConfig.donationAmount, address});
+		if (!tierConfig) return;
+		try {
+			await transfer?.(TREASURY_ADDRESS, tierConfig.donationAmount.toString());
+			console.info('Donation submitted', {tier: tierConfig.id, donation: tierConfig.donationAmount, address});
+		} catch (error) {
+			console.error('Failed to donate', error);
 		}
 	};
 
@@ -129,7 +135,7 @@ export function IDOView() {
 			{/* 白名单级别卡片 */}
 			<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
 				{tierConfigs.map(tier => (
-					<TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} />
+					<TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={loading} isDisabled={!isConnected} />
 				))}
 			</div>
 
@@ -166,9 +172,11 @@ export function IDOView() {
 interface TierCardProps {
 	tier: WhitelistTierConfig;
 	onPurchase: (tier: WhitelistTier) => void;
+	isLoading: boolean;
+	isDisabled: boolean;
 }
 
-function TierCard({tier, onPurchase}: TierCardProps) {
+function TierCard({tier, onPurchase, isLoading, isDisabled}: TierCardProps) {
 	const tIdo = useTranslations('ido');
 	const buyLabel = tIdo('buttons.buy_now');
 	const donationLabel = tIdo('fields.donation');
@@ -306,6 +314,7 @@ function TierCard({tier, onPurchase}: TierCardProps) {
 
 				{/* 购买按钮 */}
 				<Button
+					isLoading={isLoading}
 					color={tier.color}
 					variant='solid'
 					className={`w-full font-bold shadow-lg hover:shadow-xl transition-all ${tier.id === 'community' ? 'bg-linear-to-r from-cyan-500 to-sky-400 text-primary-foreground' : tier.id === 'regional' ? 'bg-linear-to-r from-purple-500 to-purple-400 text-primary-foreground' : tier.id === 'global' ? 'bg-warning text-warning-foreground hover:bg-warning/90' : ''}`}
