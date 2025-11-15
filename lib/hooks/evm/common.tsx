@@ -2,13 +2,13 @@ import {useEffect, useState, useMemo, useCallback} from 'react';
 import {addToast, closeAll, Button} from '@heroui/react';
 import {useAppKitAccount} from '@reown/appkit/react';
 import {Contract, Signer, TransactionReceipt} from 'ethers';
-import {parseUnits} from 'ethers';
+import {parseUnits, formatUnits} from 'ethers';
 // import {ethers} from 'ethers';
 
 import {useLocalStorage, useMount} from 'react-use';
 import {useModalStore} from '@/app/store';
 import {useTransactionStore, Transaction, TransactionType, TransactionStatus} from '@/app/store/useTransactionStore';
-// import {button} from '@/components';
+import {button} from '@/components';
 // import {TransactionStateView} from '@/components/client';
 import {HexView} from '@/components/client';
 import {PROJECT_CONFIG} from '@/config/main';
@@ -94,10 +94,28 @@ export function useMulticall(signer?: Signer | null) {
 //hook
 export function useERC20(tokenAddress: string, decimals = 18) {
 	const [loading, setLoading] = useState(false);
+	const [balance, setBalance] = useState('0');
 	const {signer, address, chainId} = useBrowserWallet();
 	const erc20 = useContract(tokenAddress, IERC20, signer);
 	const {addTransaction} = useTransactionManager();
 	const walletAddress = address?.toLowerCase() ?? 'unknown';
+
+	const fetchBalance = useCallback(async () => {
+		if (!erc20 || !address) {
+			setBalance('0');
+			return;
+		}
+		try {
+			const raw = await erc20.balanceOf(address);
+			setBalance(formatUnits(raw, decimals));
+		} catch (error) {
+			console.error('Failed to fetch ERC20 balance', error);
+		}
+	}, [erc20, address, decimals]);
+
+	useEffect(() => {
+		fetchBalance();
+	}, [fetchBalance]);
 
 	const recordTransaction = async (tx: {hash: string}, meta: {type: TransactionType; amount?: string; to?: string}) => {
 		await addTransaction(
@@ -119,6 +137,7 @@ export function useERC20(tokenAddress: string, decimals = 18) {
 		if (!erc20) throw new Error('ERC20 contract not available');
 		const tx = await erc20.transfer(to, parseUnits(amount, decimals));
 		await recordTransaction(tx, {type: 'Transfer', amount, to});
+		await fetchBalance();
 		return tx;
 	};
 	//授权
@@ -131,7 +150,7 @@ export function useERC20(tokenAddress: string, decimals = 18) {
 	const transfer = withError({title: 'transfer', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_transfer);
 	const approve = withError({title: 'approve', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_approve);
 
-	return {transfer, approve, loading};
+	return {transfer, approve, loading, balance, refreshBalance: fetchBalance};
 }
 
 interface TransactionHistoryOptions {
@@ -166,7 +185,12 @@ export function useTransactionManager(options: {onComplete?: () => void} = {}) {
 		if (shouldShowModal) {
 			showModal({
 				label: 'Transaction Progress',
-				body: <HexView tx={newTx.hash} />
+				body: <HexView tx={newTx.hash} />,
+				footer: (
+					<Button className={button()} onPress={() => closeModal()}>
+						Close
+					</Button>
+				)
 			});
 		}
 
