@@ -70,22 +70,22 @@ export function IDOView() {
 				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.community.requirements.r1')],
 				icon: 'mdi:star',
 				color: 'secondary'
-			},
-			{
-				id: 'community',
-				name: tIdo('tiers.community.name'),
-				description: tIdo('tiers.community.description'),
-				benefits: tIdo('tiers.community.benefits'),
-				donationAmount: 200,
-				limit: 3000,
-				tokenAmount: 200,
-				releaseMonths: 2,
-				feeShare: 0,
-				level: 'V2',
-				requirements: [tIdo('tiers.community.requirements.r1'), tIdo('tiers.community.requirements.r2')],
-				icon: 'mdi:account-group',
-				color: 'primary'
 			}
+			// {
+			// 	id: 'community',
+			// 	name: tIdo('tiers.community.name'),
+			// 	description: tIdo('tiers.community.description'),
+			// 	benefits: tIdo('tiers.community.benefits'),
+			// 	donationAmount: 200,
+			// 	limit: 3000,
+			// 	tokenAmount: 200,
+			// 	releaseMonths: 2,
+			// 	feeShare: 0,
+			// 	level: 'V2',
+			// 	requirements: [tIdo('tiers.community.requirements.r1'), tIdo('tiers.community.requirements.r2')],
+			// 	icon: 'mdi:account-group',
+			// 	color: 'primary'
+			// }
 		],
 		[tIdo]
 	);
@@ -171,7 +171,7 @@ export function IDOView() {
 			)}
 
 			{/* 白名单级别卡片 */}
-			<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
+			<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
 				{tierConfigs.map(tier => {
 					const donatedRank = donatedTier ? TIER_PRIORITY[donatedTier] : undefined;
 					const currentRank = TIER_PRIORITY[tier.id];
