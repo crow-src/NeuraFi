@@ -64,7 +64,7 @@ export function IDOView() {
 				donationAmount: 1000,
 				limit: 1000,
 				tokenAmount: 1000,
-				releaseMonths: 6,
+				releaseMonths: 5,
 				feeShare: 0.5,
 				level: 'V3',
 				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.community.requirements.r1')],
