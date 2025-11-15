@@ -184,8 +184,7 @@ export function IDOView() {
 			</div>
 
 			{/* 重要提示 */}
-			<Card className='border-2 border-warning/40 bg-linear-to-br from-warning/10 via-warning/5 to-transparent shadow-xl relative overflow-hidden'>
-				{/* 装饰性背景 */}
+			{/* <Card className='border-2 border-warning/40 bg-linear-to-br from-warning/10 via-warning/5 to-transparent shadow-xl relative overflow-hidden'>
 				<div className='absolute top-0 right-0 w-64 h-64 bg-warning/5 rounded-full blur-3xl' />
 				<CardHeader className='relative z-10'>
 					<div className='flex items-center gap-3'>
@@ -207,7 +206,7 @@ export function IDOView() {
 						))}
 					</ul>
 				</CardBody>
-			</Card>
+			</Card> */}
 		</div>
 	);
 }
@@ -345,7 +344,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: T
 				<Divider className='bg-default-200' />
 
 				{/* 要求列表 */}
-				{/* <div className='space-y-2'>
+				<div className='space-y-2'>
 					<p className={`text-xs font-semibold mb-2 flex items-center gap-2 ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>
 						<Icon icon='mdi:check-circle-outline' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : ''}`} />
 						{requirementsLabel}
@@ -356,7 +355,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: T
 							<span className='leading-relaxed'>{req}</span>
 						</div>
 					))}
-				</div> */}
+				</div>
 
 				{/* 购买按钮 */}
 				<Button
