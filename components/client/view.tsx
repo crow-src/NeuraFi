@@ -1,5 +1,5 @@
 'use client';
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {CircularProgress} from '@heroui/progress';
 import {Card, CardBody, CardFooter, Chip, Snippet, Image, cn, ModalProps, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter} from '@heroui/react';
@@ -8,22 +8,26 @@ import {useModalStore} from '@/app/store';
 // import {useWalletStore} from '@/app/store';
 import {title} from '@/components';
 import {obsTxt} from '@/lib';
-import {useTransactionStatus, useTransactionHistory} from '@/lib/hooks'; // 确保正确地导入useDebounce
+import {useTransactionStatus} from '@/lib/hooks';
 
 // 交易弹出窗口
 export const HexView = ({tx}: {tx: string}) => {
-	const {status, receipt} = useTransactionStatus(tx);
-	// 状态
+	const {status} = useTransactionStatus(tx);
+
 	return (
-		<div className='flex flex-col w-full gap-2 h-max-screen/2'>
-			<div className='flex items-center justify-center w-full'>
+		<div className='flex h-max-screen/2 w-full flex-col gap-2'>
+			<div className='flex w-full items-center justify-center'>
 				{status === 'pending' ? (
-					// <CircularProgress label='Pending...' className='w-full' />
-					<Card className='w-full h-full border-none bg-linear-to-br from-primary to-primary-secondary'>
+					<Card className='h-full w-full border-none bg-linear-to-br from-primary to-primary-secondary'>
 						<CardBody className='items-center justify-center pb-0'>
 							<CircularProgress
-								classNames={{svg: 'w-36 h-36 drop-shadow-md', indicator: 'stroke-white', track: 'stroke-white/10', value: 'text-3xl font-semibold text-primary-foreground'}}
-								strokeWidth={4} // 线宽
+								classNames={{
+									svg: 'w-36 h-36 drop-shadow-md',
+									indicator: 'stroke-white',
+									track: 'stroke-white/10',
+									value: 'text-3xl font-semibold text-primary-foreground'
+								}}
+								strokeWidth={4}
 							/>
 						</CardBody>
 						<CardFooter className='items-center justify-center pt-0'>
@@ -38,7 +42,7 @@ export const HexView = ({tx}: {tx: string}) => {
 						</CardFooter>
 					</Card>
 				) : (
-					<Image alt='Send image' width={380} className='w-full' src='/images/gif/money.gif' />
+					<Image alt='Send image' width={380} className='w-full' src='/images/banners/t.jpg' />
 				)}
 			</div>
 			<div className='wrap-break-words'>

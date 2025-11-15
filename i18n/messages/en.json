@@ -129,12 +129,7 @@
 			"subtitle": "Ask me anything about trading, NFTs, wallet security or tech support."
 		},
 		"loading": "The AI is thinking about your question...",
-		"prompts": [
-			"What are the current trading fees?",
-			"Can you analyze the latest NFT market trend?",
-			"How can I improve wallet security?",
-			"How do I contact technical support?"
-		],
+		"prompts": ["What are the current trading fees?", "Can you analyze the latest NFT market trend?", "How can I improve wallet security?", "How do I contact technical support?"],
 		"input_template": "I'd like to learn about {category}.",
 		"categories": {
 			"general": {
@@ -164,36 +159,11 @@
 			"other": "Other actions"
 		},
 		"responses": {
-			"general": [
-				"Hi there! I'm the NeuraFi AI assistant. How can I help you today?",
-				"I see what you're asking—let me walk you through the details.",
-				"Great question! Based on what I know, here's my suggestion...",
-				"Thanks for reaching out. Here are a few ideas you can try."
-			],
-			"trading": [
-				"For trading topics, start by reviewing the basic rules and risk limits.",
-				"Watch market volatility closely and consider setting stop-loss orders.",
-				"Our trading handbook covers these scenarios in more detail.",
-				"Please make sure your identity verification is completed before trading."
-			],
-			"nft": [
-				"NeuraFi blind boxes are unique digital collectibles with different traits.",
-				"You can trade NFTs on the marketplace or redeem them for tokens.",
-				"Rarity drives most of the value—legendary NFTs usually command a premium.",
-				"Always verify the seller and the NFT metadata before purchasing."
-			],
-			"wallet": [
-				"Wallet security is critical—never share your private key.",
-				"For large balances, consider storing assets in a hardware wallet.",
-				"Back up your wallet regularly to avoid accidental loss.",
-				"Never disclose your seed phrase to anyone, including support staff."
-			],
-			"technical": [
-				"Tech issues are often browser or network related—try refreshing first.",
-				"Please clear your cache or try a private session to rule out extensions.",
-				"If the issue persists, contact our technical support team.",
-				"Make sure your browser and wallet extensions are fully up to date."
-			]
+			"general": ["Hi there! I'm the NeuraFi AI assistant. How can I help you today?", "I see what you're asking—let me walk you through the details.", "Great question! Based on what I know, here's my suggestion...", "Thanks for reaching out. Here are a few ideas you can try."],
+			"trading": ["For trading topics, start by reviewing the basic rules and risk limits.", "Watch market volatility closely and consider setting stop-loss orders.", "Our trading handbook covers these scenarios in more detail.", "Please make sure your identity verification is completed before trading."],
+			"nft": ["NeuraFi blind boxes are unique digital collectibles with different traits.", "You can trade NFTs on the marketplace or redeem them for tokens.", "Rarity drives most of the value—legendary NFTs usually command a premium.", "Always verify the seller and the NFT metadata before purchasing."],
+			"wallet": ["Wallet security is critical—never share your private key.", "For large balances, consider storing assets in a hardware wallet.", "Back up your wallet regularly to avoid accidental loss.", "Never disclose your seed phrase to anyone, including support staff."],
+			"technical": ["Tech issues are often browser or network related—try refreshing first.", "Please clear your cache or try a private session to rule out extensions.", "If the issue persists, contact our technical support team.", "Make sure your browser and wallet extensions are fully up to date."]
 		}
 	},
 	"promotion": {
@@ -710,6 +680,10 @@
 	"ido": {
 		"hero_title": "NeuraFi IDO",
 		"hero_subtitle": "Yuanzhi whitelist fundraising system",
+		"labels": {
+			"already_subscribed": "Already subscribed",
+			"upgrade_purchase": "Upgrade"
+		},
 		"notes": {
 			"title": "Important Notes",
 			"note1": "Every contribution must be approved in advance; unqualified orders incur a 2% penalty and the remaining funds are refunded.",

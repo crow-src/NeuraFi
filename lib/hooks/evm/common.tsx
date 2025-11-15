@@ -1,15 +1,16 @@
 import {useEffect, useState, useMemo, useCallback} from 'react';
 import {addToast, closeAll, Button} from '@heroui/react';
 import {useAppKitAccount} from '@reown/appkit/react';
-import {Contract, Signer, TransactionReceipt, keccak256, solidityPacked, getCreate2Address, JsonRpcProvider, getAddress} from 'ethers';
-import {parseUnits, formatUnits, ZeroAddress, parseEther} from 'ethers';
-import {ethers} from 'ethers';
+import {Contract, Signer, TransactionReceipt} from 'ethers';
+import {parseUnits} from 'ethers';
+// import {ethers} from 'ethers';
 
 import {useLocalStorage, useMount} from 'react-use';
 import {useModalStore} from '@/app/store';
 import {useTransactionStore, Transaction, TransactionType, TransactionStatus} from '@/app/store/useTransactionStore';
-import {button} from '@/components';
+// import {button} from '@/components';
 // import {TransactionStateView} from '@/components/client';
+import {HexView} from '@/components/client';
 import {PROJECT_CONFIG} from '@/config/main';
 import {IMulticall, IERC20} from '@/lib/contract/abi';
 import {useBrowserWallet} from '@/lib/hooks';
@@ -91,22 +92,41 @@ export function useMulticall(signer?: Signer | null) {
 }
 
 //hook
-export function useERC20(tokenAddress: string) {
+export function useERC20(tokenAddress: string, decimals = 18) {
 	const [loading, setLoading] = useState(false);
-	const {signer, provider} = useBrowserWallet();
+	const {signer, address, chainId} = useBrowserWallet();
 	const erc20 = useContract(tokenAddress, IERC20, signer);
 	const {addTransaction} = useTransactionManager();
+	const walletAddress = address?.toLowerCase() ?? 'unknown';
+
+	const recordTransaction = async (tx: {hash: string}, meta: {type: TransactionType; amount?: string; to?: string}) => {
+		await addTransaction(
+			{
+				hash: tx.hash,
+				type: meta.type,
+				walletAddress,
+				amount: meta.amount ? Number(meta.amount) : undefined,
+				toAddress: meta.to,
+				fromAddress: address,
+				network: chainId ? String(chainId) : undefined
+			},
+			{showModal: true}
+		);
+	};
+
 	//transfer
 	const _transfer = async (to: string, amount: string) => {
-		if (erc20) {
-			return erc20.transfer(to, parseUnits(amount, 18)).then(tx => addTransaction({...tx, type: 'Transfer'}));
-		}
+		if (!erc20) throw new Error('ERC20 contract not available');
+		const tx = await erc20.transfer(to, parseUnits(amount, decimals));
+		await recordTransaction(tx, {type: 'Transfer', amount, to});
+		return tx;
 	};
 	//授权
 	const _approve = async (spender: string, amount: string) => {
-		if (erc20) {
-			return erc20.approve(spender, amount).then(tx => addTransaction({...tx, type: 'Approve'}));
-		}
+		if (!erc20) throw new Error('ERC20 contract not available');
+		const tx = await erc20.approve(spender, parseUnits(amount, decimals));
+		await recordTransaction(tx, {type: 'Other', amount, to: spender});
+		return tx;
 	};
 	const transfer = withError({title: 'transfer', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_transfer);
 	const approve = withError({title: 'approve', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_approve);
@@ -142,6 +162,13 @@ export function useTransactionManager(options: {onComplete?: () => void} = {}) {
 
 		// 添加交易到store
 		const newTx = await addTransaction(tx);
+
+		if (shouldShowModal) {
+			showModal({
+				label: 'Transaction Progress',
+				body: <HexView tx={newTx.hash} />
+			});
+		}
 
 		// 自动模拟交易成功（实际项目中应该通过轮询或WebSocket来更新真实状态）
 		if (autoSimulate) {

@@ -680,6 +680,10 @@
 	"ido": {
 		"hero_title": "NeuraFi IDO",
 		"hero_subtitle": "元智白名单系统",
+		"labels": {
+			"already_subscribed": "已申购",
+			"upgrade_purchase": "升级申购"
+		},
 		"notes": {
 			"title": "重要提示",
 			"note1": "超级社区与大社区需通过线下人工审核，直接购买无效。",
@@ -693,7 +697,7 @@
 		"tiers": {
 			"super": {
 				"name": "超级社区",
-				"description": "捐赠5000U（购买后审核，未过条件原路退回）",
+				"description": "捐赠5000U（购买后审核，审核未通过资金原路退回）",
 				"benefits": "待遇：5000U最低原始筹码（分10个月释放），全球手续费0.5%分红，享V4级别。",
 				"requirements": {
 					"r1": "至少拥有1000人以上顶级大社区",
@@ -704,8 +708,8 @@
 			},
 			"regional": {
 				"name": "大社区",
-				"description": "捐赠1000U（购买后审核，未过条件原路退回）",
-				"benefits": "待遇：1000U原始筹码（分6个月释放），全球手续费0.5%分红，享V3级别。",
+				"description": "捐赠1000U（购买后审核，审核未通过资金原路退回）",
+				"benefits": "待遇：1000U原始筹码（分5个月释放），全球手续费0.5%分红，享V3级别。",
 				"requirements": {
 					"r1": "至少200人以上的社区负责人",
 					"r2": "需线下申请并通过审核",
@@ -724,10 +728,10 @@
 		},
 		"fields": {
 			"donation": "捐赠金额",
-			"token_amount": "获得筹码",
+			"token_amount": "获得代币",
 			"release_period": "释放周期",
 			"release_value": "{value} 个月",
-			"fee_share": "手续费",
+			"fee_share": "手续费分配",
 			"fee_value": "{value}%",
 			"limit": "限额",
 			"limit_value": "{value} 名",

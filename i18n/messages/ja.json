@@ -231,6 +231,10 @@
 			"view_details": "詳細を見る",
 			"close": "閉じる"
 		},
+		"labels": {
+			"already_subscribed": "申込済み",
+			"upgrade_purchase": "アップグレード申込"
+		},
 		"tabs": {
 			"overview": "概要",
 			"platform": "プラットフォーム推進",
@@ -710,6 +714,10 @@
 	"ido": {
 		"hero_title": "NeuraFi IDO",
 		"hero_subtitle": "Yuanzhi プロジェクトのホワイトリスト資金調達システム",
+		"labels": {
+			"already_subscribed": "すでに参加済み",
+			"upgrade_purchase": "アップグレード購入"
+		},
 		"notes": {
 			"title": "重要なお知らせ",
 			"note1": "すべての購入は事前審査が必要です。条件を満たさない場合は2%のペナルティを差し引いたうえで返金されます。",

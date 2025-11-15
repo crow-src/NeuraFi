@@ -4,6 +4,7 @@ import {Card, CardBody, CardHeader, Button, Chip, Divider} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useAppKitAccount} from '@reown/appkit/react';
 import {useTranslations} from 'next-intl';
+import {useLocalStorage} from 'react-use';
 import {useERC20} from '@/lib/hooks/evm/common';
 
 // ===== 类型定义 =====
@@ -28,12 +29,15 @@ interface WhitelistTierConfig {
 // ===== 募资视图 =====
 const DONATION_TOKEN = '0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe'; //0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe、、0x55d398326f99059fF775485246999027B3197955
 const TREASURY_ADDRESS = '0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d'; //0x97674cb1fa28d64f2b8775f89265a10f6d9e19c2    0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d
-const TOKEN_DECIMALS = 18;
+const TIER_PRIORITY: Record<WhitelistTier, number> = {community: 0, regional: 1, global: 2};
 
 export function IDOView() {
 	const tIdo = useTranslations('ido');
 	const {address, isConnected} = useAppKitAccount();
-	const {transfer, loading} = useERC20(DONATION_TOKEN);
+	const {transfer, loading} = useERC20(DONATION_TOKEN, 18);
+	const [donations, setDonations] = useLocalStorage<Record<string, WhitelistTier>>('ido-donations', {});
+	const [pendingTier, setPendingTier] = React.useState<WhitelistTier | null>(null);
+	const donatedTier = address ? donations?.[address.toLowerCase()] : undefined;
 
 	const tierConfigs = React.useMemo<WhitelistTierConfig[]>(
 		() => [
@@ -90,13 +94,33 @@ export function IDOView() {
 
 	// 处理购买
 	const handlePurchase = async (tier: WhitelistTier) => {
+		if (!isConnected || !address) {
+			console.info('Please connect wallet before purchasing');
+			return;
+		}
 		const tierConfig = tierConfigs.find(t => t.id === tier);
+		const previousTierConfig = donatedTier ? tierConfigs.find(t => t.id === donatedTier) : undefined;
 		if (!tierConfig) return;
+
+		const previousAmount = previousTierConfig?.donationAmount ?? 0;
+		const requiredAmount = Math.max(tierConfig.donationAmount - previousAmount, 0);
+		if (requiredAmount <= 0) {
+			console.info('No additional payment required for this tier');
+			return;
+		}
+
+		setPendingTier(tier);
 		try {
-			await transfer?.(TREASURY_ADDRESS, tierConfig.donationAmount.toString());
+			await transfer?.(TREASURY_ADDRESS, requiredAmount.toString());
+			setDonations((prev: Record<string, WhitelistTier> | undefined) => ({
+				...(prev ?? {}),
+				[address.toLowerCase()]: tier
+			}));
 			console.info('Donation submitted', {tier: tierConfig.id, donation: tierConfig.donationAmount, address});
 		} catch (error) {
 			console.error('Failed to donate', error);
+		} finally {
+			setPendingTier(null);
 		}
 	};
 
@@ -132,11 +156,31 @@ export function IDOView() {
 				</CardBody>
 			</Card>
 
+			{donatedTier && (
+				<Card className='mb-6 border border-success/40 bg-success/10 shadow-md'>
+					<CardBody className='flex items-center gap-3 text-success'>
+						<div className='p-2 rounded-full bg-success/20'>
+							<Icon icon='mdi:check-decagram' className='w-6 h-6' />
+						</div>
+						<div className='flex gap-2 items-center'>
+							<p className='text-sm uppercase tracking-wide font-semibold'>{tIdo('labels.already_subscribed')}:</p>
+							<p className='text-base font-bold'>{tIdo(`tiers.${donatedTier === 'global' ? 'super' : donatedTier === 'regional' ? 'regional' : 'community'}.name`)}</p>
+						</div>
+					</CardBody>
+				</Card>
+			)}
+
 			{/* 白名单级别卡片 */}
 			<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
-				{tierConfigs.map(tier => (
-					<TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={loading} isDisabled={!isConnected} />
-				))}
+				{tierConfigs.map(tier => {
+					const donatedRank = donatedTier ? TIER_PRIORITY[donatedTier] : undefined;
+					const currentRank = TIER_PRIORITY[tier.id];
+					const disabledByRank = donatedRank !== undefined && currentRank <= donatedRank;
+					const isTierLoading = pendingTier === tier.id && loading;
+					const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank;
+					const showUpgradeLabel = Boolean(donatedTier) && donatedRank !== undefined && currentRank > donatedRank;
+					return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} />;
+				})}
 			</div>
 
 			{/* 重要提示 */}
@@ -174,11 +218,13 @@ interface TierCardProps {
 	onPurchase: (tier: WhitelistTier) => void;
 	isLoading: boolean;
 	isDisabled: boolean;
+	showUpgradeLabel: boolean;
 }
 
-function TierCard({tier, onPurchase, isLoading, isDisabled}: TierCardProps) {
+function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: TierCardProps) {
 	const tIdo = useTranslations('ido');
 	const buyLabel = tIdo('buttons.buy_now');
+	const upgradeLabel = tIdo('labels.upgrade_purchase');
 	const donationLabel = tIdo('fields.donation');
 	const tokenLabel = tIdo('fields.token_amount');
 	const releaseLabel = tIdo('fields.release_period');
@@ -315,13 +361,14 @@ function TierCard({tier, onPurchase, isLoading, isDisabled}: TierCardProps) {
 				{/* 购买按钮 */}
 				<Button
 					isLoading={isLoading}
+					isDisabled={isDisabled}
 					color={tier.color}
 					variant='solid'
 					className={`w-full font-bold shadow-lg hover:shadow-xl transition-all ${tier.id === 'community' ? 'bg-linear-to-r from-cyan-500 to-sky-400 text-primary-foreground' : tier.id === 'regional' ? 'bg-linear-to-r from-purple-500 to-purple-400 text-primary-foreground' : tier.id === 'global' ? 'bg-warning text-warning-foreground hover:bg-warning/90' : ''}`}
 					size='lg'
 					onPress={() => onPurchase(tier.id)}
 					startContent={<Icon icon='mdi:cart' className='w-5 h-5' />}>
-					{buyLabel}
+					{showUpgradeLabel ? upgradeLabel : buyLabel}
 				</Button>
 			</CardBody>
 		</Card>

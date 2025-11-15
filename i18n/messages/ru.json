@@ -231,6 +231,10 @@
 			"view_details": "Подробнее",
 			"close": "Закрыть"
 		},
+		"labels": {
+			"already_subscribed": "Уже оформлено",
+			"upgrade_purchase": "Улучшить пакет"
+		},
 		"tabs": {
 			"overview": "Обзор",
 			"platform": "Платформенное продвижение",
@@ -710,6 +714,10 @@
 	"ido": {
 		"hero_title": "NeuraFi IDO",
 		"hero_subtitle": "Whitelist‑система сбора средств проекта Yuanzhi",
+		"labels": {
+			"already_subscribed": "Уже подписано",
+			"upgrade_purchase": "Улучшить"
+		},
 		"notes": {
 			"title": "Важные замечания",
 			"note1": "Каждый взнос должен быть одобрен заранее; при отказе удерживается штраф 2 %, остальная сумма возвращается.",

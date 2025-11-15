@@ -22,6 +22,14 @@ export interface Transaction {
 	metadata?: Record<string, any>; // 额外元数据（可选）
 }
 
+const serializeTransaction = <T>(tx: T): T =>
+	JSON.parse(
+		JSON.stringify(tx, (_key, value) => {
+			if (typeof value === 'bigint') return value.toString();
+			return value;
+		})
+	);
+
 interface TransactionStore {
 	transactions: Record<string, Transaction[]>; // 按钱包地址分组的交易列表
 	transactionListeners: Set<(tx: Transaction) => void>; // 交易监听器
@@ -47,19 +55,20 @@ export const useTransactionStore = create<TransactionStore>()(
 					timestamp: Date.now(),
 					status: 'pending'
 				};
+				const serializableTx = serializeTransaction(newTx);
 
 				set(state => {
 					const currentTransactions = state.transactions[tx?.walletAddress] || [];
 					return {
-						transactions: {...state.transactions, [tx.walletAddress]: [newTx, ...currentTransactions]},
+						transactions: {...state.transactions, [tx.walletAddress]: [serializableTx, ...currentTransactions]},
 						transactionListeners: state.transactionListeners
 					};
 				});
 
 				// 通知所有监听器
 				const {transactionListeners} = get();
-				transactionListeners.forEach(listener => listener(newTx));
-				return newTx; // 返回新交易供外部使用
+				transactionListeners.forEach(listener => listener(serializableTx));
+				return serializableTx; // 返回新交易供外部使用
 			},
 
 			// 更新交易状态

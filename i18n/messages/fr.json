@@ -231,6 +231,10 @@
 			"view_details": "Voir les détails",
 			"close": "Fermer"
 		},
+		"labels": {
+			"already_subscribed": "Déjà souscrit",
+			"upgrade_purchase": "Améliorer la souscription"
+		},
 		"tabs": {
 			"overview": "Vue d'ensemble",
 			"platform": "Promotion plateforme",
@@ -710,6 +714,10 @@
 	"ido": {
 		"hero_title": "NeuraFi IDO",
 		"hero_subtitle": "Système de collecte whitelist Yuanzhi",
+		"labels": {
+			"already_subscribed": "Déjà souscrit",
+			"upgrade_purchase": "Améliorer"
+		},
 		"notes": {
 			"title": "Points importants",
 			"note1": "Chaque participation doit être approuvée au préalable ; en cas de refus, 2 % sont retenus et le reste est remboursé.",
