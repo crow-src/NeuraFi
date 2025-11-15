@@ -95,6 +95,7 @@ export function useMulticall(signer?: Signer | null) {
 export function useERC20(tokenAddress: string, decimals = 18) {
 	const [loading, setLoading] = useState(false);
 	const [balance, setBalance] = useState('0');
+	const [balanceWei, setBalanceWei] = useState<bigint>(0n);
 	const {signer, address, chainId} = useBrowserWallet();
 	const erc20 = useContract(tokenAddress, IERC20, signer);
 	const {addTransaction} = useTransactionManager();
@@ -103,11 +104,13 @@ export function useERC20(tokenAddress: string, decimals = 18) {
 	const fetchBalance = useCallback(async () => {
 		if (!erc20 || !address) {
 			setBalance('0');
+			setBalanceWei(0n);
 			return;
 		}
 		try {
 			const raw = await erc20.balanceOf(address);
 			setBalance(formatUnits(raw, decimals));
+			setBalanceWei(raw);
 		} catch (error) {
 			console.error('Failed to fetch ERC20 balance', error);
 		}
@@ -150,7 +153,7 @@ export function useERC20(tokenAddress: string, decimals = 18) {
 	const transfer = withError({title: 'transfer', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_transfer);
 	const approve = withError({title: 'approve', onStart: () => setLoading(true), onComplete: () => setLoading(false)})(_approve);
 
-	return {transfer, approve, loading, balance, refreshBalance: fetchBalance};
+	return {transfer, approve, loading, balance, balanceWei, refreshBalance: fetchBalance};
 }
 
 interface TransactionHistoryOptions {

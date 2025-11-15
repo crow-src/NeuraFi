@@ -3,6 +3,7 @@ import React from 'react';
 import {Card, CardBody, CardHeader, Button, Chip, Divider} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useAppKitAccount} from '@reown/appkit/react';
+import {parseUnits} from 'ethers';
 import {useTranslations} from 'next-intl';
 import {useLocalStorage} from 'react-use';
 import {useERC20} from '@/lib/hooks/evm/common';
@@ -28,16 +29,18 @@ interface WhitelistTierConfig {
 
 // ===== 募资视图 =====
 const DONATION_TOKEN = '0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe'; //0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe、、0x55d398326f99059fF775485246999027B3197955
+const DONATION_TOKEN_DECIMALS = 18;
 const TREASURY_ADDRESS = '0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d'; //0x97674cb1fa28d64f2b8775f89265a10f6d9e19c2    0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d
 const TIER_PRIORITY: Record<WhitelistTier, number> = {community: 0, regional: 1, global: 2};
 
 export function IDOView() {
 	const tIdo = useTranslations('ido');
 	const {address, isConnected} = useAppKitAccount();
-	const {transfer, loading} = useERC20(DONATION_TOKEN, 18);
+	const {transfer, loading, balance, balanceWei} = useERC20(DONATION_TOKEN, DONATION_TOKEN_DECIMALS);
 	const [donations, setDonations] = useLocalStorage<Record<string, WhitelistTier>>('ido-donations', {});
 	const [pendingTier, setPendingTier] = React.useState<WhitelistTier | null>(null);
 	const donatedTier = address ? donations?.[address.toLowerCase()] : undefined;
+	const walletBalanceWei = balanceWei ?? 0n;
 
 	const tierConfigs = React.useMemo<WhitelistTierConfig[]>(
 		() => [
@@ -92,6 +95,16 @@ export function IDOView() {
 
 	const importantNotes = React.useMemo(() => [tIdo('notes.note1'), tIdo('notes.note2'), tIdo('notes.note3')], [tIdo]);
 
+	const getRequiredAmount = React.useCallback(
+		(targetTier: WhitelistTier) => {
+			const tierConfig = tierConfigs.find(t => t.id === targetTier);
+			if (!tierConfig) return 0;
+			const previousAmount = donatedTier ? (tierConfigs.find(t => t.id === donatedTier)?.donationAmount ?? 0) : 0;
+			return Math.max(tierConfig.donationAmount - previousAmount, 0);
+		},
+		[tierConfigs, donatedTier]
+	);
+
 	// 处理购买
 	const handlePurchase = async (tier: WhitelistTier) => {
 		if (!isConnected || !address) {
@@ -99,13 +112,15 @@ export function IDOView() {
 			return;
 		}
 		const tierConfig = tierConfigs.find(t => t.id === tier);
-		const previousTierConfig = donatedTier ? tierConfigs.find(t => t.id === donatedTier) : undefined;
 		if (!tierConfig) return;
-
-		const previousAmount = previousTierConfig?.donationAmount ?? 0;
-		const requiredAmount = Math.max(tierConfig.donationAmount - previousAmount, 0);
-		if (requiredAmount <= 0) {
+		const requiredAmount = getRequiredAmount(tier);
+		const requiredAmountWei = parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS);
+		if (requiredAmountWei <= 0n) {
 			console.info('No additional payment required for this tier');
+			return;
+		}
+		if (walletBalanceWei < requiredAmountWei) {
+			console.info('Insufficient balance for this tier');
 			return;
 		}
 
@@ -177,9 +192,13 @@ export function IDOView() {
 					const currentRank = TIER_PRIORITY[tier.id];
 					const disabledByRank = donatedRank !== undefined && currentRank <= donatedRank;
 					const isTierLoading = pendingTier === tier.id && loading;
-					const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank;
+					const requiredAmount = getRequiredAmount(tier.id);
+					const requiredWei = parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS);
+					const hasEnoughBalance = walletBalanceWei >= requiredWei && requiredAmount > 0;
+					const insufficientBalance = requiredAmount > 0 && !hasEnoughBalance;
+					const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
 					const showUpgradeLabel = Boolean(donatedTier) && donatedRank !== undefined && currentRank > donatedRank;
-					return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} />;
+					return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} hasEnoughBalance={!insufficientBalance} />;
 				})}
 			</div>
 
@@ -218,12 +237,15 @@ interface TierCardProps {
 	isLoading: boolean;
 	isDisabled: boolean;
 	showUpgradeLabel: boolean;
+	hasEnoughBalance: boolean;
 }
 
-function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: TierCardProps) {
+function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, hasEnoughBalance}: TierCardProps) {
 	const tIdo = useTranslations('ido');
+	const tCommon = useTranslations('common');
 	const buyLabel = tIdo('buttons.buy_now');
 	const upgradeLabel = tIdo('labels.upgrade_purchase');
+	const insufficientLabel = tCommon('insufficient_balance');
 	const donationLabel = tIdo('fields.donation');
 	const tokenLabel = tIdo('fields.token_amount');
 	const releaseLabel = tIdo('fields.release_period');
@@ -367,7 +389,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel}: T
 					size='lg'
 					onPress={() => onPurchase(tier.id)}
 					startContent={<Icon icon='mdi:cart' className='w-5 h-5' />}>
-					{showUpgradeLabel ? upgradeLabel : buyLabel}
+					{!hasEnoughBalance ? insufficientLabel : showUpgradeLabel ? upgradeLabel : buyLabel}
 				</Button>
 			</CardBody>
 		</Card>
