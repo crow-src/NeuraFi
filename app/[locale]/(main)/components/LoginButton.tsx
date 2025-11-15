@@ -16,7 +16,7 @@ export function LoginButton() {
 	// 根据网络ID获取图标
 	const getNetworkIcon = (networkId: number | string) => {
 		const network = EVM_RPC_CONFIG.find(config => config.chainId === networkId);
-		console.log('network', network?.icon);
+		//console.log('network', network?.icon);
 		return network?.icon ?? '/images/chain/eth.svg';
 	};
 

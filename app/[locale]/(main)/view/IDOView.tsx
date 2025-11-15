@@ -167,6 +167,19 @@ export function IDOView() {
 								</div>
 							</div>
 						</div>
+						{isConnected && address && (
+							<Chip
+								size='lg'
+								variant='flat'
+								color='primary'
+								classNames={{
+									base: 'bg-content1/80 border border-primary-border p-4',
+									content: 'text-primary-foreground font-semibold'
+								}}
+								startContent={<Icon icon='mdi:wallet' className='w-6 h-6' />}>
+								{balance ? Number.parseFloat(balance).toLocaleString(undefined, {maximumFractionDigits: 4}) : '0.0000'} USDT
+							</Chip>
+						)}
 					</div>
 				</CardBody>
 			</Card>
@@ -185,6 +198,31 @@ export function IDOView() {
 				</Card>
 			)}
 
+			{/* 调试信息 */}
+			{/* {isConnected && address && (
+				<Card className='mb-6 border border-warning/40 bg-warning/5'>
+					<CardBody className='p-4'>
+						<div className='text-sm space-y-1'>
+							<p className='font-semibold text-warning'>Debug Info:</p>
+							<p>
+								Wallet Balance: {balance || '0'} USDT (Wei: {walletBalanceWei.toString()})
+							</p>
+							<p>Donated Tier: {donatedTier || 'None'}</p>
+							{tierConfigs.map(tier => {
+								const requiredAmount = getRequiredAmount(tier.id);
+								const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
+								const insufficientBalance = requiredAmount > 0 && walletBalanceWei < requiredWei;
+								return (
+									<p key={tier.id}>
+										{tier.name}: Donation Amount = {tier.donationAmount}, Required = {requiredAmount} USDT (Wei: {requiredWei.toString()}) - Insufficient: {insufficientBalance ? 'Yes' : 'No'}
+									</p>
+								);
+							})}
+						</div>
+					</CardBody>
+				</Card>
+			)} */}
+
 			{/* 白名单级别卡片 */}
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
 				{tierConfigs.map(tier => {
@@ -193,12 +231,14 @@ export function IDOView() {
 					const disabledByRank = donatedRank !== undefined && currentRank <= donatedRank;
 					const isTierLoading = pendingTier === tier.id && loading;
 					const requiredAmount = getRequiredAmount(tier.id);
-					const requiredWei = parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS);
-					const hasEnoughBalance = walletBalanceWei >= requiredWei && requiredAmount > 0;
-					const insufficientBalance = requiredAmount > 0 && !hasEnoughBalance;
+					const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
+					// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
+					// 如果 requiredAmount 为 0，说明不需要支付，但如果是首次购买且余额不足，也应该显示余额不足
+					const needsPayment = requiredAmount > 0;
+					const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
 					const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
 					const showUpgradeLabel = Boolean(donatedTier) && donatedRank !== undefined && currentRank > donatedRank;
-					return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} hasEnoughBalance={!insufficientBalance} />;
+					return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
 				})}
 			</div>
 
@@ -237,15 +277,15 @@ interface TierCardProps {
 	isLoading: boolean;
 	isDisabled: boolean;
 	showUpgradeLabel: boolean;
-	hasEnoughBalance: boolean;
+	insufficientBalance: boolean;
 }
 
-function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, hasEnoughBalance}: TierCardProps) {
+function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, insufficientBalance}: TierCardProps) {
 	const tIdo = useTranslations('ido');
-	const tCommon = useTranslations('common');
+	const tTip = useTranslations('tip');
 	const buyLabel = tIdo('buttons.buy_now');
 	const upgradeLabel = tIdo('labels.upgrade_purchase');
-	const insufficientLabel = tCommon('insufficient_balance');
+	const insufficientLabel = tTip('insufficient_balance');
 	const donationLabel = tIdo('fields.donation');
 	const tokenLabel = tIdo('fields.token_amount');
 	const releaseLabel = tIdo('fields.release_period');
@@ -389,7 +429,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, ha
 					size='lg'
 					onPress={() => onPurchase(tier.id)}
 					startContent={<Icon icon='mdi:cart' className='w-5 h-5' />}>
-					{!hasEnoughBalance ? insufficientLabel : showUpgradeLabel ? upgradeLabel : buyLabel}
+					{insufficientBalance ? insufficientLabel : showUpgradeLabel ? upgradeLabel : buyLabel}
 				</Button>
 			</CardBody>
 		</Card>
