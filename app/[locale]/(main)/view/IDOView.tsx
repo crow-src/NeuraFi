@@ -149,7 +149,7 @@ export function IDOView() {
 	};
 
 	return (
-		<div className='h-full w-full flex flex-col p-6 pt-0 overflow-y-auto custom-scrollbar relative'>
+		<div className='h-full w-full flex flex-col p-4 overflow-y-auto custom-scrollbar relative'>
 			{/* 背景装饰 */}
 			<div className='absolute inset-0 overflow-hidden pointer-events-none'>
 				<div className='absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl' />
