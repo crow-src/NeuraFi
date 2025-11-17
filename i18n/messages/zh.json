@@ -696,7 +696,7 @@
 		},
 		"invite": {
 			"title": "输入IDO邀请码",
-			"description": "请输入 6 位数字邀请码以解锁申购功能",
+			"description": "请输入 内部邀请码以解锁申购功能",
 			"ariaLabel": "邀请码输入",
 			"error": "邀请码无效，请检查后重试",
 			"success": "邀请码验证成功，可以继续申购",
