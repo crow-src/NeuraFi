@@ -694,6 +694,14 @@
 			"buy_now": "Buy Now",
 			"connect_wallet": "Connect Wallet"
 		},
+		"invite": {
+			"title": "Invitation Code",
+			"description": "Enter the 6-digit invitation code to unlock the purchase area.",
+			"ariaLabel": "Invitation code input",
+			"error": "Invalid invitation code. Please try again.",
+			"success": "Invitation verified. You can continue to purchase.",
+			"placeholder": "Enter the invitation code to continue"
+		},
 		"tiers": {
 			"super": {
 				"name": "Super Community",

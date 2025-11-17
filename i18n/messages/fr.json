@@ -728,6 +728,14 @@
 			"buy_now": "Acheter maintenant",
 			"connect_wallet": "Connecter le portefeuille"
 		},
+		"invite": {
+			"title": "Code d'invitation",
+			"description": "Saisissez le code d'invitation à 6 chiffres pour déverrouiller l'espace d'achat.",
+			"ariaLabel": "Saisie du code d'invitation",
+			"error": "Code d'invitation invalide. Veuillez réessayer.",
+			"success": "Code vérifié, vous pouvez poursuivre l'achat.",
+			"placeholder": "Entrez le code d'invitation pour continuer"
+		},
 		"tiers": {
 			"super": {
 				"name": "Super communauté",

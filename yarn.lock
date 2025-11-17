@@ -859,7 +859,7 @@
     "@heroui/shared-utils" "2.1.12"
     "@heroui/use-image" "2.1.13"
 
-"@heroui/input-otp@2.1.27":
+"@heroui/input-otp@2.1.27", "@heroui/input-otp@^2.1.27":
   version "2.1.27"
   resolved "https://registry.npmjs.org/@heroui/input-otp/-/input-otp-2.1.27.tgz#0287a60eb7031881e4900b2377400ea628d82d1b"
   integrity sha512-VUzQ1u6/0okE0eqDx/2I/8zpGItSsn7Zml01IVwGM4wY2iJeQA+uRjfP+B1ff9jO/y8n582YU4uv/ZSOmmEQ7A==

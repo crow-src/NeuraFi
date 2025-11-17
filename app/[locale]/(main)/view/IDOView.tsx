@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import {Card, CardBody, CardHeader, Button, Chip, Divider} from '@heroui/react';
+import {Card, CardBody, CardHeader, Button, Chip, Divider, InputOtp} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useAppKitAccount} from '@reown/appkit/react';
 import {parseUnits} from 'ethers';
@@ -32,6 +32,7 @@ const DONATION_TOKEN = '0x55d398326f99059fF775485246999027B3197955'; //0xc1f92e6
 const DONATION_TOKEN_DECIMALS = 18;
 const TREASURY_ADDRESS = '0xA26765Fb7dE0ebF6637caA53A69C70a446c3b54c'; //0x97674cb1fa28d64f2b8775f89265a10f6d9e19c2    0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d
 const TIER_PRIORITY: Record<WhitelistTier, number> = {community: 0, regional: 1, global: 2};
+const VALID_INVITATION_CODES = ['666666', '188073'];
 
 export function IDOView() {
 	const tIdo = useTranslations('ido');
@@ -41,6 +42,10 @@ export function IDOView() {
 	const [pendingTier, setPendingTier] = React.useState<WhitelistTier | null>(null);
 	const donatedTier = address ? donations?.[address.toLowerCase()] : undefined;
 	const walletBalanceWei = balanceWei ?? 0n;
+	const [inviteCode, setInviteCode] = React.useState('');
+	const inviteCompleted = inviteCode.length === 6;
+	const inviteAccepted = inviteCompleted && VALID_INVITATION_CODES.includes(inviteCode);
+	const inviteError = inviteCompleted && !inviteAccepted;
 
 	const tierConfigs = React.useMemo<WhitelistTierConfig[]>(
 		() => [
@@ -70,7 +75,7 @@ export function IDOView() {
 				releaseMonths: 5,
 				feeShare: 0.5,
 				level: 'V3',
-				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.community.requirements.r1')],
+				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.super.requirements.r3')],
 				icon: 'mdi:star',
 				color: 'secondary'
 			}
@@ -107,6 +112,10 @@ export function IDOView() {
 
 	// 处理购买
 	const handlePurchase = async (tier: WhitelistTier) => {
+		if (!inviteAccepted) {
+			console.info('Invitation code is required before purchasing');
+			return;
+		}
 		if (!isConnected || !address) {
 			console.info('Please connect wallet before purchasing');
 			return;
@@ -184,7 +193,58 @@ export function IDOView() {
 				</CardBody>
 			</Card>
 
-			{donatedTier && (
+			{inviteAccepted ? (
+				<Card className='mb-6 border border-success/40 bg-success/10 shadow-lg'>
+					<CardBody className='flex items-center justify-between gap-4'>
+						<div className='flex items-center gap-3'>
+							<div className='p-3 rounded-xl bg-success/20 border border-success/30'>
+								<Icon icon='mdi:shield-check' className='w-6 h-6 text-success' />
+							</div>
+							<div>
+								<p className='text-base font-semibold text-success'>{tIdo('invite.title')}</p>
+								<p className='text-sm text-default-700'>{tIdo('invite.success')}</p>
+							</div>
+						</div>
+						<Chip color='success' variant='flat' className='font-mono tracking-widest font-semibold px-4'>
+							{inviteCode}
+						</Chip>
+					</CardBody>
+				</Card>
+			) : (
+				<Card className='mb-6 border border-primary/30 bg-content1/80 shadow-xl'>
+					<CardBody className='space-y-4'>
+						<div className='flex items-center gap-3'>
+							<div className='p-3 rounded-xl bg-primary/10 border border-primary/20'>
+								<Icon icon='mdi:key-variant' className='w-6 h-6 text-primary' />
+							</div>
+							<div>
+								<p className='text-base font-semibold text-primary'>{tIdo('invite.title')}</p>
+								<p className='text-sm text-default-500'>{tIdo('invite.description')}</p>
+							</div>
+						</div>
+						<InputOtp
+							value={inviteCode}
+							onValueChange={setInviteCode}
+							length={6}
+							size='lg'
+							variant='bordered'
+							isInvalid={inviteError}
+							aria-label={tIdo('invite.ariaLabel')}
+							classNames={{
+								base: 'w-full',
+								segment: 'text-xl font-bold text-primary-foreground',
+								segmentWrapper: 'gap-2'
+							}}
+						/>
+						<div className='text-sm'>
+							{inviteError && <p className='text-danger font-medium'>{tIdo('invite.error')}</p>}
+							{!inviteCompleted && !inviteAccepted && <p className='text-default-500'>{tIdo('invite.placeholder')}</p>}
+						</div>
+					</CardBody>
+				</Card>
+			)}
+
+			{inviteAccepted && donatedTier && (
 				<Card className='mb-6 border border-success/40 bg-success/10 shadow-md'>
 					<CardBody className='flex items-center gap-3 text-success'>
 						<div className='p-2 rounded-full bg-success/20'>
@@ -223,24 +283,25 @@ export function IDOView() {
 				</Card>
 			)} */}
 
-			{/* 白名单级别卡片 */}
-			<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-				{tierConfigs.map(tier => {
-					const donatedRank = donatedTier ? TIER_PRIORITY[donatedTier] : undefined;
-					const currentRank = TIER_PRIORITY[tier.id];
-					const disabledByRank = donatedRank !== undefined && currentRank <= donatedRank;
-					const isTierLoading = pendingTier === tier.id && loading;
-					const requiredAmount = getRequiredAmount(tier.id);
-					const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
-					// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
-					// 如果 requiredAmount 为 0，说明不需要支付，但如果是首次购买且余额不足，也应该显示余额不足
-					const needsPayment = requiredAmount > 0;
-					const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
-					const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
-					const showUpgradeLabel = Boolean(donatedTier) && donatedRank !== undefined && currentRank > donatedRank;
-					return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
-				})}
-			</div>
+			{inviteAccepted && (
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
+					{tierConfigs.map(tier => {
+						const donatedRank = donatedTier ? TIER_PRIORITY[donatedTier] : undefined;
+						const currentRank = TIER_PRIORITY[tier.id];
+						const disabledByRank = donatedRank !== undefined && currentRank <= donatedRank;
+						const isTierLoading = pendingTier === tier.id && loading;
+						const requiredAmount = getRequiredAmount(tier.id);
+						const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
+						// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
+						// 如果 requiredAmount 为 0，说明不需要支付，但如果是首次购买且余额不足，也应该显示余额不足
+						const needsPayment = requiredAmount > 0;
+						const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
+						const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
+						const showUpgradeLabel = Boolean(donatedTier) && donatedRank !== undefined && currentRank > donatedRank;
+						return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
+					})}
+				</div>
+			)}
 
 			{/* 重要提示 */}
 			{/* <Card className='border-2 border-warning/40 bg-linear-to-br from-warning/10 via-warning/5 to-transparent shadow-xl relative overflow-hidden'>
