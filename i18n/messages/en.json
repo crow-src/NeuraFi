@@ -744,6 +744,22 @@
 			"limit": "Quota",
 			"limit_value": "{value} seats",
 			"requirements": "Purchase Requirements"
+		},
+		"tabs": {
+			"purchase": "Purchase",
+			"my": "My"
+		},
+		"my": {
+			"connect_wallet": "Please connect your wallet first",
+			"subscribed_tier": "Subscribed Tier",
+			"no_subscription": "You haven't subscribed to any tier yet",
+			"ido_performance": "IDO Referral Performance",
+			"ido_performance_desc": "Total subscription amount from your referrals",
+			"total_referral_amount": "Total Referral Subscription Amount",
+			"direct_referrals": "Direct Referrals",
+			"direct_referrals_desc": "List of users you directly referred",
+			"loading": "Loading...",
+			"no_referrals": "No referrals yet"
 		}
 	},
 	"bank": {

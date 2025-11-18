@@ -165,13 +165,45 @@ export const getUserDataBySlug = withCatch(async (slug: string) => {
 	return {success: true, data: userResult.rows[0]};
 });
 
-//通过邀请码（slug或invitation_code）查询用户是否存在
-// invitation_code 是文本字段，进行精确匹配
+//通过address从neurafi_account表获取用户数据
+export const getUserDataFromNeurafi = withCatch(async (address: string) => {
+	const userResult = await sql`SELECT * FROM neurafi_account WHERE address = ${address} LIMIT 1;`;
+	return {success: true, data: userResult.rows[0] || null};
+});
+
+//通过邀请码（slug或Invitation_code）查询用户是否存在
 export const getUserByInvitationCode = withCatch(async (code: string) => {
 	const userResult = await sql`
 		SELECT * FROM neurafi_account 
-		WHERE slug = ${code}::text OR invitation_code = ${code}::text
+		WHERE slug = ${code} OR "Invitation_code" = ${code}
 		LIMIT 1;
 	`;
 	return {success: true, data: userResult.rows[0] || null};
+});
+
+//获取用户的直接下线列表（从 neurafi_account 表）
+export const getDirectReferralsByAddressFromNeurafi = withCatch(async (address: string) => {
+	if (!address) throw new Error('address is required');
+
+	// 先获取当前用户的 id
+	const userResult = await sql`SELECT id FROM neurafi_account WHERE address = ${address} LIMIT 1;`;
+	if (userResult.rows.length === 0) return {success: true, data: []};
+	const parentId = userResult.rows[0].id;
+
+	// 查询所有 leader_id 等于当前用户 id 的记录
+	const referralsResult = await sql`
+		SELECT 
+			address,
+			slug,
+			name,
+			ido_amount,
+			level,
+			join_date,
+			"Invitation_code"
+		FROM neurafi_account
+		WHERE leader_id = ${parentId}
+		ORDER BY join_date DESC;
+	`;
+
+	return {success: true, data: referralsResult.rows};
 });

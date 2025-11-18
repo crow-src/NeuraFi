@@ -778,6 +778,22 @@
 			"limit": "Лимит",
 			"limit_value": "{value} мест",
 			"requirements": "Требования к покупке"
+		},
+		"tabs": {
+			"purchase": "Покупка",
+			"my": "Мои"
+		},
+		"my": {
+			"connect_wallet": "Пожалуйста, сначала подключите кошелёк",
+			"subscribed_tier": "Подписанный уровень",
+			"no_subscription": "Вы ещё не подписались на какой-либо уровень",
+			"ido_performance": "Реферальная производительность IDO",
+			"ido_performance_desc": "Общая сумма подписки от ваших рефералов",
+			"total_referral_amount": "Общая сумма реферальных подписок",
+			"direct_referrals": "Прямые рефералы",
+			"direct_referrals_desc": "Список пользователей, которых вы напрямую пригласили",
+			"loading": "Загрузка...",
+			"no_referrals": "Пока нет рефералов"
 		}
 	},
 	"bank": {

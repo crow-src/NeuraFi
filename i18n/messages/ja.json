@@ -778,6 +778,22 @@
 			"limit": "上限数",
 			"limit_value": "{value} 名",
 			"requirements": "購入条件"
+		},
+		"tabs": {
+			"purchase": "購入",
+			"my": "マイ"
+		},
+		"my": {
+			"connect_wallet": "まずウォレットを接続してください",
+			"subscribed_tier": "購入済みグレード",
+			"no_subscription": "まだグレードを購入していません",
+			"ido_performance": "IDO 紹介実績",
+			"ido_performance_desc": "紹介したユーザーの購入総額",
+			"total_referral_amount": "累計紹介購入金額",
+			"direct_referrals": "直接紹介",
+			"direct_referrals_desc": "直接紹介したユーザーリスト",
+			"loading": "読み込み中...",
+			"no_referrals": "紹介ユーザーはまだいません"
 		}
 	},
 	"bank": {

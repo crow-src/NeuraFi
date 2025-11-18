@@ -1,12 +1,13 @@
 'use client';
 import React from 'react';
 import {useSearchParams} from 'next/navigation';
-import {Card, CardBody, CardHeader, Button, Chip, Divider, InputOtp} from '@heroui/react';
+import {Card, CardBody, CardHeader, Button, Chip, Divider, InputOtp, Tabs, Tab} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useAppKitAccount} from '@reown/appkit/react';
 import {parseUnits} from 'ethers';
 import {useTranslations} from 'next-intl';
-import {getUserData, addIDOAmount, getUserDataBySlug, getUserByInvitationCode} from '@/lib/api/db';
+import {TabsClass} from '@/components';
+import {getUserData, addIDOAmount, getUserDataBySlug, getUserByInvitationCode, getDirectReferralsByAddressFromNeurafi, getUserDataFromNeurafi} from '@/lib/api/db';
 import {useERC20} from '@/lib/hooks/evm/common';
 
 // ===== 类型定义 =====
@@ -54,6 +55,7 @@ export function IDOView() {
 	const [inviteAccepted, setInviteAccepted] = React.useState(false);
 	const [inviteError, setInviteError] = React.useState(false);
 	const [checkingInvite, setCheckingInvite] = React.useState(false);
+	const [selectedTab, setSelectedTab] = React.useState('purchase');
 
 	//获取链接中的slug 参数
 	const searchParams = useSearchParams();
@@ -300,73 +302,84 @@ export function IDOView() {
 				</CardBody>
 			</Card>
 
-			{inviteAccepted ? (
-				<Card className='mb-6 border border-success/40 bg-success/10 shadow-lg'>
-					<CardBody className='flex items-center justify-between gap-4'>
-						<div className='flex items-center gap-3'>
-							<div className='p-3 rounded-xl bg-success/20 border border-success/30'>
-								<Icon icon='mdi:shield-check' className='w-6 h-6 text-success' />
-							</div>
-							<div>
-								<p className='text-base font-semibold text-success'>{tIdo('invite.title')}</p>
-								<p className='text-sm text-default-700'>{tIdo('invite.success')}</p>
-							</div>
-						</div>
-						<Chip color='success' variant='flat' className='font-mono tracking-widest font-semibold px-4'>
-							{inviteCode}
-						</Chip>
-					</CardBody>
-				</Card>
-			) : (
-				<Card className='mb-6 border border-primary/30 bg-content1/80 shadow-xl'>
-					<CardBody className='space-y-4'>
-						<div className='flex items-center gap-3'>
-							<div className='p-3 rounded-xl bg-primary/10 border border-primary/20'>
-								<Icon icon='mdi:key-variant' className='w-6 h-6 text-primary' />
-							</div>
-							<div>
-								<p className='text-base font-semibold text-primary'>{tIdo('invite.title')}</p>
-								<p className='text-sm text-default-500'>{tIdo('invite.description')}</p>
-							</div>
-						</div>
-						<InputOtp
-							value={inviteCode}
-							onValueChange={setInviteCode}
-							length={6}
-							size='lg'
-							variant='bordered'
-							isInvalid={inviteError}
-							aria-label={tIdo('invite.ariaLabel')}
-							classNames={{
-								base: 'w-full',
-								segment: 'text-xl font-bold text-primary-foreground',
-								segmentWrapper: 'gap-2'
-							}}
-						/>
-						<div className='text-sm'>
-							{inviteError && <p className='text-danger font-medium'>{tIdo('invite.error')}</p>}
-							{!inviteCompleted && !inviteAccepted && <p className='text-default-500'>{tIdo('invite.placeholder')}</p>}
-						</div>
-					</CardBody>
-				</Card>
-			)}
+			<Tabs
+				selectedKey={selectedTab}
+				onSelectionChange={key => setSelectedTab(key as string)}
+				className='w-full'
+				classNames={{
+					...TabsClass,
+					tabList: 'gap-2 w-full',
+					tab: 'w-full'
+				}}>
+				<Tab key='purchase' title={tIdo('tabs.purchase')}>
+					<div className='mt-4'>
+						{inviteAccepted ? (
+							<Card className='mb-6 border border-success/40 bg-success/10 shadow-lg'>
+								<CardBody className='flex items-center justify-between gap-4'>
+									<div className='flex items-center gap-3'>
+										<div className='p-3 rounded-xl bg-success/20 border border-success/30'>
+											<Icon icon='mdi:shield-check' className='w-6 h-6 text-success' />
+										</div>
+										<div>
+											<p className='text-base font-semibold text-success'>{tIdo('invite.title')}</p>
+											<p className='text-sm text-default-700'>{tIdo('invite.success')}</p>
+										</div>
+									</div>
+									<Chip color='success' variant='flat' className='font-mono tracking-widest font-semibold px-4'>
+										{inviteCode}
+									</Chip>
+								</CardBody>
+							</Card>
+						) : (
+							<Card className='mb-6 border border-primary/30 bg-content1/80 shadow-xl'>
+								<CardBody className='space-y-4'>
+									<div className='flex items-center gap-3'>
+										<div className='p-3 rounded-xl bg-primary/10 border border-primary/20'>
+											<Icon icon='mdi:key-variant' className='w-6 h-6 text-primary' />
+										</div>
+										<div>
+											<p className='text-base font-semibold text-primary'>{tIdo('invite.title')}</p>
+											<p className='text-sm text-default-500'>{tIdo('invite.description')}</p>
+										</div>
+									</div>
+									<InputOtp
+										value={inviteCode}
+										onValueChange={setInviteCode}
+										length={6}
+										size='lg'
+										variant='bordered'
+										isInvalid={inviteError}
+										aria-label={tIdo('invite.ariaLabel')}
+										classNames={{
+											base: 'w-full',
+											segment: 'text-xl font-bold text-primary-foreground',
+											segmentWrapper: 'gap-2'
+										}}
+									/>
+									<div className='text-sm'>
+										{inviteError && <p className='text-danger font-medium'>{tIdo('invite.error')}</p>}
+										{!inviteCompleted && !inviteAccepted && <p className='text-default-500'>{tIdo('invite.placeholder')}</p>}
+									</div>
+								</CardBody>
+							</Card>
+						)}
 
-			{inviteAccepted && donatedTier && (
-				<Card className='mb-6 border border-success/40 bg-success/10 shadow-md'>
-					<CardBody className='flex items-center gap-3 text-success'>
-						<div className='p-2 rounded-full bg-success/20'>
-							<Icon icon='mdi:check-decagram' className='w-6 h-6' />
-						</div>
-						<div className='flex gap-2 items-center'>
-							<p className='text-sm uppercase tracking-wide font-semibold'>{tIdo('labels.already_subscribed')}:</p>
-							<p className='text-base font-bold'>{tIdo(`tiers.${donatedTier === 'global' ? 'super' : donatedTier === 'regional' ? 'regional' : 'community'}.name`)}</p>
-						</div>
-					</CardBody>
-				</Card>
-			)}
+						{inviteAccepted && donatedTier && (
+							<Card className='mb-6 border border-success/40 bg-success/10 shadow-md'>
+								<CardBody className='flex items-center gap-3 text-success'>
+									<div className='p-2 rounded-full bg-success/20'>
+										<Icon icon='mdi:check-decagram' className='w-6 h-6' />
+									</div>
+									<div className='flex gap-2 items-center'>
+										<p className='text-sm uppercase tracking-wide font-semibold'>{tIdo('labels.already_subscribed')}:</p>
+										<p className='text-base font-bold'>{tIdo(`tiers.${donatedTier === 'global' ? 'super' : donatedTier === 'regional' ? 'regional' : 'community'}.name`)}</p>
+									</div>
+								</CardBody>
+							</Card>
+						)}
 
-			{/* 调试信息 */}
-			{/* {isConnected && address && (
+						{/* 调试信息 */}
+						{/* {isConnected && address && (
 				<Card className='mb-6 border border-warning/40 bg-warning/5'>
 					<CardBody className='p-4'>
 						<div className='text-sm space-y-1'>
@@ -390,30 +403,30 @@ export function IDOView() {
 				</Card>
 			)} */}
 
-			{inviteAccepted && (
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-					{tierConfigs.map(tier => {
-						const currentTier = donatedTier;
-						const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
-						const targetRank = TIER_PRIORITY[tier.id];
-						// 如果当前等级已经达到或超过目标等级，则禁用（不能降级或购买相同等级）
-						const disabledByRank = currentRank >= targetRank;
-						const isTierLoading = pendingTier === tier.id && loading;
-						const requiredAmount = getRequiredAmount(tier.id);
-						const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
-						// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
-						const needsPayment = requiredAmount > 0;
-						const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
-						const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
-						// 显示升级标签：如果用户已有等级且目标等级更高
-						const showUpgradeLabel = Boolean(currentTier) && currentRank < targetRank;
-						return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
-					})}
-				</div>
-			)}
+						{inviteAccepted && (
+							<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
+								{tierConfigs.map(tier => {
+									const currentTier = donatedTier;
+									const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
+									const targetRank = TIER_PRIORITY[tier.id];
+									// 如果当前等级已经达到或超过目标等级，则禁用（不能降级或购买相同等级）
+									const disabledByRank = currentRank >= targetRank;
+									const isTierLoading = pendingTier === tier.id && loading;
+									const requiredAmount = getRequiredAmount(tier.id);
+									const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
+									// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
+									const needsPayment = requiredAmount > 0;
+									const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
+									const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
+									// 显示升级标签：如果用户已有等级且目标等级更高
+									const showUpgradeLabel = Boolean(currentTier) && currentRank < targetRank;
+									return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
+								})}
+							</div>
+						)}
 
-			{/* 重要提示 */}
-			{/* <Card className='border-2 border-warning/40 bg-linear-to-br from-warning/10 via-warning/5 to-transparent shadow-xl relative overflow-hidden'>
+						{/* 重要提示 */}
+						{/* <Card className='border-2 border-warning/40 bg-linear-to-br from-warning/10 via-warning/5 to-transparent shadow-xl relative overflow-hidden'>
 				<div className='absolute top-0 right-0 w-64 h-64 bg-warning/5 rounded-full blur-3xl' />
 				<CardHeader className='relative z-10'>
 					<div className='flex items-center gap-3'>
@@ -436,6 +449,12 @@ export function IDOView() {
 					</ul>
 				</CardBody>
 			</Card> */}
+					</div>
+				</Tab>
+				<Tab key='my' title={tIdo('tabs.my') || '我的'}>
+					<MyIDOView address={address} isConnected={isConnected} userData={userData} donatedTier={donatedTier ?? undefined} tierConfigs={tierConfigs} />
+				</Tab>
+			</Tabs>
 		</div>
 	);
 }
@@ -603,5 +622,195 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 				</Button>
 			</CardBody>
 		</Card>
+	);
+}
+
+// ===== 我的 IDO 视图组件 =====
+interface MyIDOViewProps {
+	address: string | undefined;
+	isConnected: boolean;
+	userData: {idoAmount: number} | null;
+	donatedTier: WhitelistTier | undefined;
+	tierConfigs: WhitelistTierConfig[];
+}
+
+function MyIDOView({address, isConnected, userData, donatedTier, tierConfigs}: MyIDOViewProps) {
+	const tIdo = useTranslations('ido');
+	const [referrals, setReferrals] = React.useState<any[]>([]);
+	const [loadingReferrals, setLoadingReferrals] = React.useState(false);
+	const [userFullData, setUserFullData] = React.useState<any>(null);
+
+	// 获取用户完整数据（包括 ido_performance）
+	React.useEffect(() => {
+		if (!address || !isConnected) return;
+		const fetchUserFullData = async () => {
+			try {
+				// 从 neurafi_account 表获取数据
+				const result = await getUserDataFromNeurafi(address);
+				if (result.success && result.data) {
+					setUserFullData(result.data);
+				}
+			} catch (error) {
+				console.error('Failed to fetch user full data', error);
+			}
+		};
+		fetchUserFullData();
+	}, [address, isConnected]);
+
+	// 获取直接下线列表
+	React.useEffect(() => {
+		if (!address || !isConnected) return;
+		const fetchReferrals = async () => {
+			setLoadingReferrals(true);
+			try {
+				const result = await getDirectReferralsByAddressFromNeurafi(address);
+				if (result.success && result.data) {
+					setReferrals(result.data);
+				}
+			} catch (error) {
+				console.error('Failed to fetch referrals', error);
+			} finally {
+				setLoadingReferrals(false);
+			}
+		};
+		fetchReferrals();
+	}, [address, isConnected]);
+
+	if (!isConnected || !address) {
+		return (
+			<div className='mt-4 text-center py-12'>
+				<Icon icon='mdi:wallet-outline' className='w-16 h-16 text-default-400 mx-auto mb-4' />
+				<p className='text-default-500'>{tIdo('my.connect_wallet') || '请先连接钱包'}</p>
+			</div>
+		);
+	}
+
+	const currentTierConfig = donatedTier ? tierConfigs.find(t => t.id === donatedTier) : null;
+	const idoPerformance = Number(userFullData?.ido_performance ?? 0);
+
+	return (
+		<div className='mt-4 space-y-6'>
+			{/* 已申购卡片 */}
+			{currentTierConfig && (
+				<Card className='border-2 border-success/40 bg-success/10 shadow-lg'>
+					<CardHeader>
+						<div className='flex items-center gap-3'>
+							<div className='p-3 rounded-xl bg-success/20 border border-success/30'>
+								<Icon icon='mdi:check-decagram' className='w-6 h-6 text-success' />
+							</div>
+							<div>
+								<h3 className='text-lg font-bold text-success'>{tIdo('my.subscribed_tier') || '已申购等级'}</h3>
+								<p className='text-sm text-success/80'>{currentTierConfig.name}</p>
+							</div>
+						</div>
+					</CardHeader>
+					<CardBody>
+						<div className='space-y-3'>
+							<div className='flex justify-between items-center p-3 rounded-lg bg-content1/50 border border-success/20'>
+								<span className='text-sm font-medium'>{tIdo('fields.donation')}</span>
+								<span className='font-bold text-lg'>${userData?.idoAmount ?? 0}</span>
+							</div>
+							<div className='flex justify-between items-center p-3 rounded-lg bg-content1/50 border border-success/20'>
+								<span className='text-sm font-medium'>{tIdo('fields.token_amount')}</span>
+								<span className='font-semibold'>${currentTierConfig.tokenAmount}</span>
+							</div>
+						</div>
+					</CardBody>
+				</Card>
+			)}
+
+			{!currentTierConfig && (
+				<Card className='border border-default-200'>
+					<CardBody className='text-center py-8'>
+						<Icon icon='mdi:information-outline' className='w-12 h-12 text-default-400 mx-auto mb-3' />
+						<p className='text-default-500'>{tIdo('my.no_subscription') || '您还没有申购任何等级'}</p>
+					</CardBody>
+				</Card>
+			)}
+
+			{/* IDO 业绩 */}
+			<Card className='border border-primary/30 bg-content1/80 shadow-xl'>
+				<CardHeader>
+					<div className='flex items-center gap-3'>
+						<div className='p-3 rounded-xl bg-primary/10 border border-primary/20'>
+							<Icon icon='mdi:chart-line' className='w-6 h-6 text-primary' />
+						</div>
+						<div>
+							<h3 className='text-lg font-bold'>{tIdo('my.ido_performance') || 'IDO 推荐业绩'}</h3>
+							<p className='text-sm text-default-500'>{tIdo('my.ido_performance_desc') || '您推荐的用户申购总额'}</p>
+						</div>
+					</div>
+				</CardHeader>
+				<CardBody>
+					<div className='p-6 rounded-lg bg-primary/10 border border-primary/20 text-center'>
+						<p className='text-3xl font-bold text-primary mb-2'>${idoPerformance.toLocaleString()}</p>
+						<p className='text-sm text-default-600'>{tIdo('my.total_referral_amount') || '累计推荐申购金额'}</p>
+					</div>
+				</CardBody>
+			</Card>
+
+			{/* 直接推荐列表 */}
+			<Card className='border border-secondary/30 bg-content1/80 shadow-xl'>
+				<CardHeader>
+					<div className='flex items-center gap-3'>
+						<div className='p-3 rounded-xl bg-secondary/10 border border-secondary/20'>
+							<Icon icon='mdi:account-group' className='w-6 h-6 text-secondary' />
+						</div>
+						<div>
+							<h3 className='text-lg font-bold'>{tIdo('my.direct_referrals') || '直接推荐'}</h3>
+							<p className='text-sm text-default-500'>{tIdo('my.direct_referrals_desc') || '您直接推荐的用户列表'}</p>
+						</div>
+					</div>
+				</CardHeader>
+				<CardBody>
+					{loadingReferrals ? (
+						<div className='text-center py-8'>
+							<Icon icon='mdi:loading' className='w-8 h-8 text-primary animate-spin mx-auto' />
+							<p className='text-sm text-default-500 mt-2'>{tIdo('my.loading') || '加载中...'}</p>
+						</div>
+					) : referrals.length === 0 ? (
+						<div className='text-center py-8'>
+							<Icon icon='mdi:account-off-outline' className='w-12 h-12 text-default-400 mx-auto mb-3' />
+							<p className='text-default-500'>{tIdo('my.no_referrals') || '暂无推荐用户'}</p>
+						</div>
+					) : (
+						<div className='space-y-3'>
+							{referrals.map((referral, index) => {
+								const referralTier = getTierByAmount(Number(referral.ido_amount ?? 0));
+								const referralTierConfig = referralTier ? tierConfigs.find(t => t.id === referralTier) : null;
+								return (
+									<Card key={referral.address ?? index} className='border border-default-200 hover:border-primary/30 transition-colors'>
+										<CardBody className='p-4'>
+											<div className='flex items-center justify-between gap-4'>
+												<div className='flex-1 min-w-0'>
+													<div className='flex items-center gap-2 mb-2'>
+														<Icon icon='mdi:wallet-outline' className='w-4 h-4 text-default-400 shrink-0' />
+														<p className='text-sm font-mono text-default-700 truncate'>{referral.address}</p>
+													</div>
+													{referral.name && <p className='text-xs text-default-500 mb-1'>{referral.name}</p>}
+													{referral.slug && <p className='text-xs text-default-400'>Slug: {referral.slug}</p>}
+												</div>
+												<div className='text-right shrink-0'>
+													<div className='mb-2'>
+														<p className='text-lg font-bold text-primary'>${Number(referral.ido_amount ?? 0).toLocaleString()}</p>
+														<p className='text-xs text-default-500'>{tIdo('fields.donation')}</p>
+													</div>
+													{referralTierConfig && (
+														<Chip size='sm' color={referralTierConfig.color} variant='flat' className='font-semibold'>
+															{referralTierConfig.level}
+														</Chip>
+													)}
+													{referral.level !== undefined && referral.level !== null && <p className='text-xs text-default-400 mt-1'>Level: {referral.level}</p>}
+												</div>
+											</div>
+										</CardBody>
+									</Card>
+								);
+							})}
+						</div>
+					)}
+				</CardBody>
+			</Card>
+		</div>
 	);
 }

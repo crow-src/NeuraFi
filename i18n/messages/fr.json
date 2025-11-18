@@ -778,6 +778,22 @@
 			"limit": "Limite",
 			"limit_value": "{value} places",
 			"requirements": "Conditions d'achat"
+		},
+		"tabs": {
+			"purchase": "Achat",
+			"my": "Mon"
+		},
+		"my": {
+			"connect_wallet": "Veuillez d'abord connecter votre portefeuille",
+			"subscribed_tier": "Niveau souscrit",
+			"no_subscription": "Vous n'avez pas encore souscrit de niveau",
+			"ido_performance": "Performance de parrainage IDO",
+			"ido_performance_desc": "Montant total des souscriptions de vos filleuls",
+			"total_referral_amount": "Montant total des souscriptions parrainées",
+			"direct_referrals": "Filleuls directs",
+			"direct_referrals_desc": "Liste des utilisateurs que vous avez directement parrainés",
+			"loading": "Chargement...",
+			"no_referrals": "Aucun filleul pour le moment"
 		}
 	},
 	"bank": {

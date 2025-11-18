@@ -744,6 +744,22 @@
 			"limit": "限额",
 			"limit_value": "{value} 名",
 			"requirements": "申购要求"
+		},
+		"tabs": {
+			"purchase": "申购",
+			"my": "我的"
+		},
+		"my": {
+			"connect_wallet": "请先连接钱包",
+			"subscribed_tier": "已申购等级",
+			"no_subscription": "您还没有申购任何等级",
+			"ido_performance": "IDO 推荐业绩",
+			"ido_performance_desc": "您推荐的用户申购总额",
+			"total_referral_amount": "累计推荐申购金额",
+			"direct_referrals": "直接推荐",
+			"direct_referrals_desc": "您直接推荐的用户列表",
+			"loading": "加载中...",
+			"no_referrals": "暂无推荐用户"
 		}
 	},
 
