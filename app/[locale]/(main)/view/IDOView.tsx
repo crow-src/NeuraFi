@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
+import {useSearchParams} from 'next/navigation';
 import {Card, CardBody, CardHeader, Button, Chip, Divider, InputOtp} from '@heroui/react';
 import {Icon} from '@iconify/react';
 import {useAppKitAccount} from '@reown/appkit/react';
 import {parseUnits} from 'ethers';
 import {useTranslations} from 'next-intl';
-import {useLocalStorage} from 'react-use';
+import {getUserData, addIDOAmount, getUserDataBySlug, getUserByInvitationCode} from '@/lib/api/db';
 import {useERC20} from '@/lib/hooks/evm/common';
 
 // ===== 类型定义 =====
@@ -28,24 +29,108 @@ interface WhitelistTierConfig {
 }
 
 // ===== 募资视图 =====
-const DONATION_TOKEN = '0x55d398326f99059fF775485246999027B3197955'; //0xc1f92e6a5878e25b1547b52461771ef40b4cf0fe、、0x55d398326f99059fF775485246999027B3197955
+const DONATION_TOKEN = '0x55d398326f99059fF775485246999027B3197955'; //转移代币合约
 const DONATION_TOKEN_DECIMALS = 18;
-const TREASURY_ADDRESS = '0xA26765Fb7dE0ebF6637caA53A69C70a446c3b54c'; //0x97674cb1fa28d64f2b8775f89265a10f6d9e19c2    0x5DE045f73C6512c1DE67465Dc2d64D251a3e549d
+const TREASURY_ADDRESS = '0xA26765Fb7dE0ebF6637caA53A69C70a446c3b54c'; //接收代币地址
 const TIER_PRIORITY: Record<WhitelistTier, number> = {community: 0, regional: 1, global: 2};
-const VALID_INVITATION_CODES = ['666666', '188073'];
+
+// 根据 idoAmount 计算用户等级
+const getTierByAmount = (amount: number): WhitelistTier | null => {
+	if (amount >= 5000) return 'global';
+	if (amount >= 1000) return 'regional';
+	if (amount >= 200) return 'community';
+	return null;
+};
 
 export function IDOView() {
 	const tIdo = useTranslations('ido');
 	const {address, isConnected} = useAppKitAccount();
 	const {transfer, loading, balance, balanceWei} = useERC20(DONATION_TOKEN, DONATION_TOKEN_DECIMALS);
-	const [donations, setDonations] = useLocalStorage<Record<string, WhitelistTier>>('ido-donations', {});
 	const [pendingTier, setPendingTier] = React.useState<WhitelistTier | null>(null);
-	const donatedTier = address ? donations?.[address.toLowerCase()] : undefined;
+	const [userData, setUserData] = React.useState<{idoAmount: number} | null>(null);
+	const [loadingUserData, setLoadingUserData] = React.useState(false);
 	const walletBalanceWei = balanceWei ?? 0n;
 	const [inviteCode, setInviteCode] = React.useState('');
+	const [inviteAccepted, setInviteAccepted] = React.useState(false);
+	const [inviteError, setInviteError] = React.useState(false);
+	const [checkingInvite, setCheckingInvite] = React.useState(false);
+
+	//获取链接中的slug 参数
+	const searchParams = useSearchParams();
+	const slug = searchParams.get('slug');
+
+	// 根据 idoAmount 计算当前等级
+	const donatedTier = userData ? getTierByAmount(userData.idoAmount) : undefined;
+
+	// 从数据库获取用户数据
+	React.useEffect(() => {
+		if (!address) return;
+		const fetchUserData = async () => {
+			setLoadingUserData(true);
+			try {
+				const result = await getUserData({address});
+				if (result.success && result.data) {
+					setUserData({idoAmount: result.data.idoAmount ?? 0});
+				} else {
+					setUserData({idoAmount: 0});
+				}
+			} catch (error) {
+				console.error('Failed to fetch user data', error);
+				setUserData({idoAmount: 0});
+			} finally {
+				setLoadingUserData(false);
+			}
+		};
+		fetchUserData();
+	}, [address]);
+
+	// 检查 slug 参数，如果有且数据库有账户则直接进入
+	React.useEffect(() => {
+		if (!slug || inviteAccepted) return;
+		const checkSlug = async () => {
+			setCheckingInvite(true);
+			try {
+				const result = await getUserDataBySlug(slug);
+				if (result.success && result.data) {
+					setInviteAccepted(true);
+					setInviteCode(slug);
+				}
+			} catch (error) {
+				console.error('Failed to check slug', error);
+			} finally {
+				setCheckingInvite(false);
+			}
+		};
+		checkSlug();
+	}, [slug, inviteAccepted]);
+
+	// 验证邀请码
 	const inviteCompleted = inviteCode.length === 6;
-	const inviteAccepted = inviteCompleted && VALID_INVITATION_CODES.includes(inviteCode);
-	const inviteError = inviteCompleted && !inviteAccepted;
+	React.useEffect(() => {
+		if (!inviteCompleted || inviteAccepted) return;
+		const validateInviteCode = async () => {
+			// 检查邀请码是否在数据库中有账户
+			setCheckingInvite(true);
+			setInviteError(false);
+			try {
+				const result = await getUserByInvitationCode(inviteCode);
+				if (result.success && result.data) {
+					setInviteAccepted(true);
+					setInviteError(false);
+				} else {
+					setInviteError(true);
+					setInviteAccepted(false);
+				}
+			} catch (error) {
+				console.error('Failed to validate invite code', error);
+				setInviteError(true);
+				setInviteAccepted(false);
+			} finally {
+				setCheckingInvite(false);
+			}
+		};
+		validateInviteCode();
+	}, [inviteCode, inviteCompleted, inviteAccepted]);
 
 	const tierConfigs = React.useMemo<WhitelistTierConfig[]>(
 		() => [
@@ -98,16 +183,20 @@ export function IDOView() {
 		[tIdo]
 	);
 
-	const importantNotes = React.useMemo(() => [tIdo('notes.note1'), tIdo('notes.note2'), tIdo('notes.note3')], [tIdo]);
+	// const importantNotes = React.useMemo(() => [tIdo('notes.note1'), tIdo('notes.note2'), tIdo('notes.note3')], [tIdo]);
 
 	const getRequiredAmount = React.useCallback(
 		(targetTier: WhitelistTier) => {
 			const tierConfig = tierConfigs.find(t => t.id === targetTier);
 			if (!tierConfig) return 0;
-			const previousAmount = donatedTier ? (tierConfigs.find(t => t.id === donatedTier)?.donationAmount ?? 0) : 0;
-			return Math.max(tierConfig.donationAmount - previousAmount, 0);
+			const currentAmount = userData?.idoAmount ?? 0;
+			const targetAmount = tierConfig.donationAmount;
+			// 如果当前金额已经达到或超过目标金额，则不需要支付
+			if (currentAmount >= targetAmount) return 0;
+			// 否则需要支付差额
+			return targetAmount - currentAmount;
 		},
-		[tierConfigs, donatedTier]
+		[tierConfigs, userData]
 	);
 
 	// 处理购买
@@ -122,6 +211,16 @@ export function IDOView() {
 		}
 		const tierConfig = tierConfigs.find(t => t.id === tier);
 		if (!tierConfig) return;
+
+		// 检查是否可以升级：当前等级必须小于目标等级
+		const currentTier = donatedTier;
+		const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
+		const targetRank = TIER_PRIORITY[tier];
+		if (currentRank >= targetRank) {
+			console.info('Cannot downgrade or purchase same tier');
+			return;
+		}
+
 		const requiredAmount = getRequiredAmount(tier);
 		const requiredAmountWei = parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS);
 		if (requiredAmountWei <= 0n) {
@@ -135,12 +234,20 @@ export function IDOView() {
 
 		setPendingTier(tier);
 		try {
+			// 转账
 			await transfer?.(TREASURY_ADDRESS, requiredAmount.toString());
-			setDonations((prev: Record<string, WhitelistTier> | undefined) => ({
-				...(prev ?? {}),
-				[address.toLowerCase()]: tier
-			}));
-			console.info('Donation submitted', {tier: tierConfig.id, donation: tierConfig.donationAmount, address});
+			// 更新数据库中的 idoAmount
+			const level = targetRank; // 使用等级数字
+			const result = await addIDOAmount(address, requiredAmount, level);
+			if (result.success) {
+				// 更新本地状态
+				setUserData(prev => ({
+					idoAmount: (prev?.idoAmount ?? 0) + requiredAmount
+				}));
+				console.info('Donation submitted', {tier: tierConfig.id, donation: requiredAmount, address});
+			} else {
+				throw new Error('Failed to update IDO amount in database');
+			}
 		} catch (error) {
 			console.error('Failed to donate', error);
 		} finally {
@@ -286,18 +393,20 @@ export function IDOView() {
 			{inviteAccepted && (
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
 					{tierConfigs.map(tier => {
-						const donatedRank = donatedTier ? TIER_PRIORITY[donatedTier] : undefined;
-						const currentRank = TIER_PRIORITY[tier.id];
-						const disabledByRank = donatedRank !== undefined && currentRank <= donatedRank;
+						const currentTier = donatedTier;
+						const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
+						const targetRank = TIER_PRIORITY[tier.id];
+						// 如果当前等级已经达到或超过目标等级，则禁用（不能降级或购买相同等级）
+						const disabledByRank = currentRank >= targetRank;
 						const isTierLoading = pendingTier === tier.id && loading;
 						const requiredAmount = getRequiredAmount(tier.id);
 						const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
 						// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
-						// 如果 requiredAmount 为 0，说明不需要支付，但如果是首次购买且余额不足，也应该显示余额不足
 						const needsPayment = requiredAmount > 0;
 						const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
 						const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
-						const showUpgradeLabel = Boolean(donatedTier) && donatedRank !== undefined && currentRank > donatedRank;
+						// 显示升级标签：如果用户已有等级且目标等级更高
+						const showUpgradeLabel = Boolean(currentTier) && currentRank < targetRank;
 						return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
 					})}
 				</div>

@@ -19,10 +19,6 @@ export interface UserData {
 	performance?: number; //绩效
 	deposits?: DepositRecord[]; //所有存单
 	interests: string; //usdt的收益
-	//airdropCount: number; //airdropCount
-	//teamSize?: number; //
-	//leader?: UserData; //上线
-	//referrals?: UserData[]; //推荐的下线数组
 }
 
 export interface DepositRecord {
@@ -47,8 +43,7 @@ export interface DepositRecord {
 interface UserDataStore {
 	userData: UserData;
 	isLoading: boolean;
-	// 灵活更新方法
-	updateUserData: (updates: Partial<UserData>) => void;
+	updateUserData: (updates: Partial<UserData>) => void; // 灵活更新方法
 }
 
 export const useUserDataStore = create<UserDataStore>(set => ({

@@ -290,3 +290,18 @@ export const fmtMoney = (n: number | string, masked: boolean): string => {
 };
 // 百分比
 export const pct = (n: number): string => `${(n * 100).toFixed(2)}%`;
+
+export const norm = (s: string) => s?.trim().toLowerCase();
+
+//将时间转换为ISO格式
+export const toIso = (v: any) => {
+	if (!v) return '';
+	if (v instanceof Date) return v.toISOString();
+	const d = new Date(v);
+	return isNaN(d.getTime()) ? String(v) : d.toISOString();
+};
+//将时间戳转换为ISO格式
+export const fromMs = (ms: any) => {
+	const n = Number(ms);
+	return Number.isFinite(n) ? new Date(n).toISOString() : '';
+};
