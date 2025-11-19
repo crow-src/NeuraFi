@@ -1,140 +1,58 @@
 'use client';
-import React from 'react';
+import React, {useEffect, useCallback, useMemo, useState} from 'react';
 import {useSearchParams} from 'next/navigation';
 import {Card, CardBody, CardHeader, Button, Chip, Divider, InputOtp, Tabs, Tab} from '@heroui/react';
 import {Icon} from '@iconify/react';
-import {useAppKitAccount} from '@reown/appkit/react';
-import {parseUnits} from 'ethers';
 import {useTranslations} from 'next-intl';
-import {TabsClass} from '@/components';
-import {getUserData, addIDOAmount, getUserDataBySlug, getUserByInvitationCode, getDirectReferralsByAddressFromNeurafi, getUserDataFromNeurafi} from '@/lib/api/db';
-import {useERC20} from '@/lib/hooks/evm/common';
+import type {UserData} from '@/app/store/useUserDataStore';
+import {TabsClass, InputOtpClass} from '@/components';
+import {CopyButton, Snippet} from '@/components/client/common';
+import {BaseTable} from '@/components/client/table';
+import {useNeuraFiAccount, useInviteValidation} from '@/lib/hooks/evm/account';
+import {obsTxt} from '@/lib/utils';
 
 // ===== 类型定义 =====
-type WhitelistTier = 'global' | 'regional' | 'community';
+type WhitelistTier = 'global' | 'regional' | 'community'; //全球 区域 社区
 
 interface WhitelistTierConfig {
 	id: WhitelistTier;
-	name: string;
-	description: string;
-	benefits?: string;
-	donationAmount: number;
-	limit: number;
-	tokenAmount: number;
-	releaseMonths: number;
-	feeShare: number;
-	level: string;
-	requirements: string[];
+	name: string; //名称
+	description: string; //描述
+	benefits?: string; // benefits: '享有 IDO 最高优先级，独享所有权益。'
+	donationAmount: number; // donationAmount: 5000
+	limit: number; //上限
+	tokenAmount: number; // tokenAmount: 5000
+	releaseMonths: number; // releaseMonths: 10
+	feeShare: number; //手续费分享收益
+	level: number; // 等级
+	requirements: string[]; // 要求
 	icon: string;
 	color: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
 }
 
-// ===== 募资视图 =====
-const DONATION_TOKEN = '0x55d398326f99059fF775485246999027B3197955'; //转移代币合约
-const DONATION_TOKEN_DECIMALS = 18;
-const TREASURY_ADDRESS = '0xA26765Fb7dE0ebF6637caA53A69C70a446c3b54c'; //接收代币地址
-const TIER_PRIORITY: Record<WhitelistTier, number> = {community: 0, regional: 1, global: 2};
+// 等级优先级映射（用于判断是否可以升级）
+const TIER_PRIORITY: Record<WhitelistTier, number> = {
+	community: 1,
+	regional: 2,
+	global: 3
+};
 
-// 根据 idoAmount 计算用户等级
-const getTierByAmount = (amount: number): WhitelistTier | null => {
-	if (amount >= 5000) return 'global';
-	if (amount >= 1000) return 'regional';
-	if (amount >= 200) return 'community';
-	return null;
+// 根据 level 找到对应的 tier（用于下线列表显示）
+const getTierByLevel = (level: number, tierConfigs: WhitelistTierConfig[]): WhitelistTier | null => {
+	const tierConfig = tierConfigs.find(t => t.level === level);
+	return tierConfig?.id ?? null;
 };
 
 export function IDOView() {
 	const tIdo = useTranslations('ido');
-	const {address, isConnected} = useAppKitAccount();
-	const {transfer, loading, balance, balanceWei} = useERC20(DONATION_TOKEN, DONATION_TOKEN_DECIMALS);
-	const [pendingTier, setPendingTier] = React.useState<WhitelistTier | null>(null);
-	const [userData, setUserData] = React.useState<{idoAmount: number} | null>(null);
-	const [loadingUserData, setLoadingUserData] = React.useState(false);
-	const walletBalanceWei = balanceWei ?? 0n;
-	const [inviteCode, setInviteCode] = React.useState('');
-	const [inviteAccepted, setInviteAccepted] = React.useState(false);
-	const [inviteError, setInviteError] = React.useState(false);
-	const [checkingInvite, setCheckingInvite] = React.useState(false);
-	const [selectedTab, setSelectedTab] = React.useState('purchase');
-
-	//获取链接中的slug 参数
 	const searchParams = useSearchParams();
-	const slug = searchParams.get('slug');
+	const slug = searchParams.get('slug'); //获取链接中的slug 参数
+	const {userData, purchase, address, isConnected, isLoading, isExecuting} = useNeuraFiAccount();
+	const {inviteCode, setInviteCode, inviteAccepted, inviteError, checkingInvite, inviteCompleted} = useInviteValidation(slug);
 
-	// 根据 idoAmount 计算当前等级
-	const donatedTier = userData ? getTierByAmount(userData.idoAmount) : undefined;
+	const [selectedTab, setSelectedTab] = useState<'purchase' | 'my'>('purchase');
 
-	// 从数据库获取用户数据
-	React.useEffect(() => {
-		if (!address) return;
-		const fetchUserData = async () => {
-			setLoadingUserData(true);
-			try {
-				const result = await getUserData({address});
-				if (result.success && result.data) {
-					setUserData({idoAmount: result.data.idoAmount ?? 0});
-				} else {
-					setUserData({idoAmount: 0});
-				}
-			} catch (error) {
-				console.error('Failed to fetch user data', error);
-				setUserData({idoAmount: 0});
-			} finally {
-				setLoadingUserData(false);
-			}
-		};
-		fetchUserData();
-	}, [address]);
-
-	// 检查 slug 参数，如果有且数据库有账户则直接进入
-	React.useEffect(() => {
-		if (!slug || inviteAccepted) return;
-		const checkSlug = async () => {
-			setCheckingInvite(true);
-			try {
-				const result = await getUserDataBySlug(slug);
-				if (result.success && result.data) {
-					setInviteAccepted(true);
-					setInviteCode(slug);
-				}
-			} catch (error) {
-				console.error('Failed to check slug', error);
-			} finally {
-				setCheckingInvite(false);
-			}
-		};
-		checkSlug();
-	}, [slug, inviteAccepted]);
-
-	// 验证邀请码
-	const inviteCompleted = inviteCode.length === 6;
-	React.useEffect(() => {
-		if (!inviteCompleted || inviteAccepted) return;
-		const validateInviteCode = async () => {
-			// 检查邀请码是否在数据库中有账户
-			setCheckingInvite(true);
-			setInviteError(false);
-			try {
-				const result = await getUserByInvitationCode(inviteCode);
-				if (result.success && result.data) {
-					setInviteAccepted(true);
-					setInviteError(false);
-				} else {
-					setInviteError(true);
-					setInviteAccepted(false);
-				}
-			} catch (error) {
-				console.error('Failed to validate invite code', error);
-				setInviteError(true);
-				setInviteAccepted(false);
-			} finally {
-				setCheckingInvite(false);
-			}
-		};
-		validateInviteCode();
-	}, [inviteCode, inviteCompleted, inviteAccepted]);
-
-	const tierConfigs = React.useMemo<WhitelistTierConfig[]>(
+	const tierConfigs = useMemo<WhitelistTierConfig[]>(
 		() => [
 			{
 				id: 'global',
@@ -146,7 +64,7 @@ export function IDOView() {
 				tokenAmount: 5000,
 				releaseMonths: 10,
 				feeShare: 0.5,
-				level: 'V4',
+				level: 4,
 				requirements: [tIdo('tiers.super.requirements.r1'), tIdo('tiers.super.requirements.r3')],
 				icon: 'mdi:crown',
 				color: 'warning'
@@ -161,33 +79,26 @@ export function IDOView() {
 				tokenAmount: 1000,
 				releaseMonths: 5,
 				feeShare: 0.5,
-				level: 'V3',
+				level: 3,
 				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.super.requirements.r3')],
 				icon: 'mdi:star',
 				color: 'secondary'
 			}
-			// {
-			// 	id: 'community',
-			// 	name: tIdo('tiers.community.name'),
-			// 	description: tIdo('tiers.community.description'),
-			// 	benefits: tIdo('tiers.community.benefits'),
-			// 	donationAmount: 200,
-			// 	limit: 3000,
-			// 	tokenAmount: 200,
-			// 	releaseMonths: 2,
-			// 	feeShare: 0,
-			// 	level: 'V2',
-			// 	requirements: [tIdo('tiers.community.requirements.r1'), tIdo('tiers.community.requirements.r2')],
-			// 	icon: 'mdi:account-group',
-			// 	color: 'primary'
-			// }
 		],
 		[tIdo]
 	);
 
-	// const importantNotes = React.useMemo(() => [tIdo('notes.note1'), tIdo('notes.note2'), tIdo('notes.note3')], [tIdo]);
+	// 根据 userData.level 找到已申购的等级配置
+	const currentTierConfig = useMemo(() => {
+		if (!userData?.level || userData.level === 0) return null;
+		const config = tierConfigs.find(t => t.level === userData.level);
+		return config ?? null;
+	}, [userData?.level, tierConfigs]);
 
-	const getRequiredAmount = React.useCallback(
+	const donatedTier = currentTierConfig?.id; //已申购的等级
+
+	//获取所需金额
+	const getRequiredAmount = useCallback(
 		(targetTier: WhitelistTier) => {
 			const tierConfig = tierConfigs.find(t => t.id === targetTier);
 			if (!tierConfig) return 0;
@@ -201,336 +112,147 @@ export function IDOView() {
 		[tierConfigs, userData]
 	);
 
-	// 处理购买
-	const handlePurchase = async (tier: WhitelistTier) => {
-		if (!inviteAccepted) {
-			console.info('Invitation code is required before purchasing');
-			return;
-		}
-		if (!isConnected || !address) {
-			console.info('Please connect wallet before purchasing');
-			return;
-		}
-		const tierConfig = tierConfigs.find(t => t.id === tier);
-		if (!tierConfig) return;
-
-		// 检查是否可以升级：当前等级必须小于目标等级
-		const currentTier = donatedTier;
-		const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
-		const targetRank = TIER_PRIORITY[tier];
-		if (currentRank >= targetRank) {
-			console.info('Cannot downgrade or purchase same tier');
-			return;
-		}
-
-		const requiredAmount = getRequiredAmount(tier);
-		const requiredAmountWei = parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS);
-		if (requiredAmountWei <= 0n) {
-			console.info('No additional payment required for this tier');
-			return;
-		}
-		if (walletBalanceWei < requiredAmountWei) {
-			console.info('Insufficient balance for this tier');
-			return;
-		}
-
-		setPendingTier(tier);
-		try {
-			// 转账
-			await transfer?.(TREASURY_ADDRESS, requiredAmount.toString());
-			// 更新数据库中的 idoAmount
-			const level = targetRank; // 使用等级数字
-			const result = await addIDOAmount(address, requiredAmount, level);
-			if (result.success) {
-				// 更新本地状态
-				setUserData(prev => ({
-					idoAmount: (prev?.idoAmount ?? 0) + requiredAmount
-				}));
-				console.info('Donation submitted', {tier: tierConfig.id, donation: requiredAmount, address});
-			} else {
-				throw new Error('Failed to update IDO amount in database');
-			}
-		} catch (error) {
-			console.error('Failed to donate', error);
-		} finally {
-			setPendingTier(null);
-		}
-	};
-
 	return (
-		<div className='h-full w-full flex flex-col p-4 overflow-y-auto custom-scrollbar relative'>
+		<div className={`h-full w-full flex flex-col ${!inviteAccepted ? 'justify-center' : 'p-4 overflow-y-auto'} custom-scrollbar relative md:max-w-5xl mx-auto`}>
 			{/* 背景装饰 */}
 			<div className='absolute inset-0 overflow-hidden pointer-events-none'>
 				<div className='absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl' />
 				<div className='absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl' />
 			</div>
 
-			{/* 头部信息 */}
-			<Card className='mb-6 relative overflow-hidden border-0 shadow-xl bg-linear-to-br from-content1 via-content1 to-default-100/50'>
-				{/* 装饰性渐变条 */}
-				<div className='absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-secondary to-warning' />
-				<CardBody className='p-6'>
-					<div className='flex flex-col md:flex-row gap-4 items-center justify-between relative z-10'>
-						<div className='flex-1'>
-							<div className='flex items-center gap-3 mb-3'>
-								<div className='p-3 rounded-xl bg-content1 border border-primary-border shadow-md'>
-									<Icon icon='mdi:rocket-launch' className='w-8 h-8 text-primary' />
-								</div>
-								<div>
-									<h1 className='text-3xl font-bold text-primary mb-1 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text'>{tIdo('hero_title')}</h1>
-									<p className='text-sm text-primary-foreground flex items-center gap-2'>
-										<Icon icon='mdi:shield-check' className='w-4 h-4' />
-										{tIdo('hero_subtitle')}
-									</p>
-								</div>
+			{/* 邀请码输入 - 最外层，未验证时只显示这个 */}
+			{!inviteAccepted ? (
+				<Card className='border border-primary/30 bg-content1/80 shadow-xl w-full my-24'>
+					<CardBody className='space-y-4 py-8'>
+						<div className='flex items-center gap-3'>
+							<div className='p-3 rounded-xl bg-primary/10 border border-primary/20'>
+								<Icon icon='mdi:key-variant' className='w-6 h-6 text-primary' />
+							</div>
+							<div>
+								<p className='text-base font-semibold text-primary'>{tIdo('invite.title')}</p>
+								<p className='text-sm text-default-500'>{tIdo('invite.description')}</p>
 							</div>
 						</div>
-						{isConnected && address && (
-							<Chip
+						<div className='flex justify-center w-full'>
+							<InputOtp
+								value={inviteCode}
+								onValueChange={setInviteCode}
+								length={6}
 								size='lg'
-								variant='flat'
-								color='primary'
+								variant='bordered'
+								isInvalid={inviteError}
+								aria-label={tIdo('invite.ariaLabel')}
 								classNames={{
-									base: 'bg-content1/80 border border-primary-border p-4',
-									content: 'text-primary-foreground font-semibold'
+									...InputOtpClass,
+									base: 'mx-auto w-auto'
 								}}
-								startContent={<Icon icon='mdi:wallet' className='w-6 h-6' />}>
-								{balance ? Number.parseFloat(balance).toLocaleString(undefined, {maximumFractionDigits: 4}) : '0.0000'} USDT
-							</Chip>
-						)}
-					</div>
-				</CardBody>
-			</Card>
-
-			<Tabs
-				selectedKey={selectedTab}
-				onSelectionChange={key => setSelectedTab(key as string)}
-				className='w-full'
-				classNames={{
-					...TabsClass,
-					tabList: 'gap-2 w-full',
-					tab: 'w-full'
-				}}>
-				<Tab key='purchase' title={tIdo('tabs.purchase')}>
-					<div className='mt-4'>
-						{inviteAccepted ? (
-							<Card className='mb-6 border border-success/40 bg-success/10 shadow-lg'>
-								<CardBody className='flex items-center justify-between gap-4'>
-									<div className='flex items-center gap-3'>
-										<div className='p-3 rounded-xl bg-success/20 border border-success/30'>
-											<Icon icon='mdi:shield-check' className='w-6 h-6 text-success' />
-										</div>
-										<div>
-											<p className='text-base font-semibold text-success'>{tIdo('invite.title')}</p>
-											<p className='text-sm text-default-700'>{tIdo('invite.success')}</p>
-										</div>
-									</div>
-									<Chip color='success' variant='flat' className='font-mono tracking-widest font-semibold px-4'>
-										{inviteCode}
-									</Chip>
-								</CardBody>
-							</Card>
-						) : (
-							<Card className='mb-6 border border-primary/30 bg-content1/80 shadow-xl'>
-								<CardBody className='space-y-4'>
-									<div className='flex items-center gap-3'>
-										<div className='p-3 rounded-xl bg-primary/10 border border-primary/20'>
-											<Icon icon='mdi:key-variant' className='w-6 h-6 text-primary' />
-										</div>
-										<div>
-											<p className='text-base font-semibold text-primary'>{tIdo('invite.title')}</p>
-											<p className='text-sm text-default-500'>{tIdo('invite.description')}</p>
-										</div>
-									</div>
-									<InputOtp
-										value={inviteCode}
-										onValueChange={setInviteCode}
-										length={6}
-										size='lg'
-										variant='bordered'
-										isInvalid={inviteError}
-										aria-label={tIdo('invite.ariaLabel')}
-										classNames={{
-											base: 'w-full',
-											segment: 'text-xl font-bold text-primary-foreground',
-											segmentWrapper: 'gap-2'
-										}}
-									/>
-									<div className='text-sm'>
-										{inviteError && <p className='text-danger font-medium'>{tIdo('invite.error')}</p>}
-										{!inviteCompleted && !inviteAccepted && <p className='text-default-500'>{tIdo('invite.placeholder')}</p>}
-									</div>
-								</CardBody>
-							</Card>
-						)}
-
-						{inviteAccepted && donatedTier && (
-							<Card className='mb-6 border border-success/40 bg-success/10 shadow-md'>
-								<CardBody className='flex items-center gap-3 text-success'>
-									<div className='p-2 rounded-full bg-success/20'>
-										<Icon icon='mdi:check-decagram' className='w-6 h-6' />
-									</div>
-									<div className='flex gap-2 items-center'>
-										<p className='text-sm uppercase tracking-wide font-semibold'>{tIdo('labels.already_subscribed')}:</p>
-										<p className='text-base font-bold'>{tIdo(`tiers.${donatedTier === 'global' ? 'super' : donatedTier === 'regional' ? 'regional' : 'community'}.name`)}</p>
-									</div>
-								</CardBody>
-							</Card>
-						)}
-
-						{/* 调试信息 */}
-						{/* {isConnected && address && (
-				<Card className='mb-6 border border-warning/40 bg-warning/5'>
-					<CardBody className='p-4'>
-						<div className='text-sm space-y-1'>
-							<p className='font-semibold text-warning'>Debug Info:</p>
-							<p>
-								Wallet Balance: {balance || '0'} USDT (Wei: {walletBalanceWei.toString()})
-							</p>
-							<p>Donated Tier: {donatedTier || 'None'}</p>
-							{tierConfigs.map(tier => {
-								const requiredAmount = getRequiredAmount(tier.id);
-								const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
-								const insufficientBalance = requiredAmount > 0 && walletBalanceWei < requiredWei;
-								return (
-									<p key={tier.id}>
-										{tier.name}: Donation Amount = {tier.donationAmount}, Required = {requiredAmount} USDT (Wei: {requiredWei.toString()}) - Insufficient: {insufficientBalance ? 'Yes' : 'No'}
-									</p>
-								);
-							})}
+							/>
+						</div>
+						<div className='text-sm text-center'>
+							{inviteError && <p className='text-danger font-medium'>{tIdo('invite.error')}</p>}
+							{!inviteCompleted && !inviteAccepted && <p className='text-default-500'>{tIdo('invite.placeholder')}</p>}
 						</div>
 					</CardBody>
 				</Card>
-			)} */}
-
-						{inviteAccepted && (
-							<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-								{tierConfigs.map(tier => {
-									const currentTier = donatedTier;
-									const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
-									const targetRank = TIER_PRIORITY[tier.id];
-									// 如果当前等级已经达到或超过目标等级，则禁用（不能降级或购买相同等级）
-									const disabledByRank = currentRank >= targetRank;
-									const isTierLoading = pendingTier === tier.id && loading;
-									const requiredAmount = getRequiredAmount(tier.id);
-									const requiredWei = requiredAmount > 0 ? parseUnits(requiredAmount.toString(), DONATION_TOKEN_DECIMALS) : 0n;
-									// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
-									const needsPayment = requiredAmount > 0;
-									const insufficientBalance = needsPayment && walletBalanceWei < requiredWei;
-									const disabled = !isConnected || (loading && pendingTier !== tier.id) || disabledByRank || insufficientBalance || requiredAmount <= 0;
-									// 显示升级标签：如果用户已有等级且目标等级更高
-									const showUpgradeLabel = Boolean(currentTier) && currentRank < targetRank;
-									return <TierCard key={tier.id} tier={tier} onPurchase={handlePurchase} isLoading={isTierLoading} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
-								})}
-							</div>
-						)}
-
-						{/* 重要提示 */}
-						{/* <Card className='border-2 border-warning/40 bg-linear-to-br from-warning/10 via-warning/5 to-transparent shadow-xl relative overflow-hidden'>
-				<div className='absolute top-0 right-0 w-64 h-64 bg-warning/5 rounded-full blur-3xl' />
-				<CardHeader className='relative z-10'>
-					<div className='flex items-center gap-3'>
-						<div className='p-2 rounded-lg bg-warning/20 border border-warning/30'>
-							<Icon icon='mdi:alert-circle' className='w-6 h-6 text-warning' />
-						</div>
-						<h3 className='font-bold text-lg text-warning'>{tIdo('notes.title')}</h3>
-					</div>
-				</CardHeader>
-				<CardBody className='relative z-10'>
-					<ul className='space-y-3 text-sm'>
-						{importantNotes.map(note => (
-							<li key={note} className='flex items-start gap-3 p-3 rounded-lg bg-warning/5 border border-warning/10 hover:bg-warning/10 transition-colors'>
-								<div className='p-1 rounded-full bg-warning/20 mt-0.5'>
-									<Icon icon='mdi:alert' className='w-4 h-4 text-warning' />
+			) : (
+				<>
+					{/* 头部信息 */}
+					<Card className='mb-6 relative overflow-hidden border-0 shadow-xl bg-linear-to-br from-content1 via-content1 to-default-100/50'>
+						{/* 装饰性渐变条 */}
+						<div className='absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-secondary to-warning' />
+						<CardBody className='p-6'>
+							<div className='flex flex-col md:flex-row gap-4 items-center justify-between relative z-10'>
+								<div className='flex-1'>
+									<div className='flex items-center gap-3 mb-3'>
+										<div className='p-3 rounded-xl bg-content1 border border-primary-border shadow-md'>
+											<Icon icon='mdi:rocket-launch' className='w-8 h-8 text-primary' />
+										</div>
+										<div>
+											<h1 className='text-3xl font-bold text-primary mb-1 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text'>{tIdo('hero_title')}</h1>
+											<p className='text-sm text-primary-foreground flex items-center gap-2'>
+												<Icon icon='mdi:shield-check' className='w-4 h-4' />
+												{tIdo('hero_subtitle')}
+											</p>
+										</div>
+									</div>
 								</div>
-								<span className='text-default-700 leading-relaxed'>{note}</span>
-							</li>
-						))}
-					</ul>
-				</CardBody>
-			</Card> */}
-					</div>
-				</Tab>
-				<Tab key='my' title={tIdo('tabs.my') || '我的'}>
-					<MyIDOView address={address} isConnected={isConnected} userData={userData} donatedTier={donatedTier ?? undefined} tierConfigs={tierConfigs} />
-				</Tab>
-			</Tabs>
+								{isConnected && address && (
+									<Chip
+										size='lg'
+										variant='flat'
+										color='primary'
+										classNames={{
+											base: 'bg-content1/80 border border-primary-border p-4',
+											content: 'text-primary-foreground font-semibold'
+										}}
+										startContent={<Icon icon='mdi:wallet' className='w-6 h-6' />}>
+										{Number.parseFloat(userData?.usdtBalance ?? '0').toLocaleString(undefined, {maximumFractionDigits: 4})} USDT
+									</Chip>
+								)}
+							</div>
+						</CardBody>
+					</Card>
+
+					<Tabs destroyInactiveTabPanel={false} selectedKey={selectedTab} onSelectionChange={key => setSelectedTab(key as 'purchase' | 'my')} className='w-full' classNames={{...TabsClass, tabList: 'gap-2 w-full', tab: 'w-full'}}>
+						<Tab key='purchase' title={tIdo('tabs.purchase')}>
+							<div className='mt-4'>
+								<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
+									{tierConfigs.map(tier => {
+										const currentTier = donatedTier;
+										const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
+										const targetRank = TIER_PRIORITY[tier.id];
+										// 如果当前等级已经达到或超过目标等级，则禁用（不能降级或购买相同等级）
+										const disabledByRank = currentRank >= targetRank;
+										const requiredAmount = getRequiredAmount(tier.id);
+										const walletBalance = Number(userData?.usdtBalance ?? '0');
+										// 检查余额是否不足：需要支付的金额 > 0 且 钱包余额 < 所需金额
+										const needsPayment = requiredAmount > 0;
+										const insufficientBalance = needsPayment && walletBalance < requiredAmount;
+										const disabled = !isConnected || isExecuting || disabledByRank || insufficientBalance || requiredAmount <= 0;
+										// 显示升级标签：如果用户已有等级且目标等级更高
+										const showUpgradeLabel = Boolean(currentTier) && currentRank < targetRank;
+										return <TierCard key={tier.id} tier={tier} onPurchase={() => purchase(tier.level, requiredAmount.toString(), inviteCode)} isLoading={isExecuting} isDisabled={disabled} showUpgradeLabel={showUpgradeLabel} insufficientBalance={insufficientBalance} />;
+									})}
+								</div>
+							</div>
+						</Tab>
+						{userData?.slug && userData.slug !== '' && (
+							<Tab key='my' title={tIdo('tabs.my') || '我的'}>
+								<MyIDOView userData={userData} currentTierConfig={currentTierConfig} tierConfigs={tierConfigs} />
+							</Tab>
+						)}
+					</Tabs>
+				</>
+			)}
 		</div>
 	);
 }
 
-// ===== 级别卡片组件 =====
-interface TierCardProps {
-	tier: WhitelistTierConfig;
-	onPurchase: (tier: WhitelistTier) => void;
-	isLoading: boolean;
-	isDisabled: boolean;
-	showUpgradeLabel: boolean;
-	insufficientBalance: boolean;
-}
+// ===== 白名单级别卡片组件 =====
 
-function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, insufficientBalance}: TierCardProps) {
+function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, insufficientBalance}: {tier: WhitelistTierConfig; onPurchase: (tier: WhitelistTier) => void; isLoading: boolean; isDisabled: boolean; showUpgradeLabel: boolean; insufficientBalance: boolean}) {
 	const tIdo = useTranslations('ido');
 	const tTip = useTranslations('tip');
-	const buyLabel = tIdo('buttons.buy_now');
-	const upgradeLabel = tIdo('labels.upgrade_purchase');
-	const insufficientLabel = tTip('insufficient_balance');
-	const donationLabel = tIdo('fields.donation');
-	const tokenLabel = tIdo('fields.token_amount');
-	const releaseLabel = tIdo('fields.release_period');
-	const releaseValue = tIdo('fields.release_value', {value: tier.releaseMonths});
-	const feeLabel = tIdo('fields.fee_share');
-	const feeValue = tIdo('fields.fee_value', {value: tier.feeShare});
-	const limitLabel = tIdo('fields.limit');
-	const limitValue = tIdo('fields.limit_value', {value: tier.limit.toLocaleString()});
-	const requirementsLabel = tIdo('fields.requirements');
-	// 根据级别设置样式
-	const getTierStyles = () => {
-		switch (tier.id) {
-			case 'global':
-				return {
-					gradient: 'from-warning/20 via-warning/10 to-transparent',
-					border: 'border-warning/40',
-					topBar: 'from-warning via-warning/50 to-transparent',
-					iconBg: 'from-warning/20 to-warning/10',
-					iconBorder: 'border-warning/30',
-					hoverGlow: 'bg-warning/5',
-					iconColor: 'text-warning'
-				};
-			case 'regional':
-				return {
-					gradient: 'from-purple-500/20 via-purple-400/10 to-transparent',
-					border: 'border-purple-500/40',
-					topBar: 'from-purple-500 via-purple-400/50 to-transparent',
-					iconBg: 'from-purple-500/20 to-purple-400/10',
-					iconBorder: 'border-purple-500/30',
-					hoverGlow: 'bg-purple-500/5',
-					iconColor: 'text-purple-500'
-				};
-			case 'community':
-				return {
-					gradient: 'from-cyan-400/20 via-sky-300/10 to-transparent',
-					border: 'border-cyan-400/40',
-					topBar: 'from-cyan-400 via-sky-300/50 to-transparent',
-					iconBg: 'from-cyan-400/20 to-sky-300/10',
-					iconBorder: 'border-cyan-400/30',
-					hoverGlow: 'bg-cyan-400/5',
-					iconColor: 'text-cyan-600'
-				};
-			default:
-				return {
-					gradient: 'from-default/20 via-default/10 to-transparent',
-					border: 'border-default/40',
-					topBar: 'from-default via-default/50 to-transparent',
-					iconBg: 'from-default/20 to-default/10',
-					iconBorder: 'border-default/30',
-					hoverGlow: 'bg-default/5',
-					iconColor: 'text-default'
-				};
-		}
+
+	// 颜色映射：根据 tier.id 获取主色和次色
+	const colorMap: Record<WhitelistTier, {primary: string; secondary: string; iconColor: string}> = {
+		global: {primary: 'warning', secondary: 'warning', iconColor: 'warning'},
+		regional: {primary: 'secondary', secondary: 'secondary', iconColor: 'secondary'},
+		community: {primary: 'cyan', secondary: 'sky-300', iconColor: 'cyan-600'}
 	};
 
-	const styles = getTierStyles();
+	const colors = colorMap[tier.id] || {primary: 'default', secondary: 'default', iconColor: 'default'};
+
+	// 使用模板字符串生成样式类名
+	const styles = {
+		gradient: `from-${colors.primary}/20 via-${colors.secondary}/10 to-transparent`,
+		border: `border-${colors.primary}`,
+		topBar: `from-${colors.primary} via-${colors.secondary}/50 to-transparent`,
+		iconBg: `from-${colors.primary}/20 to-${colors.secondary}/10`,
+		iconBorder: `border-${colors.primary}/30`,
+		hoverGlow: `bg-${colors.primary}/5`,
+		iconColor: `text-${colors.iconColor}`
+	};
 
 	return (
 		<Card className={`group relative overflow-hidden transition-all duration-300 border-2 shadow-xl hover:shadow-2xl hover:scale-[1.02] ${styles.border} bg-linear-to-br ${styles.gradient} backdrop-blur-sm`}>
@@ -538,7 +260,6 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 			<div className={`absolute top-0 right-0 w-48 h-48 ${styles.hoverGlow} rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 			{/* 顶部装饰条 */}
 			<div className={`absolute top-0 left-0 right-0 h-1 bg-linear-to-r ${styles.topBar}`} />
-
 			<CardHeader className='pb-3 relative z-10'>
 				<div className='flex items-center justify-between w-full'>
 					<div className='flex items-center gap-4'>
@@ -548,7 +269,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 						<div>
 							<h3 className='font-bold text-xl mb-1'>{tier.name}</h3>
 							<Chip size='sm' color={tier.color} variant='flat' className='font-bold border border-current/30'>
-								{tier.level}
+								{`Level ${tier.level}`}
 							</Chip>
 						</div>
 					</div>
@@ -559,37 +280,32 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 				{tier.benefits && <div className='p-3 rounded-lg bg-content1/60 border border-primary-border/60 text-sm text-primary-foreground'>{tier.benefits}</div>}
 
 				<Divider className='bg-default-200' />
-
 				{/* 关键信息 - 使用卡片样式 */}
 				<div className='space-y-3'>
 					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-primary-border/50 hover:bg-content1'}`}>
 						<div className='flex items-center gap-2'>
 							<Icon icon='mdi:currency-usd' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : 'text-default-400'}`} />
-							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>{donationLabel}</span>
+							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>{tIdo('fields.donation')}</span>
 						</div>
 						<span className='font-bold text-xl text-primary-foreground'>${tier.donationAmount}</span>
 					</div>
 					<div className={`flex justify-between items-center p-3 rounded-lg border transition-colors ${tier.id === 'community' ? 'bg-white/70 dark:bg-content1/80 border-cyan-300/40 hover:bg-white/90 dark:hover:bg-content1' : 'bg-content1/50 border-primary-border/50 hover:bg-content1'}`}>
 						<div className='flex items-center gap-2'>
 							<Icon icon='mdi:coin' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : 'text-default-400'}`} />
-							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>{tokenLabel}</span>
+							<span className={`text-sm ${tier.id === 'community' ? 'text-primary-foreground font-medium' : 'text-primary-foreground'}`}>{tIdo('fields.token_amount')}</span>
 						</div>
 						<span className='font-semibold text-lg text-primary-foreground'>${tier.tokenAmount}</span>
 					</div>
 					<div className='grid grid-cols-2 gap-2'>
 						<div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
-							<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>{releaseLabel}</span>
-							<span className='font-semibold text-sm text-primary-foreground'>{releaseValue}</span>
+							<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>{tIdo('fields.release_period')}</span>
+							<span className='font-semibold text-sm text-primary-foreground'>{tIdo('fields.release_value', {value: tier.releaseMonths})}</span>
 						</div>
 						<div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
-							<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>{feeLabel}</span>
-							<span className='font-semibold text-sm text-primary-foreground'>{feeValue}</span>
+							<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>{tIdo('fields.fee_share')}</span>
+							<span className='font-semibold text-sm text-primary-foreground'>{tIdo('fields.fee_value', {value: tier.feeShare})}</span>
 						</div>
 					</div>
-					{/* <div className={`flex justify-between items-center p-2 rounded-lg ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30' : 'bg-content1/30'}`}>
-						<span className={`text-xs ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>{limitLabel}</span>
-						<span className='font-semibold text-sm text-primary-foreground'>{limitValue}</span>
-					</div> */}
 				</div>
 
 				<Divider className='bg-default-200' />
@@ -598,7 +314,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 				<div className='space-y-2'>
 					<p className={`text-xs font-semibold mb-2 flex items-center gap-2 ${tier.id === 'community' ? 'text-primary-foreground' : 'text-primary-foreground'}`}>
 						<Icon icon='mdi:check-circle-outline' className={`w-4 h-4 ${tier.id === 'community' ? 'text-cyan-600' : ''}`} />
-						{requirementsLabel}
+						{tIdo('fields.requirements')}
 					</p>
 					{tier.requirements.map((req, index) => (
 						<div key={index} className={`flex items-start gap-2 text-xs p-2 rounded-lg transition-colors ${tier.id === 'community' ? 'bg-white/60 dark:bg-content1/70 border border-cyan-200/30 hover:bg-white/80 dark:hover:bg-content1 text-primary-foreground' : 'bg-default-50/50 hover:bg-default-100/50 text-default-600'}`}>
@@ -618,7 +334,7 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 					size='lg'
 					onPress={() => onPurchase(tier.id)}
 					startContent={<Icon icon='mdi:cart' className='w-5 h-5' />}>
-					{insufficientBalance ? insufficientLabel : showUpgradeLabel ? upgradeLabel : buyLabel}
+					{insufficientBalance ? tTip('insufficient_balance') : showUpgradeLabel ? tIdo('labels.upgrade_purchase') : tIdo('buttons.buy_now')}
 				</Button>
 			</CardBody>
 		</Card>
@@ -626,71 +342,39 @@ function TierCard({tier, onPurchase, isLoading, isDisabled, showUpgradeLabel, in
 }
 
 // ===== 我的 IDO 视图组件 =====
-interface MyIDOViewProps {
-	address: string | undefined;
-	isConnected: boolean;
-	userData: {idoAmount: number} | null;
-	donatedTier: WhitelistTier | undefined;
-	tierConfigs: WhitelistTierConfig[];
-}
-
-function MyIDOView({address, isConnected, userData, donatedTier, tierConfigs}: MyIDOViewProps) {
+function MyIDOView({userData, currentTierConfig, tierConfigs}: {userData: UserData; currentTierConfig: WhitelistTierConfig | null; tierConfigs: WhitelistTierConfig[]}) {
 	const tIdo = useTranslations('ido');
-	const [referrals, setReferrals] = React.useState<any[]>([]);
-	const [loadingReferrals, setLoadingReferrals] = React.useState(false);
-	const [userFullData, setUserFullData] = React.useState<any>(null);
+	const idoPerformance = Number(userData?.idoPerformance ?? 0);
 
-	// 获取用户完整数据（包括 ido_performance）
-	React.useEffect(() => {
-		if (!address || !isConnected) return;
-		const fetchUserFullData = async () => {
-			try {
-				// 从 neurafi_account 表获取数据
-				const result = await getUserDataFromNeurafi(address);
-				if (result.success && result.data) {
-					setUserFullData(result.data);
-				}
-			} catch (error) {
-				console.error('Failed to fetch user full data', error);
-			}
-		};
-		fetchUserFullData();
-	}, [address, isConnected]);
+	// 表格头部配置
+	const tableHead = useMemo(
+		() => [
+			{name: tIdo('fields.address') ?? '地址', uid: 'address', sortable: false},
+			{name: tIdo('fields.donation') ?? '申购金额', uid: 'idoAmount', sortable: true},
+			{name: tIdo('fields.level') ?? '等级', uid: 'level', sortable: true},
+			{name: tIdo('fields.tier') ?? '等级名称', uid: 'tier', sortable: false}
+		],
+		[tIdo]
+	);
 
-	// 获取直接下线列表
-	React.useEffect(() => {
-		if (!address || !isConnected) return;
-		const fetchReferrals = async () => {
-			setLoadingReferrals(true);
-			try {
-				const result = await getDirectReferralsByAddressFromNeurafi(address);
-				if (result.success && result.data) {
-					setReferrals(result.data);
-				}
-			} catch (error) {
-				console.error('Failed to fetch referrals', error);
-			} finally {
-				setLoadingReferrals(false);
-			}
-		};
-		fetchReferrals();
-	}, [address, isConnected]);
-
-	if (!isConnected || !address) {
-		return (
-			<div className='mt-4 text-center py-12'>
-				<Icon icon='mdi:wallet-outline' className='w-16 h-16 text-default-400 mx-auto mb-4' />
-				<p className='text-default-500'>{tIdo('my.connect_wallet') || '请先连接钱包'}</p>
-			</div>
-		);
-	}
-
-	const currentTierConfig = donatedTier ? tierConfigs.find(t => t.id === donatedTier) : null;
-	const idoPerformance = Number(userFullData?.ido_performance ?? 0);
+	// 处理数据，添加 tier 字段用于显示
+	const tableData = useMemo(() => {
+		const referrals = userData?.referrals ?? [];
+		return referrals.map(referral => {
+			const referralTier = getTierByLevel(Number(referral.level ?? 0), tierConfigs);
+			const referralTierConfig = referralTier ? tierConfigs.find(t => t.id === referralTier) : null;
+			return {
+				...referral,
+				tier: referralTierConfig?.name ?? '-',
+				idoAmount: `$${Number(referral.idoAmount ?? 0).toLocaleString()}`
+			};
+		});
+	}, [userData?.referrals, tierConfigs]);
 
 	return (
 		<div className='mt-4 space-y-6'>
-			{/* 已申购卡片 */}
+			{/* 已申购卡片提示 */}
+
 			{currentTierConfig && (
 				<Card className='border-2 border-success/40 bg-success/10 shadow-lg'>
 					<CardHeader>
@@ -699,7 +383,7 @@ function MyIDOView({address, isConnected, userData, donatedTier, tierConfigs}: M
 								<Icon icon='mdi:check-decagram' className='w-6 h-6 text-success' />
 							</div>
 							<div>
-								<h3 className='text-lg font-bold text-success'>{tIdo('my.subscribed_tier') || '已申购等级'}</h3>
+								<h3 className='text-lg font-bold text-success'>{tIdo('my.subscribed_tier') || '已申购'}</h3>
 								<p className='text-sm text-success/80'>{currentTierConfig.name}</p>
 							</div>
 						</div>
@@ -719,15 +403,25 @@ function MyIDOView({address, isConnected, userData, donatedTier, tierConfigs}: M
 				</Card>
 			)}
 
-			{!currentTierConfig && (
-				<Card className='border border-default-200'>
-					<CardBody className='text-center py-8'>
-						<Icon icon='mdi:information-outline' className='w-12 h-12 text-default-400 mx-auto mb-3' />
-						<p className='text-default-500'>{tIdo('my.no_subscription') || '您还没有申购任何等级'}</p>
-					</CardBody>
-				</Card>
-			)}
-
+			{/* 推广链接 */}
+			<Card className='border-2 border-secondary/40 bg-secondary/10 shadow-lg'>
+				<CardHeader>
+					<div className='flex items-center gap-3'>
+						<div className='p-3 rounded-xl bg-secondary/20 border border-secondary/30'>
+							<Icon icon='mdi:link-variant' className='w-6 h-6 text-secondary' />
+						</div>
+						<div>
+							<h3 className='text-lg font-bold text-secondary'>{tIdo('my.referral_link') || '推广链接'}</h3>
+							<p className='text-sm text-secondary/80'>{tIdo('my.referral_link_desc') || '分享您的专属推广链接'}</p>
+						</div>
+					</div>
+				</CardHeader>
+				<CardBody>
+					<Snippet variant='flat' symbol='Link:' className='flex-1' codeString={`${process.env.baseURL}/?tab=ido&slug=${userData.slug}`}>
+						<span className='text-xs'>{obsTxt(`${process.env.baseURL}/?tab=ido&slug=${userData.slug}`, 11, 8)}</span>
+					</Snippet>
+				</CardBody>
+			</Card>
 			{/* IDO 业绩 */}
 			<Card className='border border-primary/30 bg-content1/80 shadow-xl'>
 				<CardHeader>
@@ -748,7 +442,6 @@ function MyIDOView({address, isConnected, userData, donatedTier, tierConfigs}: M
 					</div>
 				</CardBody>
 			</Card>
-
 			{/* 直接推荐列表 */}
 			<Card className='border border-secondary/30 bg-content1/80 shadow-xl'>
 				<CardHeader>
@@ -762,53 +455,8 @@ function MyIDOView({address, isConnected, userData, donatedTier, tierConfigs}: M
 						</div>
 					</div>
 				</CardHeader>
-				<CardBody>
-					{loadingReferrals ? (
-						<div className='text-center py-8'>
-							<Icon icon='mdi:loading' className='w-8 h-8 text-primary animate-spin mx-auto' />
-							<p className='text-sm text-default-500 mt-2'>{tIdo('my.loading') || '加载中...'}</p>
-						</div>
-					) : referrals.length === 0 ? (
-						<div className='text-center py-8'>
-							<Icon icon='mdi:account-off-outline' className='w-12 h-12 text-default-400 mx-auto mb-3' />
-							<p className='text-default-500'>{tIdo('my.no_referrals') || '暂无推荐用户'}</p>
-						</div>
-					) : (
-						<div className='space-y-3'>
-							{referrals.map((referral, index) => {
-								const referralTier = getTierByAmount(Number(referral.ido_amount ?? 0));
-								const referralTierConfig = referralTier ? tierConfigs.find(t => t.id === referralTier) : null;
-								return (
-									<Card key={referral.address ?? index} className='border border-default-200 hover:border-primary/30 transition-colors'>
-										<CardBody className='p-4'>
-											<div className='flex items-center justify-between gap-4'>
-												<div className='flex-1 min-w-0'>
-													<div className='flex items-center gap-2 mb-2'>
-														<Icon icon='mdi:wallet-outline' className='w-4 h-4 text-default-400 shrink-0' />
-														<p className='text-sm font-mono text-default-700 truncate'>{referral.address}</p>
-													</div>
-													{referral.name && <p className='text-xs text-default-500 mb-1'>{referral.name}</p>}
-													{referral.slug && <p className='text-xs text-default-400'>Slug: {referral.slug}</p>}
-												</div>
-												<div className='text-right shrink-0'>
-													<div className='mb-2'>
-														<p className='text-lg font-bold text-primary'>${Number(referral.ido_amount ?? 0).toLocaleString()}</p>
-														<p className='text-xs text-default-500'>{tIdo('fields.donation')}</p>
-													</div>
-													{referralTierConfig && (
-														<Chip size='sm' color={referralTierConfig.color} variant='flat' className='font-semibold'>
-															{referralTierConfig.level}
-														</Chip>
-													)}
-													{referral.level !== undefined && referral.level !== null && <p className='text-xs text-default-400 mt-1'>Level: {referral.level}</p>}
-												</div>
-											</div>
-										</CardBody>
-									</Card>
-								);
-							})}
-						</div>
-					)}
+				<CardBody className='p-2 h-full min-h-[400px]'>
+					<BaseTable table={{key: 'ido-referral-list', selectedKeys: new Set()}} tableHeader={{columns: tableHead}} tableBody={{isLoading: false}} data={tableData} pageSize={10} onPageChange={page => {}} />
 				</CardBody>
 			</Card>
 		</div>

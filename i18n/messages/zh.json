@@ -417,7 +417,7 @@
 		"hot": "热度",
 		"hour": "时",
 		"icon": "图标",
-		"ido": "白名单",
+		"ido": "申购",
 		"import": "导入",
 		"inactive": "非活跃",
 		"income": "收益",
@@ -679,7 +679,7 @@
 
 	"ido": {
 		"hero_title": "NeuraFi IDO",
-		"hero_subtitle": "元智白名单系统",
+		"hero_subtitle": "元智IDO系统",
 		"labels": {
 			"already_subscribed": "已申购",
 			"upgrade_purchase": "升级申购"
@@ -735,6 +735,7 @@
 			}
 		},
 		"fields": {
+			"address": "地址",
 			"donation": "捐赠金额",
 			"token_amount": "获得代币",
 			"release_period": "释放周期",
@@ -743,7 +744,9 @@
 			"fee_value": "{value}%",
 			"limit": "限额",
 			"limit_value": "{value} 名",
-			"requirements": "申购要求"
+			"requirements": "申购要求",
+			"level": "等级",
+			"tier": "等级名称"
 		},
 		"tabs": {
 			"purchase": "申购",
@@ -751,8 +754,10 @@
 		},
 		"my": {
 			"connect_wallet": "请先连接钱包",
-			"subscribed_tier": "已申购等级",
+			"subscribed_tier": "已申购",
 			"no_subscription": "您还没有申购任何等级",
+			"referral_link": "推广链接",
+			"referral_link_desc": "分享您的专属推广链接",
 			"ido_performance": "IDO 推荐业绩",
 			"ido_performance_desc": "您推荐的用户申购总额",
 			"total_referral_amount": "累计推荐申购金额",

@@ -27,7 +27,7 @@ export function withCatch<T, Args extends any[]>(fn: (...args: Args) => Promise<
 }
 
 // 定义高阶函数，接受错误标题和一个可选的错误处理回调
-export function withError({title, onStart, onComplete}: {title: string; onStart?: () => void; onComplete?: () => void}) {
+export function withError({title, onStart, onComplete, onError}: {title: string; onStart?: () => void; onComplete?: () => void; onError?: (error: any) => void}) {
 	return function <F extends (...args: any[]) => Promise<any>>(asyncFunc: F): F {
 		return async function (...args: Parameters<F>): Promise<Awaited<ReturnType<F>>> {
 			try {
@@ -35,6 +35,7 @@ export function withError({title, onStart, onComplete}: {title: string; onStart?
 				return (await asyncFunc(...args)) as Awaited<ReturnType<F>>; // 明确返回类型为原函数的返回类型
 			} catch (error) {
 				console.error(`${title}:`, error);
+				onError && onError(error);
 				throw error;
 			} finally {
 				onComplete && onComplete();
@@ -290,7 +291,7 @@ export const fmtMoney = (n: number | string, masked: boolean): string => {
 };
 // 百分比
 export const pct = (n: number): string => `${(n * 100).toFixed(2)}%`;
-
+// 规范化字符串
 export const norm = (s: string) => s?.trim().toLowerCase();
 
 //将时间转换为ISO格式

@@ -769,6 +769,7 @@
 			}
 		},
 		"fields": {
+			"address": "アドレス",
 			"donation": "寄付金額",
 			"token_amount": "獲得トークン",
 			"release_period": "リリース期間",
@@ -777,7 +778,9 @@
 			"fee_value": "{value}%",
 			"limit": "上限数",
 			"limit_value": "{value} 名",
-			"requirements": "購入条件"
+			"requirements": "購入条件",
+			"level": "レベル",
+			"tier": "レベル名"
 		},
 		"tabs": {
 			"purchase": "購入",
@@ -787,6 +790,8 @@
 			"connect_wallet": "まずウォレットを接続してください",
 			"subscribed_tier": "購入済みグレード",
 			"no_subscription": "まだグレードを購入していません",
+			"referral_link": "紹介リンク",
+			"referral_link_desc": "あなた専用の紹介リンクを共有",
 			"ido_performance": "IDO 紹介実績",
 			"ido_performance_desc": "紹介したユーザーの購入総額",
 			"total_referral_amount": "累計紹介購入金額",

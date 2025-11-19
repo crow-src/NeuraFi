@@ -117,7 +117,10 @@ export function useERC20(tokenAddress: string, decimals = 18) {
 	}, [erc20, address, decimals]);
 
 	useEffect(() => {
-		fetchBalance();
+		fetchBalance().then(() => {
+			console.log('balance', balance);
+			console.log('balanceWei', balanceWei);
+		});
 	}, [fetchBalance]);
 
 	const recordTransaction = async (tx: {hash: string}, meta: {type: TransactionType; amount?: string; to?: string}) => {

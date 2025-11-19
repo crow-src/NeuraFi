@@ -5,7 +5,7 @@ import {useSearchParams} from 'next/navigation';
 import {Panel, PanelGroup, PanelResizeHandle} from 'react-resizable-panels';
 import {useMedia} from 'react-use';
 import {PROJECT_CONFIG} from '@/config/main';
-import {MenuList, UserCard, ReferralDetail} from '../components';
+import {MenuList} from '../components';
 
 // ===== Main Component =====
 export function MeView() {
@@ -19,9 +19,9 @@ export function MeView() {
 	const MainTool = () => (
 		<div className='flex flex-col gap-4 h-full'>
 			{/* 资产卡片 */}
-			<UserCard token={token} />
+			{/* <UserCard token={token} /> */}
 			{/* 团队推广卡片 小屏幕下显示*/}
-			{!isMd && <ReferralDetail isSmall={true} onBack={() => setShowReferralDetail(true)} token={token} />}
+			{/* {!isMd && <ReferralDetail isSmall={true} onBack={() => setShowReferralDetail(true)} token={token} />} */}
 			{/* 菜单列表 */}
 			<MenuList onMenuClick={() => {}} />
 		</div>
@@ -31,7 +31,7 @@ export function MeView() {
 		<div className='h-[93vh] w-full mt-4'>
 			<PanelGroup direction='horizontal' className='h-full w-full space-x-2'>
 				<Panel defaultSize={70} minSize={30} maxSize={80} className='h-full'>
-					<ReferralDetail isSmall={false} token={token} />
+					{/* <ReferralDetail isSmall={false} token={token} /> */}
 				</Panel>
 				<PanelResizeHandle className='w-1 bg-primary/30 hover:bg-primary transition-colors cursor-col-resize rounded-lg' />
 				<Panel defaultSize={30} minSize={10} maxSize={60} className='h-full'>
@@ -40,6 +40,6 @@ export function MeView() {
 			</PanelGroup>
 		</div>
 	) : (
-		<div className='flex flex-col gap-2 w-full mt-4 px-2'>{showReferralDetail ? <ReferralDetail isSmall={false} onBack={() => setShowReferralDetail(!showReferralDetail)} token={token} /> : MainTool()}</div>
+		<div className='flex flex-col gap-2 w-full mt-4 px-2'>{MainTool()}</div>
 	);
 }

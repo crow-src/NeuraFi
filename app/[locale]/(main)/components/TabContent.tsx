@@ -16,7 +16,7 @@ import PredictPage from '../page/PredictPage';
 import PromotionPage from '../page/PromotionPage';
 import RankPage from '../page/RankPage';
 import SwapPage from '../page/SwapPage'; //
-import TeamPage from '../page/TeamPage';
+// import TeamPage from '../page/TeamPage';
 const tabKeys = ['home', 'quotes', 'rank', 'trading', 'me', 'team', 'invite', 'manage', 'box', 'market', 'launch', 'collection', 'promotion', 'help', 'predict', 'ido'] as const;
 type TabKey = (typeof tabKeys)[number];
 type TabComponent = React.ComponentType<Record<string, unknown>>;
@@ -32,7 +32,7 @@ const tabComponentMap: Partial<Record<TabKey, TabComponent>> = {
 	home: HomePage,
 	trading: SwapPage,
 	me: MePage,
-	team: TeamPage,
+	//team: TeamPage,
 	box: BlindBoxPage,
 	market: MarketPage,
 	predict: PredictPage,

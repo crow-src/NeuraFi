@@ -93,6 +93,12 @@ export const ProgressClass = {
 	value: 'text-primary-foreground/60 text-sm'
 };
 
+export const InputOtpClass = {
+	base: 'w-full',
+	segment: 'text-xl font-bold text-primary-foreground',
+	segmentWrapper: 'gap-2'
+};
+
 // export const InputClass = {
 // 	base: 'w-full border border-primary-border/30 rounded-md bg-primary-background p-0',
 // 	input: 'text-small text-primary-foreground border-none w-full',

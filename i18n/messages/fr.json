@@ -769,6 +769,7 @@
 			}
 		},
 		"fields": {
+			"address": "Adresse",
 			"donation": "Montant du don",
 			"token_amount": "Allocation obtenue",
 			"release_period": "Période de libération",
@@ -777,7 +778,9 @@
 			"fee_value": "{value} %",
 			"limit": "Limite",
 			"limit_value": "{value} places",
-			"requirements": "Conditions d'achat"
+			"requirements": "Conditions d'achat",
+			"level": "Niveau",
+			"tier": "Nom du niveau"
 		},
 		"tabs": {
 			"purchase": "Achat",
@@ -787,6 +790,8 @@
 			"connect_wallet": "Veuillez d'abord connecter votre portefeuille",
 			"subscribed_tier": "Niveau souscrit",
 			"no_subscription": "Vous n'avez pas encore souscrit de niveau",
+			"referral_link": "Lien de parrainage",
+			"referral_link_desc": "Partagez votre lien de parrainage exclusif",
 			"ido_performance": "Performance de parrainage IDO",
 			"ido_performance_desc": "Montant total des souscriptions de vos filleuls",
 			"total_referral_amount": "Montant total des souscriptions parrainées",

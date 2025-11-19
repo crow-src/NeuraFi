@@ -735,6 +735,7 @@
 			}
 		},
 		"fields": {
+			"address": "Address",
 			"donation": "Donation Amount",
 			"token_amount": "Seed Allocation",
 			"release_period": "Release Schedule",
@@ -743,7 +744,9 @@
 			"fee_value": "{value}%",
 			"limit": "Quota",
 			"limit_value": "{value} seats",
-			"requirements": "Purchase Requirements"
+			"requirements": "Purchase Requirements",
+			"level": "Level",
+			"tier": "Tier Name"
 		},
 		"tabs": {
 			"purchase": "Purchase",
@@ -753,6 +756,8 @@
 			"connect_wallet": "Please connect your wallet first",
 			"subscribed_tier": "Subscribed Tier",
 			"no_subscription": "You haven't subscribed to any tier yet",
+			"referral_link": "Referral Link",
+			"referral_link_desc": "Share your exclusive referral link",
 			"ido_performance": "IDO Referral Performance",
 			"ido_performance_desc": "Total subscription amount from your referrals",
 			"total_referral_amount": "Total Referral Subscription Amount",

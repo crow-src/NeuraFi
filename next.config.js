@@ -12,32 +12,6 @@ const nextConfig = {
 		return config;
 	},
 
-	// async headers() {
-	// 	return [
-	// 		{
-	// 			// 为所有路由添加 CORS 头部
-	// 			source: '/(.*)',
-	// 			headers: [
-	// 				{
-	// 					key: 'Access-Control-Allow-Origin',
-	// 					value: '*'
-	// 				},
-	// 				{
-	// 					key: 'Access-Control-Allow-Methods',
-	// 					value: 'GET, POST, PUT, DELETE, OPTIONS'
-	// 				},
-	// 				{
-	// 					key: 'Access-Control-Allow-Headers',
-	// 					value: 'Content-Type, Authorization'
-	// 				},
-	// 				{
-	// 					key: 'Content-Security-Policy',
-	// 					value: "font-src 'self' https://fonts.reown.com https://fonts.googleapis.com https://fonts.gstatic.com data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
-	// 				}
-	// 			]
-	// 		}
-	// 	];
-	// },
 	env: {
 		baseURL: process.env.BASE_URL || '',
 		apiURL: process.env.OKX_API_URL || '',

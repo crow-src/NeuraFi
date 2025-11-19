@@ -11,7 +11,7 @@ export const MAIN_CONFIG = {
 		{label: 'Home', key: 'home', icon: 'fluent:home-32-filled', href: '?tab=home', new: false, category: 'main', order: 1},
 		{label: 'IDO', key: 'ido', icon: 'material-symbols:storefront', href: '?tab=ido', new: true, category: 'main', order: 1}, //募资
 		{label: 'Box', key: 'box', icon: 'fluent:box-32-regular', href: '?tab=box', new: false, category: 'main', order: 1},
-		{label: 'Predict', key: 'predict', icon: 'game-icons:perspective-dice-six-faces-random', href: '?tab=predict', new: true, category: 'main', order: 1}, //预测市场
+		{label: 'Predict', key: 'predict', icon: 'game-icons:perspective-dice-six-faces-random', href: '?tab=predict', new: false, category: 'main', order: 1}, //预测市场
 		{label: 'Launch', key: 'launch', icon: 'material-symbols:rocket-launch', href: '?tab=launch', new: false, category: 'main', order: 1}, //发布发射
 
 		// 市场相关

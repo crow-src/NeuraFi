@@ -1,46 +1,12 @@
 'use server';
 import {sql} from '@vercel/postgres';
+import type {AccountData, Deposit} from '@/types/db';
 import {withCatch, norm, toIso, fromMs} from '../utils';
 
 // ===== Types =====
-export interface UserData {
-	id: string; //id
-	slug: string; //唯一码
-	address: string; //address
-	name: string; //名称
-	level: number; //等级
-	joinDate: string; //创建时间
-	team?: string; //团队名称
-	teamSize: number; //
-	performance: number; //业绩
-	referrals?: UserData[]; //下线人数
-	deposits?: Deposit[]; //存单数据
-	depositTotal?: number; //存单总额
-	idoAmount: number; //白名单购买数额
-	idoPerformance: number; //白名单推荐业绩
-	invitationCode: string; //邀请码
-}
+// AccountData 和 Deposit 类型已移至 @/types/db
 
-export interface Deposit {
-	id: string;
-	address: string;
-	amount: number;
-	interestRate: number;
-	interest: number;
-	interestReceived: number;
-	startTime: string; // ISO
-	endTime: string; // ISO
-	isEnabled: boolean;
-	isWithdrawn: boolean;
-	createdAt: string; // ISO
-	is_extracting: boolean;
-	is_buy: boolean;
-	txid: string;
-	cycle: number;
-	currentInterest?: number; //当前空投
-}
-
-const mapAccountRow = (row: any): UserData => ({
+const mapAccountRow = (row: any): AccountData => ({
 	id: row.id,
 	slug: row.slug ?? '',
 	address: row.address ?? '',
@@ -55,7 +21,7 @@ const mapAccountRow = (row: any): UserData => ({
 	depositTotal: Number(row.deposit_total),
 	idoAmount: Number(row.ido_amount),
 	idoPerformance: Number(row.ido_performance),
-	invitationCode: row.Invitation_code ?? ''
+	invitationCode: row.invitation_code ?? ''
 });
 
 // ===== 1) 创建账户 =====
@@ -99,7 +65,7 @@ export const createAccount = withCatch(async (params: {address: string; leaderSl
 });
 
 // ===== 3) 获取用户数据 =====
-export const getUserData = withCatch(async (params: {address?: string; slug?: string}) => {
+export const getAccountData = withCatch(async (params: {address?: string; slug?: string}) => {
 	const {address, slug} = params;
 	if (!address && !slug) throw new Error('address or slug is required');
 	const q = address ? sql /*sql*/ `SELECT a.* FROM mx_account a WHERE a.address = ${address} LIMIT 1;` : sql /*sql*/ `SELECT a.* FROM mx_account a WHERE a.slug = ${slug} LIMIT 1;`;
@@ -130,7 +96,8 @@ export const getDirectReferralsByAddress = withCatch(async (address: string) => 
 });
 
 //添加购买的白名单数额 先查询是否有账户 如果没有账户直接创建一个账户然后添加
-export const addIDOAmount = withCatch(async (address: string, amount: number, level: number) => {
+// 如果提供了 inviteCode，会查询该邀请码对应的用户作为 leader
+export const addIDOAmount = withCatch(async (address: string, amount: number, level: number, inviteCode?: string) => {
 	if (!address) {
 		throw new Error('address is required');
 	}
@@ -140,45 +107,62 @@ export const addIDOAmount = withCatch(async (address: string, amount: number, le
 
 	const existing = await sql`SELECT address, ido_amount FROM neurafi_account WHERE address = ${address} LIMIT 1;`;
 
+	// 如果账户不存在，需要创建账户
 	if (existing.rows.length === 0) {
+		let leaderId: string | null = null;
+
+		// 如果有邀请码，查询邀请码对应的用户作为 leader
+		if (inviteCode) {
+			const leaderResult = await sql`
+				SELECT id FROM neurafi_account 
+				WHERE slug = ${inviteCode} OR invitation_code = ${inviteCode}
+				LIMIT 1;
+			`;
+			if (leaderResult.rows.length > 0) {
+				leaderId = leaderResult.rows[0].id;
+			}
+		}
+
+		// 创建新账户，如果有 leader_id 则设置
 		const insertResult = await sql`
-			INSERT INTO neurafi_account (address, ido_amount)
-			VALUES (${address}, ${amount})
+			INSERT INTO neurafi_account (address, ido_amount, level, leader_id)
+			VALUES (${address}, ${amount}, ${level}, ${leaderId})
 			RETURNING *;
 		`;
-		return {success: true, data: insertResult.rows[0]};
+		return {success: true, data: mapAccountRow(insertResult.rows[0])};
 	}
 
+	// 如果账户已存在，更新 ido_amount 和 level
 	const updateResult = await sql`
 		UPDATE neurafi_account
-		SET ido_amount = ido_amount + ${amount}
+		SET ido_amount = ido_amount + ${amount}, level = ${level}
 		WHERE address = ${address}
 		RETURNING *;
 	`;
 
-	return {success: true, data: updateResult.rows[0]};
+	return {success: true, data: mapAccountRow(updateResult.rows[0])};
 });
 
 //通过slug获取用户数据
-export const getUserDataBySlug = withCatch(async (slug: string) => {
+export const getAccountDataBySlug = withCatch(async (slug: string) => {
 	const userResult = await sql`SELECT * FROM neurafi_account WHERE slug = ${slug};`;
-	return {success: true, data: userResult.rows[0]};
+	return {success: true, data: userResult.rows[0] ? mapAccountRow(userResult.rows[0]) : null};
 });
 
 //通过address从neurafi_account表获取用户数据
-export const getUserDataFromNeurafi = withCatch(async (address: string) => {
+export const getAccountDataFromNeurafi = withCatch(async (address: string) => {
 	const userResult = await sql`SELECT * FROM neurafi_account WHERE address = ${address} LIMIT 1;`;
-	return {success: true, data: userResult.rows[0] || null};
+	return {success: true, data: userResult.rows[0] ? mapAccountRow(userResult.rows[0]) : null};
 });
 
-//通过邀请码（slug或Invitation_code）查询用户是否存在
+//通过邀请码（slug或invitation_code）查询用户是否存在
 export const getUserByInvitationCode = withCatch(async (code: string) => {
 	const userResult = await sql`
 		SELECT * FROM neurafi_account 
-		WHERE slug = ${code} OR "Invitation_code" = ${code}
+		WHERE slug = ${code} OR invitation_code = ${code}
 		LIMIT 1;
 	`;
-	return {success: true, data: userResult.rows[0] || null};
+	return {success: true, data: userResult.rows[0] ? mapAccountRow(userResult.rows[0]) : null};
 });
 
 //获取用户的直接下线列表（从 neurafi_account 表）
@@ -192,18 +176,10 @@ export const getDirectReferralsByAddressFromNeurafi = withCatch(async (address: 
 
 	// 查询所有 leader_id 等于当前用户 id 的记录
 	const referralsResult = await sql`
-		SELECT 
-			address,
-			slug,
-			name,
-			ido_amount,
-			level,
-			join_date,
-			"Invitation_code"
-		FROM neurafi_account
+		SELECT * FROM neurafi_account
 		WHERE leader_id = ${parentId}
 		ORDER BY join_date DESC;
 	`;
 
-	return {success: true, data: referralsResult.rows};
+	return {success: true, data: referralsResult.rows.map(row => mapAccountRow(row))};
 });
