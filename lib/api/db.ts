@@ -180,6 +180,5 @@ export const getDirectReferralsByAddressFromNeurafi = withCatch(async (address: 
 		WHERE leader_id = ${parentId}
 		ORDER BY join_date DESC;
 	`;
-
 	return {success: true, data: referralsResult.rows.map(row => mapAccountRow(row))};
 });

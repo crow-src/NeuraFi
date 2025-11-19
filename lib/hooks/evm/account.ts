@@ -2,11 +2,11 @@ import {useEffect, useState, useMemo, useCallback, useRef} from 'react';
 // import {keccak256, solidityPacked, getCreate2Address, JsonRpcProvider, getAddress} from 'ethers';
 import {parseUnits, formatUnits, ZeroAddress, parseEther} from 'ethers';
 // import {ethers} from 'ethers';
-import {useMount} from 'react-use';
+// import {useMount} from 'react-use';
 import {useUserDataStore} from '@/app/store';
-import {PROJECT_CONFIG} from '@/config/main';
+// import {PROJECT_CONFIG} from '@/config/main';
 import {getAccountDataFromNeurafi, addIDOAmount, getAccountDataBySlug, getUserByInvitationCode, getDirectReferralsByAddressFromNeurafi} from '@/lib/api/db';
-import {INeuraFiBank, IMulticall, INeuraFiAccount, ITeam, IERC20} from '@/lib/contract/abi';
+import {IERC20} from '@/lib/contract/abi';
 import {useBrowserWallet, useTransactionManager} from '@/lib/hooks';
 import {withError} from '@/lib/utils';
 import {useContract, useMulticall, useERC20} from './common';
@@ -33,7 +33,7 @@ export const useNeuraFiAccount = () => {
 		fetchingRef.current = true;
 
 		try {
-			const [chainDataResult, dbDataResult] = await Promise.allSettled([
+			const [chainDataResult, dbDataResult, referralsResult] = await Promise.allSettled([
 				(async () => {
 					const calls = [
 						[multicallAddr, multicall.interface.encodeFunctionData('getEthBalance', [address])],
@@ -44,7 +44,8 @@ export const useNeuraFiAccount = () => {
 					const usdtBalance = usdt.interface.decodeFunctionResult('balanceOf', decodedResults.returnData[1])[0];
 					return {ethBalance: formatUnits(ethBalance, 18), usdtBalance: formatUnits(usdtBalance, DONATION_TOKEN_DECIMALS)};
 				})(),
-				getAccountDataFromNeurafi(address)
+				getAccountDataFromNeurafi(address),
+				getDirectReferralsByAddressFromNeurafi(address)
 			]);
 
 			// 处理链上余额数据 - 无论数据库查询结果如何，都要更新余额
@@ -53,24 +54,28 @@ export const useNeuraFiAccount = () => {
 			// 处理数据库账户数据
 			const dbData = dbDataResult.status === 'fulfilled' && dbDataResult.value.success && dbDataResult.value.data ? dbDataResult.value.data : null;
 
-			// 如果有余额数据，先更新余额
+			// 获取下线列表
+			const referrals = referralsResult.status === 'fulfilled' && referralsResult.value.success && Array.isArray(referralsResult.value.data) ? referralsResult.value.data : [];
+
+			const updates: Partial<typeof userData> = {};
+
+			if (dbData) {
+				Object.assign(updates, {
+					...dbData,
+					deposits: dbData.deposits ?? [],
+					referrals
+				});
+			} else {
+				updates.referrals = referrals;
+			}
+
 			if (chainData) {
-				if (dbData) {
-					// 有账户数据，更新所有数据
-					updateUserData({
-						...dbData,
-						deposits: dbData.deposits ?? [],
-						referrals: dbData.referrals ?? [],
-						ethBalance: chainData.ethBalance,
-						usdtBalance: chainData.usdtBalance
-					});
-				} else {
-					// 没有账户数据，只更新余额
-					updateUserData({
-						ethBalance: chainData.ethBalance,
-						usdtBalance: chainData.usdtBalance
-					});
-				}
+				updates.ethBalance = chainData.ethBalance;
+				updates.usdtBalance = chainData.usdtBalance;
+			}
+
+			if (Object.keys(updates).length > 0) {
+				updateUserData(updates);
 			}
 		} finally {
 			fetchingRef.current = false;
