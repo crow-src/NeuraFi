@@ -397,7 +397,7 @@ export function renderCell(data: any, columnKey: any) {
 		case 'team':
 		case 'owner':
 		case 'address':
-			return obsTxt(data?.address, 4, 6);
+			return obsTxt(data?.address, 4, 4);
 
 		case 'txid':
 			return obsTxt(data?.txid, 6, 6);
