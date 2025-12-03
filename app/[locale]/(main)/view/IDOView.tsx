@@ -27,7 +27,7 @@ interface WhitelistTierConfig {
 	level: number; // 等级
 	requirements: string[]; // 要求
 	icon: string;
-	color: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+	color: 'primary' | 'secondary' | 'success' | 'warning' | 'default';
 }
 
 // 等级优先级映射（用于判断是否可以升级）
@@ -77,12 +77,27 @@ export function IDOView() {
 				donationAmount: 1000,
 				limit: 1000,
 				tokenAmount: 1000,
-				releaseMonths: 5,
+				releaseMonths: 10,
 				feeShare: 0.5,
 				level: 3,
 				requirements: [tIdo('tiers.regional.requirements.r1'), tIdo('tiers.super.requirements.r3')],
 				icon: 'mdi:star',
 				color: 'secondary'
+			},
+			{
+				id: 'community',
+				name: tIdo('tiers.community.name'),
+				description: tIdo('tiers.community.description'),
+				benefits: tIdo('tiers.community.benefits'),
+				donationAmount: 200,
+				limit: 1000,
+				tokenAmount: 200,
+				releaseMonths: 2,
+				feeShare: 0.5,
+				level: 2,
+				requirements: [tIdo('tiers.community.requirements.r1'), tIdo('tiers.community.requirements.r2')],
+				icon: 'mdi:star',
+				color: 'default'
 			}
 		],
 		[tIdo]
@@ -196,7 +211,7 @@ export function IDOView() {
 					<Tabs destroyInactiveTabPanel={false} selectedKey={selectedTab} onSelectionChange={key => setSelectedTab(key as 'purchase' | 'my')} className='w-full' classNames={{...TabsClass, tabList: 'gap-2 w-full', tab: 'w-full'}}>
 						<Tab key='purchase' title={tIdo('tabs.purchase')}>
 							<div className='mt-4'>
-								<div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
+								<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
 									{tierConfigs.map(tier => {
 										const currentTier = donatedTier;
 										const currentRank = currentTier ? TIER_PRIORITY[currentTier] : -1;
