@@ -94,7 +94,7 @@ export function IDOView() {
 				tokenAmount: 200,
 				releaseMonths: 10,
 				feeShare: 0,
-				level: 2,
+				level: 1,
 				requirements: [tIdo('tiers.community.requirements.r1'), tIdo('tiers.community.requirements.r2')],
 				icon: 'mdi:star',
 				color: 'default'
