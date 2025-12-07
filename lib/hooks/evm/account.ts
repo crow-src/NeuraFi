@@ -1,10 +1,8 @@
 import {useEffect, useState, useMemo, useCallback, useRef} from 'react';
-// import {keccak256, solidityPacked, getCreate2Address, JsonRpcProvider, getAddress} from 'ethers';
 import {parseUnits, formatUnits, ZeroAddress, parseEther} from 'ethers';
 // import {ethers} from 'ethers';
 // import {useMount} from 'react-use';
 import {useUserDataStore} from '@/app/store';
-// import {PROJECT_CONFIG} from '@/config/main';
 import {getAccountDataFromNeurafi, addIDOAmount, getAccountDataBySlug, getUserByInvitationCode, getDirectReferralsByAddressFromNeurafi} from '@/lib/api/db';
 import {IERC20} from '@/lib/contract/abi';
 import {useBrowserWallet, useTransactionManager} from '@/lib/hooks';
